@@ -1,8 +1,6 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native'
-import Screen from './Screen';
-import SmallCard from './SmallCard';
-// import { ScrollView } from 'react-native-gesture-handler';
+import LargeCard from './LargeCard';
 
 const animeList = [
     {
@@ -29,42 +27,41 @@ const animeList = [
         subtitle: 'shonen',
         imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTItYnu5kt0oXc8a_U8Z3OZ6oJ3uMismJjqeQ&usqp=CAU'
     }
-]
+];
 
-function ListTrayItems(props) {
+function LargeTrayItems(props) {
     return (
         <View style={styles.container}>
-        <Text style={styles.heeader}>POPULAR EPISODES</Text>
-            <ScrollView
-                horizontal
-            >   
-                {animeList.map((anime) => (
-                    <SmallCard 
-                        key={anime.id} 
-                        title={anime.title} 
-                        subtitle={anime.subtitle} 
-                        imageUrl={anime.imageUrl}
-                        onPress={() => console.log('hey anime')}
-                    />
-                ))}
-            </ScrollView>
+            <Text style={styles.heeader}>POPULAR EPISODES</Text>
+                <ScrollView
+                    horizontal
+                >   
+                    {animeList.map((anime) => (
+                        <LargeCard 
+                            key={anime.id} 
+                            title={anime.title} 
+                            subtitle={anime.subtitle} 
+                            imageUrl={anime.imageUrl}
+                            onPress={() => console.log('hey anime')}
+                        />
+                    ))}
+                </ScrollView>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        // backgroundColor: '#020202',
-        marginHorizontal: 10,
+        backgroundColor: 'orange',
+        marginHorizontal: 5,
         height: 300,
         paddingLeft: 5,
         marginBottom: 10
     },
     heeader: {
         marginVertical: 5,
-        color: '#fff',
-        fontWeight: '600'
+        color: '#fff'
     }
 })
 
-export default ListTrayItems;
+export default LargeTrayItems;

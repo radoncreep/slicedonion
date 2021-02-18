@@ -1,12 +1,18 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, ImageBackground } from 'react-native'
+import LargeCard from '../components/LargeCard';
+import LargeTrayItems from '../components/LargeTrayItems';
+import ListTrayItems from '../components/ListTrayItems';
 import Screen from '../components/Screen';
 
 const LandingScreen = (props) => {
     return (
         <Screen>
             <View style={styles.container}>
-                <Text style={styles.text}>Welcome to the home screen!</Text>
+                <ListTrayItems />
+                <ListTrayItems />
+                <LargeTrayItems />
+                <ListTrayItems />
             </View>
         </Screen>
      
@@ -15,10 +21,9 @@ const LandingScreen = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-        backgroundColor: '#6E0DD0',
+        backgroundColor: '#000',
+        // remind me to remove flex
+        flex: 1
     },
     text: {
         color: '#fff',
