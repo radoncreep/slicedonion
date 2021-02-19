@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Text, ImageBackground } from 'react-native'
 import LargeCard from '../components/LargeCard';
 import LargeTrayItems from '../components/LargeTrayItems';
+import ListComponent from '../components/ListComponent';
 import ListTrayItems from '../components/ListTrayItems';
 import Screen from '../components/Screen';
 
@@ -9,10 +10,11 @@ const LandingScreen = (props) => {
     return (
         <Screen>
             <View style={styles.container}>
-                <ListTrayItems />
+                {/* <ListTrayItems />
                 <ListTrayItems />
                 <LargeTrayItems />
-                <ListTrayItems />
+                <ListTrayItems /> */}
+                <ListComponent />
             </View>
         </Screen>
      
