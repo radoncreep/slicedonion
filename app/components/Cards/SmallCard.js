@@ -1,10 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, Text, Image, TouchableHighlight } from 'react-native'
-import Screen from './Screen';
 
-function SmallCard({ title, subtitle, imageUrl,onPress }) {
+const SmallCard = ({ title, subtitle, imageUrl,onPress }) => {
     return (
-        <TouchableHighlight style={styles.container} onPress={onPress} underlayColor="#000" activeOpacity={0.9}>
+        <TouchableHighlight style={styles.container} onPress={onPress} underlayColor="#000" activeOpacity={0.95}>
             <View >
                 <View style={styles.favourite}>
                     {/* Favourrite Icon here instead of text */}
@@ -28,7 +27,7 @@ const styles = StyleSheet.create({
         width: 150,
         height: 250,
         alignSelf: 'center',
-        marginRight: 10 
+        marginRight: 8 
     },
     image: {
         width: 150,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native'
-import LargeCard from './LargeCard';
+import LargeCard from '../Cards/LargeCard';
 
 const animeList = [
     {
@@ -29,7 +29,7 @@ const animeList = [
     }
 ];
 
-function LargeTrayItems(props) {
+const LargeCardTray = ({ onPress }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.heeader}>POPULAR EPISODES</Text>
@@ -42,7 +42,7 @@ function LargeTrayItems(props) {
                             title={anime.title} 
                             description={anime.description} 
                             imageurl={anime.imageUrl}
-                            onPress={() => console.log('hey anime')}
+                            onPress={onPress}
                         />
                     ))}
                 </ScrollView>
@@ -65,4 +65,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default LargeTrayItems;
+export default LargeCardTray;
