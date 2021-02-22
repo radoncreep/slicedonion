@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ImageBackground, Text, Button, Modal, ScrollView } from 'react-native';
+import { create } from 'apisauce';
 
 import EpisodesTrayVertical from '../components/VerticalTrays/EpisodesTrayVertical';
 import StatusBarComp from '../components/StatusBarComp';
@@ -9,7 +10,6 @@ const AnimeDetails = ({ route }) => {
     const [ showModal, setShowModal ] = useState(false);
 
     const detail = route.params;
-    // console.log('DETAIIIIIIIIILLLLLS ', detail);
 
     return (
         <StatusBarComp style={{ paddingTop: 0 }}>
@@ -32,7 +32,8 @@ const AnimeDetails = ({ route }) => {
                                     </StatusBarComp>
                                 </Modal>
                             </View>
-                            <EpisodesTrayVertical />
+                            <EpisodesTrayVertical 
+                            />
                         </ScrollView>
                 </View> 
             </ImageBackground>

@@ -10,11 +10,12 @@ const api = create({
 });
 
 const SmallCardTray = ({ data, navigation }) => {
-    const getAnimeDescription = async (title) => {
+    const getAnimeEpisodes = async (anime) => {
+        console.log('hih')
+        navigation.navigate("Details", anime);
         try {
-            const { data : { animeDetail } } = await api.get(`/anime-detail/${title}`);
-            navigation.navigate("Details", animeDetail);
-            return animeDetail;
+            const response = await api.get(`/episodes/${anime.category}`);
+            console.log(response.data);
         } catch (error) {    
             console.log(error);
         }
@@ -32,7 +33,7 @@ const SmallCardTray = ({ data, navigation }) => {
                         title={anime.title} 
                         subtitle={anime.released} 
                         imageUrl={anime.thumbnail}
-                        onPress={() => getAnimeDescription(anime.category)}
+                        onPress={() => getAnimeEpisodes(anime)}
                     />
                 ))}
             </ScrollView>

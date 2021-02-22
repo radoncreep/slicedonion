@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, StyleSheet, ImageBackground, Text, Button } from 'react-native'
-import { TouchableHighlight } from 'react-native-gesture-handler';
+import { View, StyleSheet, ImageBackground, Text, TouchableHighlight } from 'react-native'
 
-const EpisodeCardHorizontal = ({ episodeLength, episodeNumber, episodeTitle, imageurl, season }) => {
+const EpisodeCardHorizontal = ({ episodeLength, episodeNumber, episodeTitle, imageurl, season, onPress }) => {
     return (
-        <TouchableHighlight onPress={() => console.log('category')}>
+        <TouchableHighlight onPress={onPress}>
             <View style={styles.container}>
                 <ImageBackground style={styles.imagebg} source={{ uri: imageurl }}>
                     <View style={styles.lengthContainer}>

@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, ImageBackground, Text, Button, Modal, ScrollViewComponent } from 'react-native'
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import { LandingScreen } from '../../screens';
+import React from 'react';
+import { View, StyleSheet, ScrollView } from 'react-native'
+
 import EpisodeCardHorizontal from '../Cards/EpisodeCardHorizontal';
-import ListItemSeparator from '../ListItemSeparator';
-import StatusBarComp from '../StatusBarComp';
+
 
 const episodesList = [
     {
@@ -73,7 +71,7 @@ const episodesList = [
     }
 ];
 
-const EpisodesTrayVertical = (props) => {
+const EpisodesTrayVertical = ({ onPress }) => {
     return (
         <ScrollView>
             {episodesList.map((anime) => (
@@ -84,6 +82,7 @@ const EpisodesTrayVertical = (props) => {
                     episodeTitle={anime.theme}
                     imageurl={anime.imageurl}
                     season={anime.season}
+                    onPress={onPress}
                 />
             ))}
         </ScrollView>
