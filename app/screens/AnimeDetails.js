@@ -16,10 +16,21 @@ const AnimeDetails = ({ route }) => {
             <ImageBackground style={styles.bg} source={{ uri: detail.thumbnail }}>
                 <View style={styles.container}>
                         <ScrollView> 
-                            <View style={{ height: 450 }}></View>
+                            <View style={{ height: 550 }}></View>
                             <View style={styles.bgContent}>
                                 <Text style={styles.bgTitle}>{detail.title}</Text>
-                                <Text>Series</Text>
+                                <View style={styles.status}>
+                                    <Text style={{ color: '#fff', marginRight: 10 }}>Series</Text> 
+                                    <Text style={{ color: '#fff', marginRight: 10 }}>{detail.status}</Text>
+                                    <View 
+                                        style={{ 
+                                            backgroundColor: detail.status.toLowerCase() === "ongoing" ? 'green' : 'red',
+                                            width: 10,
+                                            height: 10,
+                                            borderRadius: 5
+                                        }}>
+                                    </View>
+                                </View>
                                 <Text numberOfLines={5} style={styles.bgDesc}>{detail.summary}</Text>
                                 <Button onPress={() => setShowModal(true)} style={styles.btnLink} title="DETAILS" />
                                 <Modal style={styles.modal} visible={showModal} animationType="slide">
@@ -56,7 +67,8 @@ const styles = StyleSheet.create({
     bgDesc: {
         color: '#fff',
         fontSize: 14,
-        fontWeight: '400'
+        fontWeight: '400',
+        marginVertical: 20
     },
     bgTitle: {
         color: '#fff',
@@ -103,6 +115,11 @@ const styles = StyleSheet.create({
     modalTextContainer: {
         width: '100%',
         padding: 20,
+    },
+    status: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
     }
 });
 

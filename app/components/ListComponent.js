@@ -11,11 +11,12 @@ const ListComponent = ({ navigation }) => {
         <View style={styles.container}>
             <ScrollView
             >
-                <PopularAnimeComponent navigation={navigation}/>
-                <PopularAnimeComponent navigation={navigation}/>
+                <PopularAnimeComponent navigation={navigation} param={1}/>
+                <PopularAnimeComponent navigation={navigation} param={2}/>
                 <LargeCardTray navigation={navigation}/>
-                <PopularAnimeComponent navigation={navigation}/>
-                <PopularAnimeComponent navigation={navigation}/>
+                <PopularAnimeComponent navigation={navigation} param={3}/>
+                <PopularAnimeComponent navigation={navigation} param={4}/>
+                <PopularAnimeComponent navigation={navigation} param={5}/>
             </ScrollView>
         </View>
     );

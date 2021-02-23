@@ -15,7 +15,6 @@ const SmallCardTray = ({ data, navigation }) => {
         navigation.navigate("Details", anime);
         try {
             const response = await api.get(`/episodes/${anime.category}`);
-            console.log(response.data);
         } catch (error) {    
             console.log(error);
         }

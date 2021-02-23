@@ -10,7 +10,7 @@ const SmallCard = ({ title, subtitle, imageUrl,onPress }) => {
                     <Text style={{ color: 'red' }}>Like</Text>
                 </View>
                 <Image style={styles.image} source={{ uri: imageUrl }}/>
-                <Text style={styles.text}>{title}</Text>
+                <Text numberOfLines={1} style={styles.text}>{title}</Text>
                 <View style={styles.subTitle}>
                     <Text style={{ color: '#fff', fontWeight: 'bold' }}>SUB</Text>
                     {/* Share going to be an icon to share */}
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#660000',
         width: 150,
-        height: 250,
+        // height: 250,
         alignSelf: 'center',
         marginRight: 8 
     },
