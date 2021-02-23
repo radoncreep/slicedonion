@@ -1,21 +1,16 @@
 import React from 'react';
 import { View, StyleSheet, Text, ImageBackground } from 'react-native'
-import LargeCard from '../components/LargeCard';
-import LargeTrayItems from '../components/LargeTrayItems';
-import ListTrayItems from '../components/ListTrayItems';
-import Screen from '../components/Screen';
 
-const LandingScreen = (props) => {
+import ListComponent from '../components/ListComponent';
+import StatusBarComp from '../components/StatusBarComp';
+
+const LandingScreen = ({ navigation }) => {
     return (
-        <Screen>
+        <StatusBarComp>
             <View style={styles.container}>
-                <ListTrayItems />
-                <ListTrayItems />
-                <LargeTrayItems />
-                <ListTrayItems />
+                <ListComponent navigation={navigation} />
             </View>
-        </Screen>
-     
+        </StatusBarComp>
     );
 };
 

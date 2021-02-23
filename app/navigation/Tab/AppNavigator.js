@@ -10,6 +10,7 @@ import { AccountScreen,
     SeasonsScreen } 
 from '../../screens';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { HomeNavigation } from '../Stack/HomeNavigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -30,8 +31,14 @@ const AppNavigator = (props) => {
                     return <MaterialCommunityIcons name={iconName} size={size} /> 
                 }
             })}
+            tabBarOptions={{
+                activeTintColor: 'tomato',
+                inactiveTintColor: 'gray',
+                activeBackgroundColor: 'orange',
+                inactiveBackgroundColor: '#000'
+            }}
         >
-            <Tab.Screen name="Home" component={LandingScreen} />
+            <Tab.Screen name="Home" component={HomeNavigation} />
             <Tab.Screen name="Library" component={LibraryScreen} />
             <Tab.Screen name="Browse" component={BrowseScreen} />
             <Tab.Screen name="Seasons" component={SeasonsScreen} />

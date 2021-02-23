@@ -1,0 +1,1 @@
+export { default as PopularAnimeComponent } from './PopularAnimeComponent';

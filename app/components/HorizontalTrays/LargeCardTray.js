@@ -1,35 +1,35 @@
 import React from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native'
-import LargeCard from './LargeCard';
+import LargeCard from '../Cards/LargeCard';
 
 const animeList = [
     {
         id: 1,
         title: 'naruto',
-        subtitle: 'shippuden',
-        imageUrl: 'https://1.bp.blogspot.com/-71XAH4fqsYE/Xkjxv8Pf68I/AAAAAAAAHNk/rQcOTEVo5owT8N0kSQ1jB03Bi28D8tlfgCLcBGAsYHQ/w1200-h630-p-k-no-nu/Anime%2Blike%2BHaikyuu.jpg'
+        description: 'S1 E5 - Beautiful Day At The Beach',
+        imageUrl: 'http://cdn.epicstream.com/assets/uploads/ckeditor/images/1612903048_AoT%201.jpg'
     },
     {
         id: 2,
         title: 'boruto',
-        subtitle: 'shippuden',
-        imageUrl: 'https://assets1.ignimgs.com/2019/10/23/stampede-thumbnail-blogroll-1571862365152.jpg?width=1280'
+        description: 'S1 E5 - Beautiful Day At The Beach',
+        imageUrl: 'https://fiverr-res.cloudinary.com/images/t_smartwm/t_main1,q_auto,f_auto,q_auto,f_auto/attachments/delivery/asset/71a63ce2e5214bb92e62f0fdb91d3444-1602171077/na_enigma_overhaul_mha3/create-best-custom-anime-thumbnails-for-your-youtube-videos.jpg'
     },
     {
         id: 3,
         title: 'rezero',
-        subtitle: 'shippuden',
+        description: 'S1 E5 - Beautiful Day At The Beach',
         imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxBIC1lspspp427H1oo4mKEGej1KtwNaiHLg&usqp=CAU'
     },
     {
         id: 4,
         title: 'jujutsu kaisen',
-        subtitle: 'shonen',
+        description: 'S1 E5 - Beautiful Day At The Beach',
         imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTItYnu5kt0oXc8a_U8Z3OZ6oJ3uMismJjqeQ&usqp=CAU'
     }
 ];
 
-function LargeTrayItems(props) {
+const LargeCardTray = ({ onPress }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.heeader}>POPULAR EPISODES</Text>
@@ -40,9 +40,9 @@ function LargeTrayItems(props) {
                         <LargeCard 
                             key={anime.id} 
                             title={anime.title} 
-                            subtitle={anime.subtitle} 
-                            imageUrl={anime.imageUrl}
-                            onPress={() => console.log('hey anime')}
+                            description={anime.description} 
+                            imageurl={anime.imageUrl}
+                            onPress={onPress}
                         />
                     ))}
                 </ScrollView>
@@ -52,9 +52,10 @@ function LargeTrayItems(props) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'orange',
+        width: '100%',
+        // backgroundColor: 'orange',
         marginHorizontal: 5,
-        height: 300,
+        height: 250,
         paddingLeft: 5,
         marginBottom: 10
     },
@@ -64,4 +65,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default LargeTrayItems;
+export default LargeCardTray;
