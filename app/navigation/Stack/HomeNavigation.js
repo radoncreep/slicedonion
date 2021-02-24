@@ -7,13 +7,22 @@ const Stack = createStackNavigator();
 
 export const HomeNavigation = () => {
     return (
-        <Stack.Navigator mode="modal" screenOptions={{ headerShown: false }}>
-            <Stack.Screen 
-                name="LandingScreen" 
+        <Stack.Navigator mode="modal" screenOptions={{ headerShown: true }}>
+            <Stack.Screen
+                name="slicedonion" 
                 component={LandingScreen}
-                // options={{ headerShown: false }} 
+                options={{ headerShown: true,
+                    headerStyle: { backgroundColor: 'orange'}, 
+                    headerTitleStyle: { color: '#000' } 
+                }} 
                 />
-            <Stack.Screen name="Details" component={AnimeDetails}/>
+            <Stack.Screen 
+                name="Details" 
+                component={AnimeDetails} 
+                options={{ 
+                    headerTitle: false,
+                    headerTransparent: true,
+                }}/>
         </Stack.Navigator>
     )
 };

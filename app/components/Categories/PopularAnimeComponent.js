@@ -5,7 +5,7 @@ import { getAllPopularPage } from '../../api/getPopular';
 import { SmallCardTray } from '../HorizontalTrays';
 
 
-const PopularAnimeComponent = ({ navigation, param }) => {
+const PopularAnimeComponent = ({ navigation, param, towhere }) => {
     const [ popularShows, setPopularShows ] = useState([]);
     const [ showSpinner, setShowSpinner ] = useState(true);
 
@@ -33,6 +33,8 @@ const PopularAnimeComponent = ({ navigation, param }) => {
         <SmallCardTray 
             data={popularShows} 
             navigation={navigation}
+            towhere={towhere}
+            heading="MOST POPULAR SERIES"
         />
     );
 };
