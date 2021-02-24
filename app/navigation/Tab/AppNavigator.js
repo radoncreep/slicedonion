@@ -28,7 +28,7 @@ const AppNavigator = (props) => {
                         default:
                             break;
                     }
-                    return <MaterialCommunityIcons name={iconName} size={size} /> 
+                    return <MaterialCommunityIcons name={iconName} size={size} color="#fff" /> 
                 }
             })}
             tabBarOptions={{

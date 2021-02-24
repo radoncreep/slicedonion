@@ -1,23 +1,21 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, ScrollView } from 'react-native'
-import LargeTrayItems from './HorizontalTrays/LargeCardTray';
-import { LargeCardTray, SmallCardTray } from './HorizontalTrays/index';
+import { View, StyleSheet, ScrollView } from 'react-native'
+import { LargeCardTray } from './HorizontalTrays/index';
 import { PopularAnimeComponent } from './Categories';
+import Recents from './Categories/Recents';
 
 
 const ListComponent = ({ navigation }) => {
     // console.log('list component ', navigation)
     return (
         <View style={styles.container}>
-            <ScrollView
-            >
-                <PopularAnimeComponent navigation={navigation} param={1}/>
-                <PopularAnimeComponent navigation={navigation} param={2}/>
-                <LargeCardTray navigation={navigation}/>
-                <PopularAnimeComponent navigation={navigation} param={3}/>
-                <PopularAnimeComponent navigation={navigation} param={4}/>
-                <PopularAnimeComponent navigation={navigation} param={5}/>
-            </ScrollView>
+            <Recents />
+            <LargeCardTray navigation={navigation}/>
+            <PopularAnimeComponent navigation={navigation} param={1} towhere="Details"/>
+            <PopularAnimeComponent navigation={navigation} param={2} towhere="Details"/>
+            <PopularAnimeComponent navigation={navigation} param={3} towhere="Details"/>
+            <PopularAnimeComponent navigation={navigation} param={4} towhere="Details"/>
+            <PopularAnimeComponent navigation={navigation} param={5} towhere="Details"/>
         </View>
     );
 };
