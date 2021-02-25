@@ -11,6 +11,7 @@ import { AccountScreen,
 from '../../screens';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { HomeNavigation } from '../Stack/HomeNavigation';
+import TopTabNavigation from './TopTabNavigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,7 +41,7 @@ const AppNavigator = (props) => {
         >
             <Tab.Screen name="Home" component={HomeNavigation} />
             <Tab.Screen name="Library" component={LibraryScreen} />
-            <Tab.Screen name="Browse" component={BrowseScreen} />
+            <Tab.Screen name="Browse" component={TopTabNavigation} />
             <Tab.Screen name="Seasons" component={SeasonsScreen} />
             <Tab.Screen name="Account" component={AccountScreen} />
         </Tab.Navigator>

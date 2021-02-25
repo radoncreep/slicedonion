@@ -43,7 +43,7 @@ const SmallCardTray = ({ data, navigation, towhere, heading }) => {
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 10,
+        marginHorizontal: 0,
         height: 300,
         paddingLeft: 5, 
     },

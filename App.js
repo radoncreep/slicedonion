@@ -3,7 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 
 import AppNavigator from './app/navigation/Tab/AppNavigator';
-import { LandingScreen } from './app/screens';
 
 export default function App() {
   return (
@@ -12,6 +11,7 @@ export default function App() {
     </NavigationContainer>
     // <LandingScreen />
     // <EpisodesTrayVertical />
+    // <GenresComponent />
   );
 }
 

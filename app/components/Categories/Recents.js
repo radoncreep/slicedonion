@@ -9,7 +9,6 @@ const Recents = (props) => {
     const getRecentAnimeShows = async () => {
         try {
             const response = await getRecents();
-            console.log(response.data);
 
             setRecents(response.data.list);
         } catch (error) {

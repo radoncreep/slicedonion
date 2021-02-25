@@ -3,85 +3,17 @@ import { View, StyleSheet, ScrollView } from 'react-native'
 
 import EpisodeCardHorizontal from '../Cards/EpisodeCardHorizontal';
 
-
-const episodesList = [
-    {
-        id: 1,
-        season: 1,
-        episodeno: 1,
-        time: 23,
-        theme: 'Unqualified heroes',
-        imageurl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTItYnu5kt0oXc8a_U8Z3OZ6oJ3uMismJjqeQ&usqp=CAU'
-    },
-    {
-        id: 2,
-        season: 1,
-        episodeno: 1,
-        time: 23,
-        theme: 'Unqualified heroes',
-        imageurl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTItYnu5kt0oXc8a_U8Z3OZ6oJ3uMismJjqeQ&usqp=CAU'
-    },
-    {
-        id: 3,
-        season: 1,
-        episodeno: 1,
-        time: 23,
-        theme: 'Unqualified heroes',
-        imageurl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTItYnu5kt0oXc8a_U8Z3OZ6oJ3uMismJjqeQ&usqp=CAU'
-    },
-    {
-        id: 4,
-        season: 1,
-        episodeno: 1,
-        time: 23,
-        theme: 'Unqualified heroes',
-        imageurl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTItYnu5kt0oXc8a_U8Z3OZ6oJ3uMismJjqeQ&usqp=CAU'
-    },
-    {
-        id: 5,
-        season: 1,
-        episodeno: 1,
-        time: 23,
-        theme: 'Unqualified heroes',
-        imageurl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTItYnu5kt0oXc8a_U8Z3OZ6oJ3uMismJjqeQ&usqp=CAU'
-    },
-    {
-        id: 6,
-        season: 1,
-        episodeno: 1,
-        time: 23,
-        theme: 'Unqualified heroes',
-        imageurl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTItYnu5kt0oXc8a_U8Z3OZ6oJ3uMismJjqeQ&usqp=CAU'
-    },
-    {
-        id: 7,
-        season: 1,
-        episodeno: 1,
-        time: 23,
-        theme: 'Unqualified heroes',
-        imageurl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTItYnu5kt0oXc8a_U8Z3OZ6oJ3uMismJjqeQ&usqp=CAU'
-    },
-    {
-        id: 8,
-        season: 1,
-        episodeno: 1,
-        time: 23,
-        theme: 'Unqualified heroes',
-        imageurl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTItYnu5kt0oXc8a_U8Z3OZ6oJ3uMismJjqeQ&usqp=CAU'
-    }
-];
-
-const EpisodesTrayVertical = ({ onPress }) => {
+const EpisodesTrayVertical = ({ episodes, onPress, subimage, title }) => {
     return (
         <ScrollView>
-            {episodesList.map((anime) => (
+            {episodes.map((anime) => (
                 <EpisodeCardHorizontal 
                     key={anime.id}
-                    episodeLength={anime.time}
-                    episodeNumber={anime.episodeno}
-                    episodeTitle={anime.theme}
-                    imageurl={anime.imageurl}
-                    season={anime.season}
+                    // episodeLength={anime.time}
+                    episodeNumber={anime.episodeNumber}
+                    episodeTitle={title}
+                    imageurl={subimage}
+                    // season={anime.season}
                     onPress={onPress}
                 />
             ))}

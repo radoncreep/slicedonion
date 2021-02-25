@@ -1,22 +1,39 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, ImageBackground, Text, Button, Modal, ScrollView } from 'react-native';
-import { create } from 'apisauce';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, ImageBackground, Text, Button, Modal, ScrollView, TouchableOpacity } from 'react-native';
 
 import EpisodesTrayVertical from '../components/VerticalTrays/EpisodesTrayVertical';
 import StatusBarComp from '../components/StatusBarComp';
+import { getEpisodesApi } from '../api/getEpisodes';
 
 
 const AnimeDetails = ({ route }) => {
     const [ showModal, setShowModal ] = useState(false);
-
+    const [ episodes, setEpisodes ] = useState([]);
+    const [ disableNext, setDisableNext ] = useState(true);
     const detail = route.params;
+    
+    const getEpisodes = async (detail) => {
+        // console.log('Details ', detail)
+        let name = detail.category;
+
+        const response = await getEpisodesApi(name);
+        // console.log(response.data.totalEpisodes);
+        if (!response.ok) return setDisableNext(true);
+
+        setDisableNext(false)
+        return setEpisodes(response.data.totalEpisodes);
+    };
+
+    useEffect(() => {
+        getEpisodes(detail);
+    }, []);
 
     return (
         <StatusBarComp style={{ paddingTop: 0 }}>
             <ImageBackground style={styles.bg} source={{ uri: detail.thumbnail }}>
                 <View style={styles.container}>
                         <ScrollView> 
-                            <View style={{ height: 550 }}></View>
+                            <View style={{ height: 500 }}></View>
                             <View style={styles.bgContent}>
                                 <Text style={styles.bgTitle}>{detail.title}</Text>
                                 <View style={styles.status}>
@@ -31,7 +48,7 @@ const AnimeDetails = ({ route }) => {
                                         }}>
                                     </View>
                                 </View>
-                                <Text numberOfLines={5} style={styles.bgDesc}>{detail.summary}</Text>
+                                <Text numberOfLines={2} style={styles.bgDesc}>{detail.summary}</Text>
                                 <Button onPress={() => setShowModal(true)} style={styles.btnLink} title="DETAILS" />
                                 <Modal style={styles.modal} visible={showModal} animationType="slide">
                                     <StatusBarComp>
@@ -43,8 +60,22 @@ const AnimeDetails = ({ route }) => {
                                     </StatusBarComp>
                                 </Modal>
                             </View>
-                            <EpisodesTrayVertical 
-                            />
+                            {episodes ? (
+                                <>
+                                    <EpisodesTrayVertical 
+                                        episodes={episodes}
+                                        subimage={detail.thumbnail}
+                                        title={detail.category}
+                                    />
+                                </>
+                            ) : null
+                            }
+                            <TouchableOpacity disabled={disableNext} onPress={() => console.log('hola')}>
+                                <View style={styles.nextBtn}>
+                                    <Text style={styles.nextBtnText}>Next</Text>
+                                </View>
+                            </TouchableOpacity>
+
                         </ScrollView>
                 </View> 
             </ImageBackground>
@@ -115,6 +146,21 @@ const styles = StyleSheet.create({
     modalTextContainer: {
         width: '100%',
         padding: 20,
+    },
+    nextBtn: {
+        width: 100,
+        height: 50,
+        backgroundColor: 'orange',
+        borderRadius: 40,
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    nextBtnText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textTransform: 'capitalize'
     },
     status: {
         flexDirection: 'row',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, Image, TouchableHighlight } from 'react-native'
 
-const SmallCard = ({ title, subtitle, imageUrl,onPress }) => {
+const SmallCard = ({ episodeNumber, title, subtitle, imageUrl, onPress }) => {
     return (
         <TouchableHighlight style={styles.container} onPress={onPress} underlayColor="#000" activeOpacity={0.95}>
             <View >
@@ -11,6 +11,7 @@ const SmallCard = ({ title, subtitle, imageUrl,onPress }) => {
                 </View>
                 <Image style={styles.image} source={{ uri: imageUrl }}/>
                 <Text numberOfLines={1} style={styles.text}>{title}</Text>
+                <Text style={styles.text}>{episodeNumber}</Text>
                 <View style={styles.subTitle}>
                     <Text style={{ color: '#fff', fontWeight: 'bold' }}>SUB</Text>
                     {/* Share going to be an icon to share */}
