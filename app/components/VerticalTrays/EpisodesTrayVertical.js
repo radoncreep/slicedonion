@@ -6,9 +6,9 @@ import EpisodeCardHorizontal from '../Cards/EpisodeCardHorizontal';
 const EpisodesTrayVertical = ({ episodes, onPress, subimage, title }) => {
     return (
         <ScrollView>
-            {episodes.map((anime) => (
+            {episodes.map((anime, index) => (
                 <EpisodeCardHorizontal 
-                    key={anime.id}
+                    key={anime.id + '' + index}
                     // episodeLength={anime.time}
                     episodeNumber={anime.episodeNumber}
                     episodeTitle={title}

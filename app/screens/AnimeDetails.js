@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { View, StyleSheet, ImageBackground, Text, Button, Modal, ScrollView, TouchableOpacity } from 'react-native';
 
 import EpisodesTrayVertical from '../components/VerticalTrays/EpisodesTrayVertical';
@@ -10,23 +10,70 @@ const AnimeDetails = ({ route }) => {
     const [ showModal, setShowModal ] = useState(false);
     const [ episodes, setEpisodes ] = useState([]);
     const [ disableNext, setDisableNext ] = useState(true);
+    const [ queryNumber, setQueryNumber ] = useState([]);
+
     const detail = route.params;
     
-    const getEpisodes = async (detail) => {
-        // console.log('Details ', detail)
-        let name = detail.category;
-
-        const response = await getEpisodesApi(name);
-        // console.log(response.data.totalEpisodes);
-        if (!response.ok) return setDisableNext(true);
-
-        setDisableNext(false)
-        return setEpisodes(response.data.totalEpisodes);
+    const updatePageQuery = (state, action) => {
+        switch (action.type) {
+            case 'ADD':
+                console.log(state);
+                if (state < queryNumber.length) {
+                    state = state + action.payload
+                    console.log(state);
+                    return state;
+                } else if (state >= queryNumber.length) {
+                    return setDisableNext(true)
+                };
+            case 'RETAIN':
+                return state = action.payload;     
+            default:
+                break;
+        };
     };
+   
+    const [ pagequery, dispatch ] = useReducer(updatePageQuery, 0);
 
+    
+    
+    
     useEffect(() => {
+        let mounted = true;
+        
+        const getEpisodes = async (detail) => {
+            let name = detail.category;
+    
+            const response = await getEpisodesApi(name, pagequery);
+            console.log(response.data.totalEpisodes);
+
+            if (!response.ok) {
+                dispatch({ type: 'RETAIN', payload: pagequery })
+            }
+            
+            // the async function is being pushed to the web api
+            // before the call stack takes in the function to execute the retunr promise value
+            // the call stack first handles the cleanup function only if the component unmounts 
+            // and then the mounted variable is set to false after the cleanup is executed 
+            // then the prmoise value to be executed in the call stack executes the rest of the function
+            // and at this point mounted is already false
+            if (mounted) {
+                let temp = episodes;
+                setEpisodes(temp.concat(response.data.totalEpisodes));
+                setQueryNumber(response.data.milestoneEpisodes);
+                // dispatch({ type: 'DEFAULT_INCREMENT', payload: 1 });
+                if (pagequery < response.data.totalEpisodes) {
+                    setDisableNext(false);
+                };
+            };
+        };
+        
         getEpisodes(detail);
-    }, []);
+        
+        return () => {
+            console.log('cleanup')
+            mounted = false;
+        }
+    }, [ ]);
 
     return (
         <StatusBarComp style={{ paddingTop: 0 }}>
@@ -70,8 +117,8 @@ const AnimeDetails = ({ route }) => {
                                 </>
                             ) : null
                             }
-                            <TouchableOpacity disabled={disableNext} onPress={() => console.log('hola')}>
-                                <View style={styles.nextBtn}>
+                            <TouchableOpacity disabled={disableNext} onPress={() => dispatch({ type: 'ADD', payload: 1 })}>
+                                <View style={[styles.nextBtn, { backgroundColor: disableNext ? 'grey' : 'orange' }]}>
                                     <Text style={styles.nextBtnText}>Next</Text>
                                 </View>
                             </TouchableOpacity>
@@ -150,7 +197,6 @@ const styles = StyleSheet.create({
     nextBtn: {
         width: 100,
         height: 50,
-        backgroundColor: 'orange',
         borderRadius: 40,
         alignSelf: 'center',
         alignItems: 'center',
