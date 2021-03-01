@@ -41,6 +41,7 @@ const AnimeDetails = ({ route }) => {
         let mounted = true;
         
         const getEpisodes = async (detail) => {
+            console.log(detail)
             let name = detail.category;
     
             const response = await getEpisodesApi(name, pagequery);
@@ -70,10 +71,9 @@ const AnimeDetails = ({ route }) => {
         getEpisodes(detail);
         
         return () => {
-            console.log('cleanup')
             mounted = false;
         }
-    }, [ ]);
+    }, []);
 
     return (
         <StatusBarComp style={{ paddingTop: 0 }}>

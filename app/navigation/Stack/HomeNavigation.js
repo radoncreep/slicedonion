@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { AnimeDetails, LandingScreen } from '../../screens';
+import VideoPlayer from '../../components/VideoPlayer';
 
 const Stack = createStackNavigator();
 
@@ -17,12 +18,24 @@ export const HomeNavigation = () => {
                 }} 
                 />
             <Stack.Screen 
+                name="VideoPlayer"
+                component={VideoPlayer}
+                options={{
+                    headerShown: false,
+                    headerTitle: true,
+                    headerStyle: {
+                        backgroundColor: '#000'
+                    },
+                    // headerBackImage
+                }}
+            />
+            <Stack.Screen 
                 name="Details" 
                 component={AnimeDetails} 
                 options={{ 
                     headerTitle: false,
                     headerTransparent: true,
-                }}/>
+            }}/>
         </Stack.Navigator>
     )
 };

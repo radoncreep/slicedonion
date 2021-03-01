@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { getRecents } from '../../api/getRecentRelease';
 import { SmallCardTray } from '../HorizontalTrays';
 
-const Recents = (props) => {
+const Recents = ({ navigation, towhere }) => {
     const [ recents, setRecents ] = useState([]);
 
     const getRecentAnimeShows = async () => {
@@ -20,7 +20,7 @@ const Recents = (props) => {
         getRecentAnimeShows();
     }, [])
 
-    return <SmallCardTray data={recents} heading="RECENTS"/>
+    return <SmallCardTray data={recents} heading="RECENTS" towhere={towhere} navigation={navigation}/>
 };
 
 const styles = StyleSheet.create({
