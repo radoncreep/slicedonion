@@ -9,16 +9,17 @@ const api = create({
     baseURL: 'http://192.168.43.211:3300'
 });
 
+
 const SmallCardTray = ({ data, navigation, towhere, heading }) => {
-    const getAnimeEpisodes = async (anime) => {
-        console.log('hih')
-        navigation.navigate(towhere, anime);
-        try {
-            const response = await api.get(`/episodes/${anime.category}`);
-        } catch (error) {    
-            console.log(error);
-        }
-    };
+    // const getAnimeEpisodes = async (anime) => {
+    //     console.log('hih')
+    //     navigation.navigate(towhere, anime);
+    //     try {
+    //         const response = await api.get(`/episodes/${anime.category}`);
+    //     } catch (error) {    
+    //         console.log(error);
+    //     }
+    // };
 
     return (
         <View style={styles.container}>
@@ -33,7 +34,7 @@ const SmallCardTray = ({ data, navigation, towhere, heading }) => {
                             subtitle={anime.released}
                             episodeNumber={anime.episode}
                             imageUrl={anime.thumbnail}
-                            onPress={() => getAnimeEpisodes(anime)}
+                            onPress={() => navigation.navigate(towhere, anime)}
                         />
                     ))}
                 </ScrollView>

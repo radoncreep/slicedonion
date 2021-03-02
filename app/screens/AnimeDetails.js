@@ -4,9 +4,16 @@ import { View, StyleSheet, ImageBackground, Text, Button, Modal, ScrollView, Tou
 import EpisodesTrayVertical from '../components/VerticalTrays/EpisodesTrayVertical';
 import StatusBarComp from '../components/StatusBarComp';
 import { getEpisodesApi } from '../api/getEpisodes';
+import { create } from 'apisauce';
+
+export const api = create({
+    baseURL: 'http://192.168.43.211:3300'
+});
+
 
 
 const AnimeDetails = ({ route }) => {
+    const [ info, setInfo ] = useState();
     const [ showModal, setShowModal ] = useState(false);
     const [ episodes, setEpisodes ] = useState([]);
     const [ disableNext, setDisableNext ] = useState(true);
@@ -39,6 +46,23 @@ const AnimeDetails = ({ route }) => {
     
     useEffect(() => {
         let mounted = true;
+
+        const getDetails = async (detail) => {
+            const animeName = detail.category;
+
+            try {
+                const { data } = await api.get(`/anime-detail/${animeName}`);
+
+                // console.log('DETAILS ', data.animeDetail);
+                if (mounted) {
+                    setInfo(data.animeDetail);
+                    console.log('INFORMATION ', info)
+                }
+                
+            } catch (error) {    
+                console.log(error);
+            }
+        }
         
         const getEpisodes = async (detail) => {
             console.log(detail)
@@ -51,12 +75,6 @@ const AnimeDetails = ({ route }) => {
                 dispatch({ type: 'RETAIN', payload: pagequery })
             }
             
-            // the async function is being pushed to the web api
-            // before the call stack takes in the function to execute the retunr promise value
-            // the call stack first handles the cleanup function only if the component unmounts 
-            // and then the mounted variable is set to false after the cleanup is executed 
-            // then the prmoise value to be executed in the call stack executes the rest of the function
-            // and at this point mounted is already false
             if (mounted) {
                 let temp = episodes;
                 setEpisodes(temp.concat(response.data.totalEpisodes));
@@ -68,7 +86,10 @@ const AnimeDetails = ({ route }) => {
             };
         };
         
+        getDetails(detail)
         getEpisodes(detail);
+
+
         
         return () => {
             mounted = false;
@@ -76,57 +97,62 @@ const AnimeDetails = ({ route }) => {
     }, []);
 
     return (
-        <StatusBarComp style={{ paddingTop: 0 }}>
-            <ImageBackground style={styles.bg} source={{ uri: detail.thumbnail }}>
-                <View style={styles.container}>
-                        <ScrollView> 
-                            <View style={{ height: 500 }}></View>
-                            <View style={styles.bgContent}>
-                                <Text style={styles.bgTitle}>{detail.title}</Text>
-                                <View style={styles.status}>
-                                    <Text style={{ color: '#fff', marginRight: 10 }}>Series</Text> 
-                                    <Text style={{ color: '#fff', marginRight: 10 }}>{detail.status}</Text>
-                                    <View 
-                                        style={{ 
-                                            backgroundColor: detail.status.toLowerCase() === "ongoing" ? 'green' : 'red',
-                                            width: 10,
-                                            height: 10,
-                                            borderRadius: 5
-                                        }}>
+        <>
+            {info ? (
+                <StatusBarComp style={{ paddingTop: 0 }}>
+                    <ImageBackground style={styles.bg} source={{ uri: info.thumbnail }}>
+                        <View style={styles.container}>
+                                <ScrollView> 
+                                    <View style={{ height: 500 }}></View>
+                                    <View style={styles.bgContent}>
+                                        <Text style={styles.bgTitle}>{info.title}</Text>
+                                        <View style={styles.status}>
+                                            <Text style={{ color: '#fff', marginRight: 10 }}>Series</Text> 
+                                            <Text style={{ color: '#fff', marginRight: 10 }}>{info.status}</Text>
+                                            <View 
+                                                style={{ 
+                                                    // backgroundColor: info.status.toLowerCase() === "ongoing" ? 'green' : 'red',
+                                                    width: 10,
+                                                    height: 10,
+                                                    borderRadius: 5
+                                                }}>
+                                            </View>
+                                        </View>
+                                        <Text numberOfLines={2} style={styles.bgDesc}>{info.summary}</Text>
+                                        <Button onPress={() => setShowModal(true)} style={styles.btnLink} title="DETAILS" />
+                                        <Modal style={styles.modal} visible={showModal} animationType="slide">
+                                            <StatusBarComp>
+                                                <Button style={styles.modalBtn} onPress={() => setShowModal(false)} title="Close" />
+                                                <Text style={styles.genre} >Genres: {info.genre.join(", ").toString()}</Text>
+                                                <ScrollView style={styles.modalTextContainer}>
+                                                    <Text style={styles.modalText}>{info.summary}</Text>
+                                                </ScrollView>
+                                            </StatusBarComp>
+                                        </Modal>
                                     </View>
-                                </View>
-                                <Text numberOfLines={2} style={styles.bgDesc}>{detail.summary}</Text>
-                                <Button onPress={() => setShowModal(true)} style={styles.btnLink} title="DETAILS" />
-                                <Modal style={styles.modal} visible={showModal} animationType="slide">
-                                    <StatusBarComp>
-                                        <Button style={styles.modalBtn} onPress={() => setShowModal(false)} title="Close" />
-                                        <Text style={styles.genre} >Genres: {detail.genre.join(", ").toString()}</Text>
-                                        <ScrollView style={styles.modalTextContainer}>
-                                            <Text style={styles.modalText}>{detail.summary}</Text>
-                                        </ScrollView>
-                                    </StatusBarComp>
-                                </Modal>
-                            </View>
-                            {episodes ? (
-                                <>
-                                    <EpisodesTrayVertical 
-                                        episodes={episodes}
-                                        subimage={detail.thumbnail}
-                                        title={detail.category}
-                                    />
-                                </>
-                            ) : null
-                            }
-                            <TouchableOpacity disabled={disableNext} onPress={() => dispatch({ type: 'ADD', payload: 1 })}>
-                                <View style={[styles.nextBtn, { backgroundColor: disableNext ? 'grey' : 'orange' }]}>
-                                    <Text style={styles.nextBtnText}>Next</Text>
-                                </View>
-                            </TouchableOpacity>
+                                    {episodes ? (
+                                        <>
+                                            <EpisodesTrayVertical 
+                                                episodes={episodes}
+                                                subimage={detail.thumbnail}
+                                                title={detail.category}
+                                            />
+                                        </>
+                                    ) : null
+                                    }
+                                    <TouchableOpacity disabled={disableNext} onPress={() => dispatch({ type: 'ADD', payload: 1 })}>
+                                        <View style={[styles.nextBtn, { backgroundColor: disableNext ? 'grey' : 'orange' }]}>
+                                            <Text style={styles.nextBtnText}>Next</Text>
+                                        </View>
+                                    </TouchableOpacity>
 
-                        </ScrollView>
-                </View> 
-            </ImageBackground>
-        </StatusBarComp>
+                                </ScrollView>
+                        </View> 
+                    </ImageBackground>
+                </StatusBarComp>
+
+            ) : null}
+        </>
     );
 };
 
@@ -216,3 +242,10 @@ const styles = StyleSheet.create({
 });
 
 export default AnimeDetails;
+
+// the async function is being pushed to the web api
+// before the call stack takes in the function to execute the retunr promise value
+// the call stack first handles the cleanup function only if the component unmounts 
+// and then the mounted variable is set to false after the cleanup is executed 
+// then the prmoise value to be executed in the call stack executes the rest of the function
+// and at this point mounted is already false
