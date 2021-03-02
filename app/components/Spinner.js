@@ -1,14 +1,11 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import StatusBarComp from './StatusBarComp';
 
-const Spinner = (props) => {
+const Spinner = ({ style }) => {
     return (
-        <StatusBarComp>
-            <View style={styles.container}>
-                <Text>Loading...</Text>
-            </View>
-        </StatusBarComp>
+        <View style={[ styles.container, style ]}>
+            <Text style={{ color: '#fff', fontSize: 20 }}>Loading...</Text>
+        </View>
     );
 };
 
@@ -17,7 +14,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#000',
-        opacity: 0.4
+        opacity: 0.4,
+        margin: 10
     },
 })
 

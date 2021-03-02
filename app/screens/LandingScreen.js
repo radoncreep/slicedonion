@@ -1,12 +1,11 @@
 import React from 'react';
-import { View, StyleSheet, Text, ImageBackground, ScrollView } from 'react-native'
+import { View, StyleSheet, Text, ImageBackground, ScrollView, OpaqueColorValue } from 'react-native'
 
 import ListComponent from '../components/ListComponent';
-import StatusBarComp from '../components/StatusBarComp';
 
 const LandingScreen = ({ navigation }) => {
     return (
-        <ImageBackground style={styles.container} source={{ uri: "https://gogocdn.net/cover/dr-stone-stone-wars.png" }}>
+        <ImageBackground OpaqueColorValue={false} style={styles.container} source={{ uri: "https://gogocdn.net/cover/dr-stone-stone-wars.png" } }>
             <ScrollView>
                 <View style={styles.cover}></View>
                 <View style={styles.intro}>
