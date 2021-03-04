@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, ImageBackground, Text, Button, Modal, ScrollView, TouchableOpacity } from 'react-native';
 
 import EpisodesTrayVertical from '../components/VerticalTrays/EpisodesTrayVertical';
@@ -9,31 +9,14 @@ import { useDetail } from '../hooks/useDetailApi';
 import { usePagination } from '../hooks/usePagination';
 import ActivityIndicator from '../components/ActivityIndicator';
 
-const animations = { 
-    emotion: '../assets/animations/34108-anime-emotions-by-at-armchair-warrior-sticker-1.json',
-    spinner: '../assets/animations/9619-loading-dots-in-yellow.json'
-}
-
 const AnimeDetails = ({ route }) => {
     const [ showModal, setShowModal ] = useState(false);
 
     const detail = route.params;
 
-    const { info, request, showLoader } = useDetail(getDetailApi);
+    const { info, showLoader } = useDetail(detail, getDetailApi);
 
-    const { episodes, disableNext, getEpisodeList, showSpinner } = usePagination(getEpisodesApi);
-    
-    useEffect(() => {
-        let mounted = true;
-
-        request(detail, mounted);
-
-        getEpisodeList(detail, mounted);
-        
-        return () => {
-            mounted = false;
-        }
-    }, []);
+    const { episodes, showSpinner } = usePagination(detail, getEpisodesApi);
 
     return (
         <>
@@ -43,7 +26,7 @@ const AnimeDetails = ({ route }) => {
                     <ImageBackground style={styles.bg} source={{ uri: info.thumbnail }}>
                         <View style={styles.container}>
                             <ScrollView> 
-                                <View style={{ height: 500 }}></View>
+                                <View style={{ height: 400 }}></View>
                                 <View style={styles.bgContent}>
                                     <Text style={styles.bgTitle}>{info.title}</Text>
                                     <View style={styles.status}>
@@ -69,7 +52,9 @@ const AnimeDetails = ({ route }) => {
                                             </ScrollView>
                                         </StatusBarComp>
                                     </Modal>
+                                    <ActivityIndicator visible={showSpinner} style={styles.loadEpisode}/>
                                 </View>
+
                                 {episodes ? (
                                     <>
                                         <EpisodesTrayVertical 
@@ -80,15 +65,10 @@ const AnimeDetails = ({ route }) => {
                                     </>
                                 ) : null
                                 }
-                                <TouchableOpacity disabled={disableNext} onPress={() => getEpisodeList(detail)}>
-                                    {showSpinner ? <View style={{ height: 100 }}>
-                                        <ActivityIndicator visible={showSpinner} style={{ backgroundColor: 'transparent'}}/>
+                                <TouchableOpacity disabled={true}>
+                                    <View style={[styles.nextBtn, { backgroundColor: 'grey' }]}>
+                                        <Text style={styles.nextBtnText}>Next</Text>
                                     </View>
-                                        : (
-                                        <View style={[styles.nextBtn, { backgroundColor: disableNext ? 'grey' : 'orange' }]}>
-                                                <Text style={styles.nextBtnText}>Next</Text>
-                                        </View>
-                                    )}
                                 </TouchableOpacity>
 
                             </ScrollView>
@@ -112,7 +92,7 @@ const styles = StyleSheet.create({
     bgContent: {
         width: '100%',
         paddingHorizontal: 20,
-        marginBottom: 40,
+        marginBottom: 30,
     }, 
     bgDesc: {
         color: '#fff',
@@ -151,6 +131,12 @@ const styles = StyleSheet.create({
     loader: {
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    loadEpisode: {
+        backgroundColor: 'transparent',
+        height: 50,
+        justifyContent: 'flex-start',
+        alignContent: 'center'
     },
     modal: { 
         justifyContent: 'center', 

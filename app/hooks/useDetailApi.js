@@ -1,25 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export const useDetail = (apiFunc) => {
+export const useDetail = (detail, apiFunc) => {
     const [ info, setInfo ] = useState();
     const [ showLoader, setShowLoader ] = useState(false);
+    const { category } = detail;
 
-    const request = async (detail, mounted) => {
-        if (mounted) setShowLoader(true)
-        let name = detail.category;
-        try {
-            const { data } = await apiFunc(name);
+    useEffect(() => {
+        let mounted = true;
 
-            if (mounted) {
-                setInfo(data.animeDetail);
-                setShowLoader(false);
+        const request = async () => {
+            if (mounted) setShowLoader(true)
+            let name = category;
+            try {
+                const { data } = await apiFunc(name);
+    
+                console.log(mounted);
+                if (mounted) {
+                    setShowLoader(false);
+                    setInfo(data.animeDetail);
+                };
+
+                return data;
+            } catch (error) {    
+                console.log(error);
             };
-        } catch (error) {    
-            console.log(error);
         };
 
-        return info;
-    };
+        request();
 
-    return { info, request, showLoader };
+        return () => {
+            console.log('cleanup')
+            return mounted = false;
+        }
+    }, [ ]);
+
+    return { info, showLoader };
 };
+

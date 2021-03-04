@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
         height: 100,
     },
     overlay: {
-        position: 'absolute',
         backgroundColor: '#000',
         height: '100%',
         opacity: 0.8,
