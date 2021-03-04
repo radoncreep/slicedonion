@@ -9,26 +9,25 @@ const VideoPlayer = ({ route }) => {
     const [ status, setStatus ] = useState({});
     const [ stream, setStream ] = useState('');
     const [ error, setError ] = useState('');
-    let mounted = useRef(false);
 
     const { episode, title, id, episodeUrl} = route.params;
-
-    const getStreamUrlApi = async (url) => {
-        if (mounted.current) setError(null);
-        const { data, ok } = await getStreamUrl(url);
-
-        if (!ok && mounted.current) return setError(data.message);
-        console.log(data.remote);
-
-        if (mounted.current) setStream(data.remote);
-    };
-
+    
     useEffect(() => {
-        mounted.current = true;
+        let mounted = true;
+    
+        const getStreamUrlApi = async (url) => {
+            if (mounted) setError(null);
+            const { data, ok } = await getStreamUrl(url);
+    
+            if (!ok && mounted) return setError(data.message);
+            console.log(data.remote);
+    
+            if (mounted) setStream(data.remote);
+        };
         
         getStreamUrlApi(episodeUrl);
 
-        return () => mounted.current = false;
+        return () => mounted= false;
     }, [])
 
     return (
