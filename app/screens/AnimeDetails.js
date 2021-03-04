@@ -1,157 +1,83 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, ImageBackground, Text, Button, Modal, ScrollView, TouchableOpacity } from 'react-native';
 
 import EpisodesTrayVertical from '../components/VerticalTrays/EpisodesTrayVertical';
 import StatusBarComp from '../components/StatusBarComp';
 import { getEpisodesApi } from '../api/getEpisodes';
-import { create } from 'apisauce';
-
-export const api = create({
-    baseURL: 'http://192.168.43.211:3300'
-});
-
-
+import { getDetailApi } from '../api/getDetailApi';
+import { useDetail } from '../hooks/useDetailApi';
+import { usePagination } from '../hooks/usePagination';
+import ActivityIndicator from '../components/ActivityIndicator';
 
 const AnimeDetails = ({ route }) => {
-    const [ info, setInfo ] = useState();
     const [ showModal, setShowModal ] = useState(false);
-    const [ episodes, setEpisodes ] = useState([]);
-    const [ disableNext, setDisableNext ] = useState(true);
-    const [ queryNumber, setQueryNumber ] = useState([]);
 
     const detail = route.params;
-    
-    const updatePageQuery = (state, action) => {
-        switch (action.type) {
-            case 'ADD':
-                console.log(state);
-                if (state < queryNumber.length) {
-                    state = state + action.payload
-                    console.log(state);
-                    return state;
-                } else if (state >= queryNumber.length) {
-                    return setDisableNext(true)
-                };
-            case 'RETAIN':
-                return state = action.payload;     
-            default:
-                break;
-        };
-    };
-   
-    const [ pagequery, dispatch ] = useReducer(updatePageQuery, 0);
 
-    
-    
-    
-    useEffect(() => {
-        let mounted = true;
+    const { info, showLoader } = useDetail(detail, getDetailApi);
 
-        const getDetails = async (detail) => {
-            const animeName = detail.category;
-
-            try {
-                const { data } = await api.get(`/anime-detail/${animeName}`);
-
-                // console.log('DETAILS ', data.animeDetail);
-                if (mounted) {
-                    setInfo(data.animeDetail);
-                    console.log('INFORMATION ', info)
-                }
-                
-            } catch (error) {    
-                console.log(error);
-            }
-        }
-        
-        const getEpisodes = async (detail) => {
-            console.log(detail)
-            let name = detail.category;
-    
-            const response = await getEpisodesApi(name, pagequery);
-            console.log(response.data.totalEpisodes);
-
-            if (!response.ok) {
-                dispatch({ type: 'RETAIN', payload: pagequery })
-            }
-            
-            if (mounted) {
-                let temp = episodes;
-                setEpisodes(temp.concat(response.data.totalEpisodes));
-                setQueryNumber(response.data.milestoneEpisodes);
-                // dispatch({ type: 'DEFAULT_INCREMENT', payload: 1 });
-                if (pagequery < response.data.totalEpisodes) {
-                    setDisableNext(false);
-                };
-            };
-        };
-        
-        getDetails(detail)
-        getEpisodes(detail);
-
-
-        
-        return () => {
-            mounted = false;
-        }
-    }, []);
+    const { episodes, showSpinner } = usePagination(detail, getEpisodesApi);
 
     return (
         <>
+            <ActivityIndicator visible={showLoader} style={styles.loader}/>
             {info ? (
                 <StatusBarComp style={{ paddingTop: 0 }}>
                     <ImageBackground style={styles.bg} source={{ uri: info.thumbnail }}>
                         <View style={styles.container}>
-                                <ScrollView> 
-                                    <View style={{ height: 500 }}></View>
-                                    <View style={styles.bgContent}>
-                                        <Text style={styles.bgTitle}>{info.title}</Text>
-                                        <View style={styles.status}>
-                                            <Text style={{ color: '#fff', marginRight: 10 }}>Series</Text> 
-                                            <Text style={{ color: '#fff', marginRight: 10 }}>{info.status}</Text>
-                                            <View 
-                                                style={{ 
-                                                    // backgroundColor: info.status.toLowerCase() === "ongoing" ? 'green' : 'red',
-                                                    width: 10,
-                                                    height: 10,
-                                                    borderRadius: 5
-                                                }}>
-                                            </View>
+                            <ScrollView> 
+                                <View style={{ height: 400 }}></View>
+                                <View style={styles.bgContent}>
+                                    <Text style={styles.bgTitle}>{info.title}</Text>
+                                    <View style={styles.status}>
+                                        <Text style={{ color: '#fff', marginRight: 10 }}>Series</Text> 
+                                        <Text style={{ color: '#fff', marginRight: 10 }}>{info.status}</Text>
+                                        <View 
+                                            style={{ 
+                                                backgroundColor: info.status.toLowerCase() === "ongoing" ? '#7CFC00' : 'red',
+                                                width: 10,
+                                                height: 10,
+                                                borderRadius: 10
+                                            }}>
                                         </View>
-                                        <Text numberOfLines={2} style={styles.bgDesc}>{info.summary}</Text>
-                                        <Button onPress={() => setShowModal(true)} style={styles.btnLink} title="DETAILS" />
-                                        <Modal style={styles.modal} visible={showModal} animationType="slide">
-                                            <StatusBarComp>
-                                                <Button style={styles.modalBtn} onPress={() => setShowModal(false)} title="Close" />
-                                                <Text style={styles.genre} >Genres: {info.genre.join(", ").toString()}</Text>
-                                                <ScrollView style={styles.modalTextContainer}>
-                                                    <Text style={styles.modalText}>{info.summary}</Text>
-                                                </ScrollView>
-                                            </StatusBarComp>
-                                        </Modal>
                                     </View>
-                                    {episodes ? (
-                                        <>
-                                            <EpisodesTrayVertical 
-                                                episodes={episodes}
-                                                subimage={detail.thumbnail}
-                                                title={detail.category}
-                                            />
-                                        </>
-                                    ) : null
-                                    }
-                                    <TouchableOpacity disabled={disableNext} onPress={() => dispatch({ type: 'ADD', payload: 1 })}>
-                                        <View style={[styles.nextBtn, { backgroundColor: disableNext ? 'grey' : 'orange' }]}>
-                                            <Text style={styles.nextBtnText}>Next</Text>
-                                        </View>
-                                    </TouchableOpacity>
+                                    <Text numberOfLines={2} style={styles.bgDesc}>{info.summary}</Text>
+                                    <Button onPress={() => setShowModal(true)} style={styles.btnLink} title="DETAILS" />
+                                    <Modal style={styles.modal} visible={showModal} animationType="slide">
+                                        <StatusBarComp>
+                                            <Button style={styles.modalBtn} onPress={() => setShowModal(false)} title="Close" />
+                                            <Text style={styles.genre} >Genres: {info.genre.join(", ").toString()}</Text>
+                                            <ScrollView style={styles.modalTextContainer}>
+                                                <Text style={styles.modalText}>{info.summary}</Text>
+                                            </ScrollView>
+                                        </StatusBarComp>
+                                    </Modal>
+                                    <ActivityIndicator visible={showSpinner} style={styles.loadEpisode}/>
+                                </View>
 
-                                </ScrollView>
+                                {episodes ? (
+                                    <>
+                                        <EpisodesTrayVertical 
+                                            episodes={episodes}
+                                            subimage={detail.thumbnail}
+                                            title={detail.category}
+                                        />
+                                    </>
+                                ) : null
+                                }
+                                <TouchableOpacity disabled={true}>
+                                    <View style={[styles.nextBtn, { backgroundColor: 'grey' }]}>
+                                        <Text style={styles.nextBtnText}>Next</Text>
+                                    </View>
+                                </TouchableOpacity>
+
+                            </ScrollView>
                         </View> 
                     </ImageBackground>
                 </StatusBarComp>
 
-            ) : null}
+            ) : null
+            }
         </>
     );
 };
@@ -166,7 +92,7 @@ const styles = StyleSheet.create({
     bgContent: {
         width: '100%',
         paddingHorizontal: 20,
-        marginBottom: 40,
+        marginBottom: 30,
     }, 
     bgDesc: {
         color: '#fff',
@@ -201,6 +127,16 @@ const styles = StyleSheet.create({
         zIndex: 1,
         shadowOpacity: 0.5
        
+    },
+    loader: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    loadEpisode: {
+        backgroundColor: 'transparent',
+        height: 50,
+        justifyContent: 'flex-start',
+        alignContent: 'center'
     },
     modal: { 
         justifyContent: 'center', 

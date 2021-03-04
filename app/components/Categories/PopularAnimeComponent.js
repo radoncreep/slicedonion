@@ -8,21 +8,23 @@ import Spinner from '../Spinner';
 
 const PopularAnimeComponent = ({ navigation, param, towhere }) => {
     const [ popularShows, setPopularShows ] = useState([]);
-    const [ showSpinner, setShowSpinner ] = useState(true);
 
     const getPopularAnime = async () => {
+        let mounted = true;
+
         try {
             const response = await getAllPopularPage(param);
             
-            if (response.data.list) {
-                console.log('DATA ', response.data.list.length);
+            if (mounted) {
+                console.log('popular loaded');
                 setPopularShows(response.data.list);
-    
-                return response;
-            }
+            };
+            return response;
         } catch (error) {
             console.log(error);
         };
+
+        return () => mounted = false;
     };
 
     useEffect(() => {
