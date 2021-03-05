@@ -9,7 +9,7 @@ import { useDetail } from '../hooks/useDetailApi';
 import { usePagination } from '../hooks/usePagination';
 import ActivityIndicator from '../components/ActivityIndicator';
 
-const AnimeDetails = ({ route }) => {
+const AnimeDetails = ({ navigation, route }) => {
     const [ showModal, setShowModal ] = useState(false);
 
     const detail = route.params;
@@ -61,6 +61,8 @@ const AnimeDetails = ({ route }) => {
                                             episodes={episodes}
                                             subimage={detail.thumbnail}
                                             title={detail.category}
+                                            navigation={navigation}
+                                            towhere="VideoPlayer"
                                         />
                                     </>
                                 ) : null
