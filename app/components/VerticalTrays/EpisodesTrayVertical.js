@@ -3,7 +3,10 @@ import { View, StyleSheet, ScrollView } from 'react-native'
 
 import EpisodeCardHorizontal from '../Cards/EpisodeCardHorizontal';
 
-const EpisodesTrayVertical = ({ episodes, onPress, subimage, title }) => {
+const EpisodesTrayVertical = ({ episodes, navigation, subimage, title, towhere }) => {
+    const handleEpisodeNavigation = (anime) => {
+        return navigation.navigate(towhere, anime)
+    }
     return (
         <ScrollView>
             {episodes.map((anime, index) => (
@@ -14,7 +17,7 @@ const EpisodesTrayVertical = ({ episodes, onPress, subimage, title }) => {
                     episodeTitle={title}
                     imageurl={subimage}
                     // season={anime.season}
-                    onPress={onPress}
+                    onPress={() => handleEpisodeNavigation(anime)}
                 />
             ))}
         </ScrollView>
