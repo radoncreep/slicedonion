@@ -62,7 +62,7 @@ const AnimeDetails = ({ navigation, route }) => {
                                             subimage={detail.thumbnail}
                                             title={detail.category}
                                             navigation={navigation}
-                                            towhere="VideoPlayer"
+                                            towhere="Player"
                                         />
                                     </>
                                 ) : null

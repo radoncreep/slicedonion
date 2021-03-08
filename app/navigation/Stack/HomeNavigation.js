@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { AnimeDetails, LandingScreen } from '../../screens';
-import VideoPlayer from '../../components/VideoPlayer';
+import PlayerScreen from '../../screens/PlayerScreen';
 
 const Stack = createStackNavigator();
 
@@ -18,8 +18,8 @@ export const HomeNavigation = () => {
                 }} 
                 />
             <Stack.Screen 
-                name="VideoPlayer"
-                component={VideoPlayer}
+                name="Player"
+                component={PlayerScreen}
                 options={{
                     headerShown: false,
                     headerTitle: true,

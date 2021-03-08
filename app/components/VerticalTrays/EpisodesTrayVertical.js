@@ -1,23 +1,28 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native'
+import { StyleSheet, ScrollView } from 'react-native';
+import { useVideoContext } from '../../hooks/useVideoContext';
 
 import EpisodeCardHorizontal from '../Cards/EpisodeCardHorizontal';
 
 const EpisodesTrayVertical = ({ episodes, navigation, subimage, title, towhere }) => {
-    const handleEpisodeNavigation = (anime) => {
-        return navigation.navigate(towhere, anime)
-    }
+    let videoObj = { subimage, title };
+    let { updateNextVideo } = useVideoContext(episodes);
+
+    const handleEpisodeNavigation = (elems, index) => {
+        updateNextVideo(index, videoObj);
+        navigation.navigate(towhere, elems);
+        return;
+    };
+
     return (
         <ScrollView>
-            {episodes.map((anime, index) => (
+            {episodes.map((anime, index, elems) => (
                 <EpisodeCardHorizontal 
                     key={anime.id + '' + index}
-                    // episodeLength={anime.time}
                     episodeNumber={anime.episodeNumber}
                     episodeTitle={title}
                     imageurl={subimage}
-                    // season={anime.season}
-                    onPress={() => handleEpisodeNavigation(anime)}
+                    onPress={() => handleEpisodeNavigation(elems, index)}
                 />
             ))}
         </ScrollView>
