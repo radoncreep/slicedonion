@@ -2,10 +2,10 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default ({ children }) => <View style={{ backgroundColor: 'transparent', flex: 1, }}>
+export default ({ children }) => <View style={{ backgroundColor: '#000', flex: 1, }}>
     <LinearGradient 
         colors={["black", "#00000033", '#00000033']}
-        start={{ x: 0, y: 1 }}
+        start={{ x: 0.1, y: 0.1 }}
         end={{ x: 0, y: 0 }}
         style={styles.linearGradient}
         >
