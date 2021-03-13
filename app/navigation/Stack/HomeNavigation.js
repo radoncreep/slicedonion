@@ -13,8 +13,8 @@ export const HomeNavigation = () => {
                 name="slicedonion" 
                 component={HomeScreen}
                 options={{ headerShown: true,
-                    headerStyle: { backgroundColor: 'orange'}, 
-                    headerTitleStyle: { color: '#660000' } 
+                    headerStyle: { backgroundColor: '#782491'}, 
+                    headerTitleStyle: { color: 'silver' } 
                 }} 
                 />
             <Stack.Screen 

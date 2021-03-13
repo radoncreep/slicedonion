@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useVideoContext } from '../../hooks/useVideoContext';
 
 import EpisodeCardHorizontal from '../Cards/EpisodeCardHorizontal';
@@ -15,7 +15,7 @@ const EpisodesTrayVertical = ({ episodes, navigation, subimage, title, towhere }
     };
 
     return (
-        <ScrollView>
+        <View>
             {episodes.map((anime, index, elems) => (
                 <EpisodeCardHorizontal 
                     key={anime.id + '' + index}
@@ -25,7 +25,7 @@ const EpisodesTrayVertical = ({ episodes, navigation, subimage, title, towhere }
                     onPress={() => handleEpisodeNavigation(elems, index)}
                 />
             ))}
-        </ScrollView>
+        </View>
     );
 };
 

@@ -1,15 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated from 'react-native-reanimated';
-import { onScroll } from 'react-native-redash';
 import { MAX_HEADER_HEIGHT } from './Model';
 import ListComponent from './ListComponent'
+import ListandDetails from './ListandDetails';
 
 const { interpolate, Extrapolate } = Animated;
 
-const Content = ({ description, navigation, title, yval }) => {
-    // const scroller = onScroll;
+const Content = ({ description, imagebgUrl, navigation, title, yval }) => {
     const height = interpolate(yval,{
         inputRange: [-MAX_HEADER_HEIGHT, 0],
         outputRange: [0, MAX_HEADER_HEIGHT],
@@ -23,44 +22,50 @@ const Content = ({ description, navigation, title, yval }) => {
     })
 
     return (
-        <Animated.ScrollView
-            style={styles.container}
-            showsVerticalScrollIndicator={false}
-            scrollEventThrottle={1}
+        <ImageBackground 
+            style={styles.container} 
+            source={{ uri: imagebgUrl }}
+            resizeMode="cover"
         >
-            <View style={styles.header}>
-                <Animated.View 
-                    style={[styles.gradient, { height: 450, marginBottom: 0 }]}
-                >
-                    <LinearGradient 
-                        style={StyleSheet.absoluteFill}
-                        start={[0, 0.3]}
-                        end={[0, 1]}
-                        colors={["transparent", "rgba(0, 0, 0, 0.5)", "black"]}
+            <Animated.ScrollView
+                style={styles.container}
+                showsVerticalScrollIndicator={false}
+                scrollEventThrottle={1}
+            >
+                <View style={styles.header}>
+                    <Animated.View 
+                        style={[styles.gradient, { height: 450, marginBottom: 0 }]}
                     >
-                    <View style={[styles.intro, { position: 'absolute', top: 300 }]}>
-                        <Animated.Text style={[styles.introHeading, { opacity }]}>
-                            {title}
-                        </Animated.Text>
-                        <Text numberOfLines={4} style={styles.introText}>
-                            {description}
-                        </Text>
+                        <LinearGradient 
+                            style={StyleSheet.absoluteFill}
+                            start={[0, 0.3]}
+                            end={[0, 1]}
+                            colors={["transparent", "rgba(0, 0, 0, 0.5)", "black"]}
+                        >
+                            <View style={[styles.intro, { position: 'absolute', top: 300 }]}>
+                                <Animated.Text style={[styles.introHeading, { opacity }]}>
+                                    {title}
+                                </Animated.Text>
+                                <Text numberOfLines={4} style={styles.introText}>
+                                    {description}
+                                </Text>
+                            </View>
+                        </LinearGradient>
+                    </Animated.View>
+
+                    <View style={[styles.list, { backgroundColor: 'black' }]} needsOffscreenAlphaCompositing={false}>
+                        <ListComponent navigation={navigation} />
                     </View>
-                    </LinearGradient>
-                </Animated.View>
 
-                <View style={[styles.list, { backgroundColor: 'black' }]} needsOffscreenAlphaCompositing={false}>
-                    <ListComponent navigation={navigation} />
                 </View>
-
-            </View>
-        </Animated.ScrollView>
+            </Animated.ScrollView>
+        </ImageBackground>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-
+        borderColor: 'red'
     },
     header: {
 
