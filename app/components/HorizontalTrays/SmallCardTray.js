@@ -12,7 +12,7 @@ const SmallCardTray = ({ data, navigation, towhere, heading }) => {
                 >   
                     {data && data.map((anime, index) => (
                         <SmallCard 
-                            key={anime.id} 
+                            key={anime.id || index} 
                             title={anime.title} 
                             subtitle={anime.released}
                             episodeNumber={anime.episode}
