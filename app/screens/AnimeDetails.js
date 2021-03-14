@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, ImageBackground, Text, Button, Modal, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import Animated from 'react-native-reanimated';
 
 import EpisodesTrayVertical from '../components/VerticalTrays/EpisodesTrayVertical';
 import StatusBarComp from '../components/StatusBarComp';
@@ -8,17 +10,14 @@ import { getDetailApi } from '../api/getDetailApi';
 import { useDetail } from '../hooks/useDetailApi';
 import { usePagination } from '../hooks/usePagination';
 import ActivityIndicator from '../components/ActivityIndicator';
-import { LinearGradient } from 'expo-linear-gradient';
-import Animated from 'react-native-reanimated';
 
 const { height } = Dimensions.get("window");
-console.log('screen height', height)
-let gradientHeight = height - 100;
 
 const AnimeDetails = ({ navigation, route }) => {
     const [ showModal, setShowModal ] = useState(false);
 
     const detail = route.params;
+    console.log('route ', detail)
 
     const { info, showLoader } = useDetail(detail, getDetailApi);
 

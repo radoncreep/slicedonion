@@ -6,12 +6,7 @@ import ActivityIndicator from '../ActivityIndicator';
 import GenreCard from '../Cards/GenreCard';
 import StatusBarComp from '../StatusBarComp';
 
-const items = [
-    { id: 1, genreName: 'new', genreUrl: 'stuff'},
-    { id: 2, genreName: 'new', genreUrl: 'stuff'},
-]
-
-const GenresComponent = (props) => {
+const GenresComponent = ({ navigation }) => {
     const [ genres, setGenres ] = useState([]);
     const [ visible, setVisible ] = useState(true);
 
@@ -23,6 +18,12 @@ const GenresComponent = (props) => {
         };
         setVisible(false);
         return setGenres([...arr]);
+    };
+
+    const handleGenreNavigation = (item) => {
+        console.log(item)
+        navigation.navigate("Genre Screen", item);
+        return;
     };
 
     useEffect(() => {
@@ -45,7 +46,7 @@ const GenresComponent = (props) => {
                             <GenreCard 
                                 genreName={item.genreName}
                                 genreUrl={item.genreUrl}
-                                onPress={() => console.log(item.genreName)}
+                                onPress={() => handleGenreNavigation(item)}
                             />   
                         )
                     }}

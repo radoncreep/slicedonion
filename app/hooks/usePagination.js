@@ -4,7 +4,7 @@ export const usePagination = (detail, epiFunc) => {
     const [ episodes, setEpisodes ] = useState([]);
     const [showSpinner, setShowSpinner] = useState(false);
     let [ pagequery, setPageQuery ] = useState(0);
-    const { category } = detail;
+    const { category, url } = detail;
     
     useEffect(() => {
         let mounted = true;
@@ -14,7 +14,7 @@ export const usePagination = (detail, epiFunc) => {
             if (mounted) {
                 setShowSpinner(true)
             }
-            let name = category;
+            let name = category || url;
     
             const { data } = await epiFunc(name, pagequery);
     

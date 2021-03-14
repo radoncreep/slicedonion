@@ -1,8 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { AnimeDetails, HomeScreen } from '../../screens';
-import PlayerScreen from '../../screens/PlayerScreen';
+import { AnimeDetails, HomeScreen, PlayerScreen } from '../../screens';
 
 const Stack = createStackNavigator();
 
@@ -12,7 +11,8 @@ export const HomeNavigation = () => {
             <Stack.Screen
                 name="slicedonion" 
                 component={HomeScreen}
-                options={{ headerShown: true,
+                options={{ 
+                    headerShown: true,
                     headerStyle: { backgroundColor: '#782491'}, 
                     headerTitleStyle: { color: 'silver' } 
                 }} 
@@ -26,7 +26,6 @@ export const HomeNavigation = () => {
                     headerStyle: {
                         backgroundColor: '#000'
                     },
-                    // headerBackImage
                 }}
             />
             <Stack.Screen 

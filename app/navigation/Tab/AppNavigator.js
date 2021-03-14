@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, Ionicons, MaterialIcons } from '@expo/vector-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 import { AccountScreen, 
     LibraryScreen, 
@@ -21,6 +20,10 @@ const AppNavigator = (props) => {
                 inactiveTintColor: 'gray',
                 activeBackgroundColor: '#000',
                 inactiveBackgroundColor: '#000',
+                tabStyle: {
+                    borderTopWidth: 0
+                },
+                style: { borderTopWidth: 0 }
             }}
         >
             <Tab.Screen 
