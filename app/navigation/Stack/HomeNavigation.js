@@ -14,7 +14,7 @@ export const HomeNavigation = () => {
                 options={{ 
                     headerShown: true,
                     headerStyle: { backgroundColor: '#782491'}, 
-                    headerTitleStyle: { color: 'silver' } 
+                    headerTitleStyle: { color: '#fff' } 
                 }} 
                 />
             <Stack.Screen 
