@@ -10,7 +10,7 @@ function ActivityIndicator({ style, visible = false }) {
                 style={styles.animation}
                 autoPlay
                 loop
-                source={require("../assets/animations/9619-loading-dots-in-yellow.json")}
+                source={require("../assets/animations/lf30_editor_tz7s1ndi.json")}
             />
         </View>
     );
