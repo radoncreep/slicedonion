@@ -8,7 +8,7 @@ import { AccountScreen,
     SeasonsScreen } 
 from '../../screens';
 import { HomeNavigation } from '../Stack/HomeNavigation';
-import TopTabNavigation from './TopTabNavigation';
+import { BrowseTabNavigator, LibraryTabNavigator } from './TopTabNavigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -35,14 +35,14 @@ const AppNavigator = (props) => {
             />
             <Tab.Screen 
                 name="Library" 
-                component={LibraryScreen}
+                component={LibraryTabNavigator}
                 options={{
                     tabBarIcon: ({ color }) => <MaterialIcons name="video-library" size={24} color={color} /> 
                 }}
             />
             <Tab.Screen 
                 name="Browse" 
-                component={TopTabNavigation} 
+                component={BrowseTabNavigator} 
                 options={{
                     tabBarIcon: ({ color }) => <MaterialIcons name="grid-view" size={24} color={color} />
                 }}
