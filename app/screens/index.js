@@ -6,3 +6,6 @@ export { default as LibraryScreen } from './LibraryScreen';
 export { default as AnimeDetails } from './AnimeDetails';
 export { default as PlayerScreen } from './PlayerScreen';
 export { default as GenreScreen } from './GenreScreen';
+export { default as  HistoryScreen } from './HistoryScreen';
+export { DownloadsScreen } from './DownloadsScreen';
+export { WatchLaterScreen } from './WatchLaterScreen';

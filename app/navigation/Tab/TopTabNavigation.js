@@ -3,10 +3,15 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import BrowseCards from '../../components/Cards/BrowseCards';
 import { GenreNavigation } from '../Stack/GenreNavigation';
+import { DownloadsScreen, HistoryScreen, WatchLaterScreen } from '../../screens';
+import { Dimensions, StyleSheet } from 'react-native';
+import StatusBarComp from '../../components/StatusBarComp';
 
 const Tab = createMaterialTopTabNavigator();
+const { width } = Dimensions;
 
-const TopTabNavigation = () => {
+
+export const BrowseTabNavigator = () => {
     return (
         <Tab.Navigator
             tabBarOptions={{
@@ -24,4 +29,36 @@ const TopTabNavigation = () => {
     );
 };
 
-export default TopTabNavigation;
+export const LibraryTabNavigator = () => {
+    return (
+        <StatusBarComp>
+            <Tab.Navigator 
+                initialRouteName="History"
+                tabBarOptions={{
+                    activeTintColor: '#bd44c9',
+                    inactiveTintColor: 'gray',
+                    tabStyle: {
+                        backgroundColor: '#000',
+                        marginBottom: 1
+                    },
+                    indicatorStyle: {
+                        backgroundColor: '#bd44c9',
+                    }
+                }}
+                style={styles.container}
+            >
+                
+                <Tab.Screen name="WatchList" component={WatchLaterScreen}  />
+                <Tab.Screen name="Downloads" component={DownloadsScreen} />
+                <Tab.Screen name="History" component={HistoryScreen} />
+            </Tab.Navigator>
+        </StatusBarComp>
+    )
+};
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: 'red'
+    }
+})
+
