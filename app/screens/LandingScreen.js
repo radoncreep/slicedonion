@@ -1,36 +1,28 @@
 import React from 'react';
-import { View, StyleSheet, Text, ImageBackground } from 'react-native'
-import LargeCard from '../components/LargeCard';
-import LargeTrayItems from '../components/LargeTrayItems';
-import ListComponent from '../components/ListComponent';
-import ListTrayItems from '../components/ListTrayItems';
-import Screen from '../components/Screen';
+import { View, StyleSheet, Text, ImageBackground, ScrollView, OpaqueColorValue } from 'react-native';
+import Animated from 'react-native-reanimated';
 
-const LandingScreen = (props) => {
+import Content from '../components/Content';
+import Cover from '../components/Cover';
+import Header from '../components/Header';
+
+const { Value } = Animated;
+
+const LandingScreen = ({ navigation }) => {
+    const y = new Value(0);
+
     return (
-        <Screen>
-            <View style={styles.container}>
-                {/* <ListTrayItems />
-                <ListTrayItems />
-                <LargeTrayItems />
-                <ListTrayItems /> */}
-                <ListComponent />
-            </View>
-        </Screen>
-     
+        <View style={styles.container}>
+            <Cover navigation={navigation} yval={y} />
+            <Content yval={y}/>
+            <Header title="SHINGEKI" yval={y}/>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#000',
-        // remind me to remove flex
-        flex: 1
-    },
-    text: {
-        color: '#fff',
-        fontSize: 16,
     }
-})
+});
 
 export default LandingScreen;

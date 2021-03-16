@@ -1,17 +1,17 @@
 import React from 'react';
 import { View, StyleSheet, Text, Image, TouchableHighlight } from 'react-native'
-import Screen from './Screen';
 
-function SmallCard({ title, subtitle, imageUrl,onPress }) {
+const SmallCard = ({ episodeNumber, title, subtitle, imageUrl, onPress }) => {
     return (
-        <TouchableHighlight style={styles.container} onPress={onPress} underlayColor="#000" activeOpacity={0.9}>
+        <TouchableHighlight style={styles.container} onPress={onPress} underlayColor="#000" activeOpacity={0.95}>
             <View >
                 <View style={styles.favourite}>
                     {/* Favourrite Icon here instead of text */}
                     <Text style={{ color: 'red' }}>Like</Text>
                 </View>
                 <Image style={styles.image} source={{ uri: imageUrl }}/>
-                <Text style={styles.text}>{title}</Text>
+                <Text numberOfLines={1} style={styles.text}>{title}</Text>
+                <Text style={styles.text}>{episodeNumber}</Text>
                 <View style={styles.subTitle}>
                     <Text style={{ color: '#fff', fontWeight: 'bold' }}>SUB</Text>
                     {/* Share going to be an icon to share */}
@@ -26,9 +26,8 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#660000',
         width: 150,
-        height: 250,
         alignSelf: 'center',
-        marginRight: 10 
+        marginRight: 8 
     },
     image: {
         width: 150,

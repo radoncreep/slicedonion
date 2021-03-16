@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Text, ImageBackground, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
-import Screen from './Screen';
+import Screen from '../Screen';
 
-function LargeCard({ imageurl, description, onPress, title }) {
+const LargeCard = ({ imageurl, description, onPress, title }) => {
     return (
             <TouchableHighlight onPress={onPress} style={styles.container} activeOpacity={0.6} underlayColor="#020202">
                     <ImageBackground style={styles.imagebg} source={{ uri: imageurl }}>
