@@ -7,7 +7,7 @@ const Stack = createStackNavigator();
 
 export const HomeNavigation = () => {
     return (
-        <Stack.Navigator mode="modal" screenOptions={{ headerShown: true }}>
+        <Stack.Navigator screenOptions={{ headerShown: true }}>
             <Stack.Screen
                 name="slicedonion" 
                 component={HomeScreen}

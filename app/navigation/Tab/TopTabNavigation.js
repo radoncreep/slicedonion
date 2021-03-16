@@ -4,12 +4,10 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import BrowseCards from '../../components/Cards/BrowseCards';
 import { GenreNavigation } from '../Stack/GenreNavigation';
 import { DownloadsScreen, HistoryScreen, WatchLaterScreen } from '../../screens';
-import { Dimensions, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import StatusBarComp from '../../components/StatusBarComp';
 
 const Tab = createMaterialTopTabNavigator();
-const { width } = Dimensions;
-
 
 export const BrowseTabNavigator = () => {
     return (
@@ -47,10 +45,9 @@ export const LibraryTabNavigator = () => {
                 }}
                 style={styles.container}
             >
-                
+                <Tab.Screen name="History" component={HistoryScreen} />
                 <Tab.Screen name="WatchList" component={WatchLaterScreen}  />
                 <Tab.Screen name="Downloads" component={DownloadsScreen} />
-                <Tab.Screen name="History" component={HistoryScreen} />
             </Tab.Navigator>
         </StatusBarComp>
     )
@@ -58,7 +55,7 @@ export const LibraryTabNavigator = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'red'
+        backgroundColor: '#000'
     }
 })
 
