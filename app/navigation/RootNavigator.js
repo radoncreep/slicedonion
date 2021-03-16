@@ -8,7 +8,7 @@ const RootStack = createStackNavigator();
 
 export const RootNavigator = () => {
     return (
-        <RootStack.Navigator mode="modal">
+        <RootStack.Navigator>
             <RootStack.Screen
                 name="Main"
                 component={HomeNavigation}

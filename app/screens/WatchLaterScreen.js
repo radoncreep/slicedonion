@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import SavedVideos from '../components/Offline/SavedVideos';
 
 export const WatchLaterScreen = () => {
+    // const [ isAuth, setIsAuth ] = useState(false);
+    let isAuth = false;
     return (
-        <View style={styles.container}>
-            <Text>No watch list available</Text>
-        </View>
+        !isAuth ? <SavedVideos /> : <Text>You're in!</Text>
     )
 };
 
