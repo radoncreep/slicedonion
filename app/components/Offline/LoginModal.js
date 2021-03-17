@@ -43,7 +43,7 @@ export const LoginModal = ({ isVisible=false, setIsVisible }) => {
                     </View>
                     
                     <Text numberOfLines={2} style={{ color: '#fff', fontSize: 13, fontWeight: '500', width: '75.7%', textAlign: 'center' }}>
-                        Your information provided is guaranteed secured and will not be used elsewhere.
+                        Information you provide is guaranteed safe and will not be shared or used elsewhere.
                     </Text>
                 </View>
                 <View style={{ flex: 1 }}></View>

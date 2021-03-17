@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Modal, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { LoginModal } from './LoginModal';
 
 
-export default SavedVideos = () => {
+export default HistoryOff = () => {
     const [ isVisible, setIsVisible ] = useState(false);
     
     const handleLoginPress = () => {
@@ -20,14 +20,16 @@ export default SavedVideos = () => {
                         autoPlay
                         loop
                         style={styles.animation}
-                        source={require("../../assets/animations/24206-menhera-chan-at-cocopry-sticker-8.json")}
+                        source={require("../../assets/animations/34130-naruto-animated-at-cocopry-sticker-2.json")}
                     />
-                    <Text style={styles.statement}>You have no watch list available</Text>
-                    <Text style={styles.statement2}>Create an Onion account to create teary watchlist</Text>
+                    <Text style={styles.statement}>History is unavailable in this mode</Text>
+                    <Text style={styles.statement2}>Your history could be as empty if you make nothing of it</Text>
                 </View>
 
                 <TouchableOpacity style={styles.login} onPress={handleLoginPress} >
-                    <Text style={{ color: '#000', fontSize: 16, fontWeight: '500', textTransform: 'uppercase' }}>Login</Text>
+                    <Text style={{ color: '#000', fontSize: 16, fontWeight: '500', textTransform: 'uppercase' }}>
+                        Login
+                    </Text>
                 </TouchableOpacity>
 
                 <View style={styles.lastContent}> 

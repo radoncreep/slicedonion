@@ -1,11 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import DownloadsOff from '../components/Offline/DownloadsOff';
 
 export const DownloadsScreen = () => {
     return (
-        <View style={styles.container}>
-            <Text>You currently have no downloads</Text>
-        </View>
+        <DownloadsOff />
     )
 };
 
