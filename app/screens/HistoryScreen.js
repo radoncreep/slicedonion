@@ -1,11 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import HistoryOff from '../components/Offline/HistoryOff';
 
 export default function HistoryScreen() {
     return (
-        <View style={styles.container}>
-            <Text>Your history could as empty if you make nothing of it</Text>
-        </View>
+        <HistoryOff />
     )
 };
 
