@@ -23,7 +23,7 @@ const EpisodeCardHorizontal = ({ episodeTitle, episodeNumber, imageurl, onPress 
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        backgroundColor: 'orange',
+        backgroundColor: '#0f011f',
         marginBottom: 7,
         height: 110,
         width: '100%'
@@ -54,7 +54,9 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         width: 250,
     },
-    minicardText: {},
+    minicardText: {
+        color: '#fff'
+    },
     minicardIconBtn: {
         position: 'absolute',
         top: 90,
