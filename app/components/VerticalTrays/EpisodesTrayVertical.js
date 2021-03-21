@@ -1,18 +1,37 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+
+import { addToHistory } from '../../store/historyActions';
+
 import { useVideoContext } from '../../hooks/useVideoContext';
 
 import EpisodeCardHorizontal from '../Cards/EpisodeCardHorizontal';
 
 const EpisodesTrayVertical = ({ episodes, navigation, subimage, title, towhere }) => {
-    let videoObj = { subimage, title };
-    let { updateNextVideo } = useVideoContext(episodes);
+    const dispatch = useDispatch();
 
-    const handleEpisodeNavigation = (elems, index) => {
-        updateNextVideo(index, videoObj);
-        navigation.navigate(towhere, elems);
+    // let videoObj = { subimage, title };
+    // let { updateNextVideo } = useVideoContext(episodes);
+
+    const handleEpisodeFunctionality = (elems, index) => {
+        handleEpisodeAddHistory(elems, index);
+
+        // this goes to video player
+        if (towhere === 'Details') {
+            navigation.navigate(towhere, elems);
+        };
         return;
     };
+    
+    const handleEpisodeAddHistory = (elems, index) => {
+        // add to history context array
+        let newInsertion = elems[index];
+        newInsertion['title'] = title;
+        newInsertion['imageurl'] = subimage;
+
+        dispatch(addToHistory(newInsertion));
+    };   
 
     return (
         <View>
@@ -22,7 +41,7 @@ const EpisodesTrayVertical = ({ episodes, navigation, subimage, title, towhere }
                     episodeNumber={anime.episodeNumber}
                     episodeTitle={title}
                     imageurl={subimage}
-                    onPress={() => handleEpisodeNavigation(elems, index)}
+                    onPress={() => handleEpisodeFunctionality(elems, index)}
                 />
             ))}
         </View>

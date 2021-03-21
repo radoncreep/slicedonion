@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import LottieView from 'lottie-react-native';
-import { LoginModal } from './LoginModal';
 
+import { LoginModal } from './LoginModal';
 
 export default HistoryOff = () => {
     const [ isVisible, setIsVisible ] = useState(false);
-    
+
     const handleLoginPress = () => {
         setIsVisible(true);
     };
@@ -38,9 +38,9 @@ export default HistoryOff = () => {
                         <Text style={{ color: '#ce6dcf', fontWeight: 'bold', fontSize: 12 }}> Sign up</Text>
                     </TouchableHighlight>
                 </View>
-            </View>
+            </View>   
         </>
-    )
+    );
 };
 
 const styles = StyleSheet.create({

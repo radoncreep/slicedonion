@@ -13,7 +13,7 @@ const EpisodeCardHorizontal = ({ episodeTitle, episodeNumber, imageurl, onPress 
                 <View style={styles.minicard}>
                     <Text style={styles.minicardText}>{episodeNumber} - {episodeTitle}</Text>
                     {/* button is going to be an icon */}
-                    <Text style={styles.minicardIconBtn}>Donwload</Text>
+                    <Text style={styles.minicardIconBtn}>Download</Text>
                 </View>
             </View>
         </TouchableHighlight>

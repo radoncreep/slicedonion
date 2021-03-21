@@ -18,9 +18,13 @@
     "apisauce": "^2.0.1",
     "axios": "^0.21.1",
     "expo": "~40.0.0",
+    "expo-auth-session": "~3.0.0",
     "expo-av": "~8.7.0",
+    "expo-constants": "~9.3.3",
     "expo-linear-gradient": "~8.4.0",
+    "expo-random": "~10.0.0",
     "expo-status-bar": "~1.0.3",
+    "expo-web-browser": "~8.6.0",
     "lottie-react-native": "~2.6.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -33,6 +37,8 @@
     "react-native-screens": "~2.15.2",
     "react-native-tab-view": "^2.15.2",
     "react-native-web": "~0.13.12",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5",
     "rn-placeholder": "^3.0.3"
   },
   "devDependencies": {
