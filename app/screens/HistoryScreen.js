@@ -1,11 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+
 import HistoryOff from '../components/Offline/HistoryOff';
+import HistoryOn from '../components/Online/HistoryOn';
 
 export default function HistoryScreen() {
-    return (
-        <HistoryOff />
-    )
+    let auth =  true;
+
+    return auth ? <HistoryOn /> : <HistoryOff />;
 };
 
 const styles = StyleSheet.create({

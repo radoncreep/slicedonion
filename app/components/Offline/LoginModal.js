@@ -1,9 +1,26 @@
-import React from 'react';
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Linking, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
+import Constants from 'expo-constants';
+
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
+WebBrowser.maybeCompleteAuthSession();
 
 export const LoginModal = ({ isVisible=false, setIsVisible }) => {
+    const [ request, response, promptAsync ] = Google.useAuthRequest({
+        expoClientId: '1006744523670-14s4t2ar69bfun6flgn1fhqbmpnvviad.apps.googleusercontent.com'
+    })
+
+    useEffect(() => {
+        if (response?.type === 'success' ) {
+            const { authentication } = response;
+            console.log(authentication);
+        }
+    }, [ response ]);
+
+
     return (
         <Modal 
             visible={isVisible}
@@ -23,23 +40,23 @@ export const LoginModal = ({ isVisible=false, setIsVisible }) => {
                     <Text style={{ color: '#ce6dcf', fontSize: 20, fontWeight: 'bold' }}>SLICEDONION</Text>
                     
                     <View style={styles.authOptions}>
-                        <TouchableOpacity style={styles.googleStyle} >
+                        <TouchableOpacity style={styles.googleStyle} onPress={() => promptAsync()}>
                             <Text style={{ color: '#fff', fontSize: 14, fontWeight: 'bold', textTransform: 'uppercase' }}>
                                 Login With Google
                             </Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.twitterStyle} >
+                        {/* <TouchableOpacity style={styles.twitterStyle} onPress={handelOpenWithBrowser}>
                             <Text style={{ color: '#fff', fontSize: 14, fontWeight: 'bold', textTransform: 'uppercase' }}>
                                 Login With Twitter
                             </Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.discordStyle} >
+                        <TouchableOpacity style={styles.discordStyle} onPress={handelOpenWithBrowser}>
                             <Text style={{ color: '#fff', fontSize: 14, fontWeight: 'bold', textTransform: 'uppercase' }}>
                                 Login With Discord
                             </Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                     
                     <Text numberOfLines={2} style={{ color: '#fff', fontSize: 13, fontWeight: '500', width: '75.7%', textAlign: 'center' }}>
