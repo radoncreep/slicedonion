@@ -12,6 +12,11 @@ import { usePagination } from '../hooks/usePagination';
 import ActivityIndicator from '../components/ActivityIndicator';
 
 const { height } = Dimensions.get("window");
+let statusColor = {
+    ongoing: '#7CFC00',
+    completed: 'red' ,
+    upcoming: 'yellow',
+}
 
 const AnimeDetails = ({ navigation, route }) => {
     const [ showModal, setShowModal ] = useState(false);
@@ -47,7 +52,7 @@ const AnimeDetails = ({ navigation, route }) => {
                                                 <Text style={{ color: '#fff', marginRight: 10 }}>{info.status}</Text>
                                                 <View 
                                                     style={{ 
-                                                        backgroundColor: info.status.toLowerCase() === "ongoing" ? '#7CFC00' : 'red',
+                                                        backgroundColor: statusColor[info.status.toLowerCase()],
                                                         width: 10,
                                                         height: 10,
                                                         borderRadius: 10
@@ -77,7 +82,7 @@ const AnimeDetails = ({ navigation, route }) => {
                                             <EpisodesTrayVertical 
                                                 episodes={episodes}
                                                 subimage={detail.thumbnail}
-                                                title={detail.category}
+                                                title={detail.category || detail.title}
                                                 navigation={navigation}
                                                 towhere="Player"
                                             />
