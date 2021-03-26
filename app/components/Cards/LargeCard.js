@@ -29,11 +29,9 @@ const styles = StyleSheet.create({
     container: {
         width: 380,
         marginRight: 10,
-        backgroundColor: 'red',
-        height: 220
+        height: 220,
     },
     imagebg: {
-        // width: '100%',
         flex: 1,
         resizeMode: 'cover',
     },
