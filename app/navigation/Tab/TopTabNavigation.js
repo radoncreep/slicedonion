@@ -55,7 +55,7 @@ export const LibraryTabNavigator = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#000'
+        backgroundColor: '#0f011f'
     }
 })
 

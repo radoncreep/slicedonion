@@ -1,12 +1,12 @@
-import { combineReducers } from 'redux';
+import { ADD_TO_HISTORY } from "../types";
 
 const INITIAL_STATE = {
     current: []
 };
 
-const historyReducer = (state=INITIAL_STATE, action) => {
+export const historyReducer = (state=INITIAL_STATE, action) => {
     switch(action.type) {
-        case 'ADD_TO_HISTORY':
+        case ADD_TO_HISTORY:
             let clone = [...state.current];
             let filterClone = clone.filter(anime => {
                 if (anime.title === action.payload.title)
@@ -22,7 +22,3 @@ const historyReducer = (state=INITIAL_STATE, action) => {
             return state;
     };
 };
-
-export default combineReducers({
-    history: historyReducer
-});

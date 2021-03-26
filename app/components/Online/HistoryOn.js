@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     },
     history: {
         flex: 1,
-        backgroundColor: '#000',
+        backgroundColor: 'transparent',
         paddingHorizontal: 7,
         paddingVertical: 5,
         justifyContent: 'center',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import HistoryOff from '../components/Offline/HistoryOff';
 import HistoryOn from '../components/Online/HistoryOn';
@@ -7,7 +7,13 @@ import HistoryOn from '../components/Online/HistoryOn';
 export default function HistoryScreen() {
     let auth =  true;
 
-    return auth ? <HistoryOn /> : <HistoryOff />;
+    return (
+        <View style={styles.container}>
+            {
+                auth ? <HistoryOn /> : <HistoryOff />
+            }
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({

@@ -5,9 +5,9 @@ import { createStore } from 'redux';
 import { StyleSheet } from 'react-native';
 
 import AppNavigator from './app/navigation/Tab/AppNavigator';
-import historyReducer from './app/store/historyReducer';
+import rootReducer from './app/store/reducers/index';
 
-const store = createStore(historyReducer);
+const store = createStore(rootReducer);
 
 export default function App() {
   const [ nextEpisode, setNextEpisode ] = useState();

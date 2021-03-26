@@ -13,7 +13,7 @@ export const HomeNavigation = () => {
                 component={HomeScreen}
                 options={{ 
                     headerShown: true,
-                    headerStyle: { backgroundColor: '#782491'}, 
+                    headerStyle: { backgroundColor: '#0f011f'}, 
                     headerTitleStyle: { color: '#fff' } 
                 }} 
                 />

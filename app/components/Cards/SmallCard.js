@@ -1,28 +1,38 @@
-import React from 'react';
-import { View, StyleSheet, Text, Image, TouchableHighlight } from 'react-native'
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, Image, TouchableHighlight } from 'react-native';
+import { SimpleLineIcons } from '@expo/vector-icons';
+import { Picker } from '@react-native-picker/picker';
 
-const SmallCard = ({ episodeNumber, title, subtitle, imageUrl, onPress }) => {
+import { useDispatch } from 'react-redux';
+import { OptionPicker } from '../OptionPicker';
+
+const SmallCard = ({ contentType, episodeNumber, style, title, subtitle, imageUrl, onPress }) => {
+    const [ selectedOption, setSelectedOption ] = useState();
+
     return (
-        <TouchableHighlight style={styles.container} onPress={onPress} underlayColor="#000" activeOpacity={0.95}>
-            <View>
-                <View style={styles.favourite}>
-                    {/* Favourrite Icon here instead of text */}
-                    <Text style={{ color: 'red' }}>Like</Text>
-                </View>
+        <View style={[styles.container, style]} >
+            <TouchableHighlight onPress={onPress} underlayColor="#000" activeOpacity={0.95}>
+                <Image style={styles.image} source={{ uri: imageUrl }}/>    
+            </TouchableHighlight>
 
-                <Image style={styles.image} source={{ uri: imageUrl }}/>
+            <Text numberOfLines={1} style={styles.text}>{title}</Text>
 
-                <Text numberOfLines={1} style={styles.text}>{title}</Text>
+            { episodeNumber && <Text style={styles.text}>{episodeNumber}</Text> }
 
-                { episodeNumber && <Text style={styles.text}>{episodeNumber}</Text> }
-
-                <View style={styles.subTitle}>
-                    <Text style={{ color: '#fff', fontWeight: '500' }}>SUB</Text>
-                    {/* Share going to be an icon to share */}
-                    <Text style={{ color: '#fff', fontWeight: '500' }}>Share</Text>
-                </View>
+            <View style={styles.subContent}>
+                <Text style={{ color: '#fff', fontWeight: '500' }}>SUB</Text>
+                <TouchableHighlight 
+                    style={styles.options} 
+                    onPress={() => {
+                        <OptionPicker />
+                        console.log('hi');
+                    }
+                }z
+                >
+                    <SimpleLineIcons name="options-vertical" size={20} color="white" />
+                </TouchableHighlight>
             </View>
-        </TouchableHighlight>
+        </View>
     );
 };
 
@@ -34,22 +44,17 @@ const styles = StyleSheet.create({
         marginRight: 8 
     },
     image: {
-        width: 150,
+        width: '100%',
         height: 170,
     },
-    favourite: {
-        position: 'absolute',
-        color: 'red',
-        top: 120,
-        right: 10,
-        borderColor: 'green',
-        zIndex: 1
+    options: {
+        width: 30
     },
-    subTitle: {
+    subContent: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginVertical: 3,
-        marginHorizontal: 10
+        marginVertical: 5,
+        paddingLeft: 10
     },
     text: {
         color: '#fff',

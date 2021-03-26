@@ -1,9 +1,19 @@
 import React from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { addToWatchLater } from '../../store/actions';
 
 import SmallCard from '../Cards/SmallCard';
 
 const SmallCardTray = ({ data, navigation, towhere, heading }) => {
+    const dispatch = useDispatch();
+
+    const handleCardFunctionality = (anime) => {
+        navigation.navigate(towhere, anime);
+    };
+
+    const addAnimeCardToWatchLater = (anime) => dispatch(addToWatchLater(anime));
+
     return (
         <View style={styles.container}>
             <Text style={styles.header}>{heading}</Text>
@@ -17,7 +27,7 @@ const SmallCardTray = ({ data, navigation, towhere, heading }) => {
                             subtitle={anime.released}
                             episodeNumber={anime.episode}
                             imageUrl={anime.thumbnail}
-                            onPress={() => navigation.navigate(towhere, anime)}
+                            onPress={() => handleCardFunctionality(anime)}
                         />
                     ))}
                 </ScrollView>

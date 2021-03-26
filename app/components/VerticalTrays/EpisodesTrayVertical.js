@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { addToHistory } from '../../store/historyActions';
+import { addToHistory } from '../../store/actions';
 
 import { useVideoContext } from '../../hooks/useVideoContext';
 

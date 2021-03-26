@@ -18,8 +18,8 @@ const AppNavigator = (props) => {
             tabBarOptions={{
                 activeTintColor: '#bd44c9',
                 inactiveTintColor: 'gray',
-                activeBackgroundColor: '#000',
-                inactiveBackgroundColor: '#000',
+                activeBackgroundColor: '#0f011f',
+                inactiveBackgroundColor: '#0f011f',
                 tabStyle: {
                     borderTopWidth: 0
                 },
