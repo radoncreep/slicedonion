@@ -29,10 +29,9 @@ const SmallCard = ({ currentanime, episodeNumber, style, title, subtitle, imageU
 
     const handleMenu = (item) => {
         setShowPopover(() => !showPopover)
-        console.log(item);
-        if(item.name === 'Remove From WatchLater') removeAnimeCardFromWatchLater()
-        if (item.name === 'Add To WatchLater') addAnimeCardToWatchLater();
-        if (item.name === 'Play Now') onPress();
+        if (item.name === 'Remove From WatchLater') return removeAnimeCardFromWatchLater()
+        if (item.name === 'Add To WatchLater') return addAnimeCardToWatchLater();
+        if (item.name === 'Play Now') return onPress();
     };
 
     const addAnimeCardToWatchLater = () => dispatch(addToWatchLater(currentanime));

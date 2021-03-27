@@ -17,7 +17,7 @@ const profileOptions = [
     },
     {
         name: 'Change Password',
-        value: '',
+        value: 'dummypassword',
         targetScreen: null
     }
 ];
