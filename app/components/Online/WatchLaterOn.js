@@ -3,6 +3,7 @@ import { Dimensions, FlatList, ScrollView, StyleSheet, Text, View } from 'react-
 import { useSelector } from 'react-redux';
 
 import SmallCard from '../Cards/SmallCard';
+import ListItemSeparator from '../ListItemSeparator';
 
 export default WatchLaterOn = () => {
     const state = useSelector(state => state.watchLater.list);
@@ -13,17 +14,21 @@ export default WatchLaterOn = () => {
         <FlatList 
             data={state}
             keyExtractor={(item, index) => item.id.toString()}
+            ItemSeparatorComponent={ListItemSeparator}
             renderItem={({ item, index })   => {
                 console.log('item', item);
 
                 return (
-                    <SmallCard 
-                        style={{ width: width / 2.2 }}
-                        key={index} 
-                        title={item.title} 
-                        subtitle={item.released}
-                        imageUrl={item.thumbnail}
-                    />
+                    <View>
+                        <SmallCard 
+                            style={{ width: width / 2.5 }}
+                            key={index} 
+                            title={item.title} 
+                            subtitle={item.released}
+                            imageUrl={item.thumbnail}
+                        />
+                        <ListItemSeparator />
+                    </View>
                 )
             }}
             numColumns={2}
