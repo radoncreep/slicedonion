@@ -1,13 +1,44 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text, Image, TouchableHighlight } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Text, Image, TouchableHighlight, FlatList } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
-import { Picker } from '@react-native-picker/picker';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { useDispatch } from 'react-redux';
-import { OptionPicker } from '../OptionPicker';
+import ListItemSeparator from '../ListItemSeparator';
+import { ListItem } from '../ListItem';
+import { addToWatchLater, removeFromWatchLater } from '../../store/actions';
 
-const SmallCard = ({ contentType, episodeNumber, style, title, subtitle, imageUrl, onPress }) => {
+
+const SmallCard = ({ currentanime, episodeNumber, style, title, subtitle, imageUrl, onPress }) => {
     const [ selectedOption, setSelectedOption ] = useState();
+    const [ showPopover, setShowPopover ] = useState(false);
+    const dispatch = useDispatch();
+    const state = useSelector(state => state.watchLater.list);
+
+    const checkValue = () => {
+        return state.includes(currentanime);
+    }
+    
+    let popoverMenu = [
+        { name: checkValue() ? 'Remove From WatchLater' : 'Add To WatchLater'},
+        { name: 'Share'},
+        { name: 'Play Now'},
+    ];
+    const handlePopover = () => {
+        setShowPopover(() => !showPopover);
+    };
+
+    const handleMenu = (item) => {
+        setShowPopover(() => !showPopover)
+        console.log(item);
+        if(item.name === 'Remove From WatchLater') removeAnimeCardFromWatchLater()
+        if (item.name === 'Add To WatchLater') addAnimeCardToWatchLater();
+        if (item.name === 'Play Now') onPress();
+    };
+
+    const addAnimeCardToWatchLater = () => dispatch(addToWatchLater(currentanime));
+
+    const removeAnimeCardFromWatchLater = () => dispatch(removeFromWatchLater(currentanime))
+
 
     return (
         <View style={[styles.container, style]} >
@@ -23,15 +54,28 @@ const SmallCard = ({ contentType, episodeNumber, style, title, subtitle, imageUr
                 <Text style={{ color: '#fff', fontWeight: '500' }}>SUB</Text>
                 <TouchableHighlight 
                     style={styles.options} 
-                    onPress={() => {
-                        <OptionPicker />
-                        console.log('hi');
-                    }
-                }z
+                    onPress={() => handlePopover()}
                 >
                     <SimpleLineIcons name="options-vertical" size={20} color="white" />
                 </TouchableHighlight>
             </View>
+
+            { showPopover && (
+                <View style={styles.popover}>
+                    <FlatList 
+                        data={popoverMenu}
+                        keyExtractor={(popoverMenu) => popoverMenu.name}
+                        ItemSeparatorComponent={() => <ListItemSeparator style={styles.separator} />}
+                        renderItem={({ item, index }) => (
+                            <ListItem 
+                                style={{ fontSize: 14 }} 
+                                title={item.name}
+                                onPress={() => handleMenu(item)}
+                             />
+                        )}
+                    />
+                </View>
+            )}
         </View>
     );
 };
@@ -49,6 +93,18 @@ const styles = StyleSheet.create({
     },
     options: {
         width: 30
+    },
+    popover: {
+        height: 230,
+        width: 150,
+        backgroundColor: '#0f010f',
+        position: 'absolute',
+        alignItems: 'center',
+    },
+    separator: {
+        backgroundColor: 'silver',
+        height: .5,
+        opacity: .5,
     },
     subContent: {
         flexDirection: 'row',

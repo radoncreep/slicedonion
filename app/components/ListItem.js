@@ -3,19 +3,21 @@ import { View, StyleSheet, TouchableHighlight, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 
-export const ListItem = ({ onPress, title, towhere, value }) => {
+export const ListItem = ({ onPress, style, title, towhere, value }) => {
   return (
       <TouchableHighlight underlayColor="#0f011f" onPress={onPress}>
         <View style={styles.container}>
-          <Text style={styles.title} numberOfLines={1}>{title}</Text>
-          <View style={styles.right}>
-            <Text style={{ color: '#fff', fontSize: 13 }}>{value}</Text>
-            <MaterialCommunityIcons
-              color="silver"
-              name="chevron-right"
-              size={25}
-            />
-          </View>
+          <Text style={[styles.title, style]} numberOfLines={2}>{title}</Text>
+          { value && (
+            <View style={styles.right}>
+              <Text style={{ color: '#fff', fontSize: 13 }}>{value}</Text>
+              <MaterialCommunityIcons
+                color="silver"
+                name="chevron-right"
+                size={25}
+              />
+            </View>
+          )}
         </View>
       </TouchableHighlight>
   );
