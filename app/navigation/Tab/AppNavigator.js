@@ -9,6 +9,7 @@ import { AccountScreen,
 from '../../screens';
 import { HomeNavigation } from '../Stack/HomeNavigation';
 import { BrowseTabNavigator, LibraryTabNavigator } from './TopTabNavigation';
+import { AccountNavigation } from '../Stack/AccountNavigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -56,7 +57,7 @@ const AppNavigator = (props) => {
             />
             <Tab.Screen 
                 name="Account" 
-                component={AccountScreen} 
+                component={AccountNavigation} 
                 options={{
                     tabBarIcon: ({ color }) => <MaterialIcons name="account-circle" size={24} color={color} />
                 }}

@@ -32,7 +32,7 @@ const animeList = [
 const LargeCardTray = ({ onPress }) => {
     return (
         <View style={styles.container}>
-            <Text style={styles.heeader}>POPULAR EPISODES</Text>
+            {/* <Text style={styles.heeader}>POPULAR EPISODES</Text> */}
                 <ScrollView
                     horizontal
                 >   
@@ -55,14 +55,8 @@ const styles = StyleSheet.create({
         width: '100%',
         // backgroundColor: 'orange',
         marginHorizontal: 5,
-        height: 250,
         paddingLeft: 5,
-        marginBottom: 10
-    },
-    heeader: {
-        marginVertical: 5,
-        color: '#fff'
     }
-})
+});
 
 export default LargeCardTray;
