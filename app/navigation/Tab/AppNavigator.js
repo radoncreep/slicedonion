@@ -1,49 +1,67 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, Ionicons, MaterialIcons } from '@expo/vector-icons';
 
-import { AccountScreen,
-    BrowseScreen, 
-    LandingScreen, 
+import { AccountScreen, 
     LibraryScreen, 
     SeasonsScreen } 
 from '../../screens';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { HomeNavigation } from '../Stack/HomeNavigation';
-import TopTabNavigation from './TopTabNavigation';
+import { BrowseTabNavigator, LibraryTabNavigator } from './TopTabNavigation';
+import { AccountNavigation } from '../Stack/AccountNavigation';
 
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = (props) => {
     return (
         <Tab.Navigator
-            screenOptions={({ route }) => ({
-                tabBarIcon: ({ focused, color, size }) => {
-                    let iconName;
-
-                    switch (route.name) {
-                        case 'Home':
-                                iconName = focused ? 'home' :  'home-rounded'
-                            break;
-                        default:
-                            break;
-                    }
-                    return <MaterialCommunityIcons name={iconName} size={size} color="#fff" /> 
-                }
-            })}
             tabBarOptions={{
-                activeTintColor: 'tomato',
+                activeTintColor: '#bd44c9',
                 inactiveTintColor: 'gray',
-                activeBackgroundColor: 'orange',
-                inactiveBackgroundColor: '#000'
+                activeBackgroundColor: '#0f011f',
+                inactiveBackgroundColor: '#0f011f',
+                tabStyle: {
+                    borderTopWidth: 0
+                },
+                style: { borderTopWidth: 0 }
             }}
         >
-            <Tab.Screen name="Home" component={HomeNavigation} />
-            <Tab.Screen name="Library" component={LibraryScreen} />
-            <Tab.Screen name="Browse" component={TopTabNavigation} />
-            <Tab.Screen name="Seasons" component={SeasonsScreen} />
-            <Tab.Screen name="Account" component={AccountScreen} />
+            <Tab.Screen 
+                name="Home" 
+                component={HomeNavigation}
+                options={{
+                    tabBarIcon: ({ color }) => <AntDesign name="home" size={24} color={color} /> 
+                }}
+            />
+            <Tab.Screen 
+                name="Library" 
+                component={LibraryTabNavigator}
+                options={{
+                    tabBarIcon: ({ color }) => <MaterialIcons name="video-library" size={24} color={color} /> 
+                }}
+            />
+            <Tab.Screen 
+                name="Browse" 
+                component={BrowseTabNavigator} 
+                options={{
+                    tabBarIcon: ({ color }) => <MaterialIcons name="grid-view" size={24} color={color} />
+                }}
+            />
+            <Tab.Screen 
+                name="Seasons" 
+                component={SeasonsScreen}
+                options={{
+                    tabBarIcon: ({ color }) => <MaterialIcons name="explore" size={24} color={color} />
+                }}
+            />
+            <Tab.Screen 
+                name="Account" 
+                component={AccountNavigation} 
+                options={{
+                    tabBarIcon: ({ color }) => <MaterialIcons name="account-circle" size={24} color={color} />
+                }}
+            />
         </Tab.Navigator>
     );
 };

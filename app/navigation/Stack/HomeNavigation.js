@@ -1,32 +1,31 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { AnimeDetails, LandingScreen } from '../../screens';
-import VideoPlayer from '../../components/VideoPlayer';
+import { AnimeDetails, HomeScreen, PlayerScreen } from '../../screens';
 
 const Stack = createStackNavigator();
 
 export const HomeNavigation = () => {
     return (
-        <Stack.Navigator mode="modal" screenOptions={{ headerShown: true }}>
+        <Stack.Navigator screenOptions={{ headerShown: true }}>
             <Stack.Screen
                 name="slicedonion" 
-                component={LandingScreen}
-                options={{ headerShown: true,
-                    headerStyle: { backgroundColor: 'orange'}, 
-                    headerTitleStyle: { color: '#000' } 
+                component={HomeScreen}
+                options={{ 
+                    headerShown: true,
+                    headerStyle: { backgroundColor: '#0f011f'}, 
+                    headerTitleStyle: { color: '#fff' } 
                 }} 
                 />
             <Stack.Screen 
-                name="VideoPlayer"
-                component={VideoPlayer}
+                name="Player"
+                component={PlayerScreen}
                 options={{
                     headerShown: false,
                     headerTitle: true,
                     headerStyle: {
                         backgroundColor: '#000'
                     },
-                    // headerBackImage
                 }}
             />
             <Stack.Screen 

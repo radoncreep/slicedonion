@@ -3,35 +3,44 @@ import { View, StyleSheet, Button, Dimensions } from 'react-native';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { getStreamUrl } from '../api/getEpisode';
 import ErrorMessage from './ErrorMessage';
+import ActivityIndicator from './ActivityIndicator';
 
-const VideoPlayer = ({ route }) => {
+const VideoPlayer = ({ videodata }) => {
     const video = useRef(null);
     const [ status, setStatus ] = useState({});
     const [ stream, setStream ] = useState('');
     const [ error, setError ] = useState('');
+    const [ buffer, setBuffer ] = useState(false);
 
-    const { episode, title, id, episodeUrl} = route.params;
+    // const { episodeUrl } = videodata.params;
     
     useEffect(() => {
         let mounted = true;
     
         const getStreamUrlApi = async (url) => {
-            if (mounted) setError(null);
+            if (mounted) {
+                setBuffer(true);
+                setError(null);
+            }
             const { data, ok } = await getStreamUrl(url);
     
             if (!ok && mounted) return setError(data.message);
-            console.log(data.remote);
+            console.log('stream link ', data.remote);
     
-            if (mounted) setStream(data.remote);
+            if (mounted) {
+                setStream(data.remote);
+                setBuffer(false);
+            };
         };
         
-        getStreamUrlApi(episodeUrl);
+        getStreamUrlApi(videodata);
 
         return () => mounted= false;
     }, [])
 
     return (
         <View style={styles.container}>
+            <ActivityIndicator visible={buffer} style={styles.buffer}/>
             { error ? <ErrorMessage message={error} /> : null }
             <Video 
                 ref={video}
@@ -56,6 +65,17 @@ const VideoPlayer = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
+    buffer: {
+        backgroundColor: 'transparent',
+        height: 0,
+        position: 'absolute',
+        top: 90
+    },
+    buttons: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     container: {
         flex: 1,
         backgroundColor: '#ecf0f1',
@@ -66,11 +86,6 @@ const styles = StyleSheet.create({
         height: 250, 
         backgroundColor: '#000'
     },
-    buttons: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
 })
 
 export default VideoPlayer;

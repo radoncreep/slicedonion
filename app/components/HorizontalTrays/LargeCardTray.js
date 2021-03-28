@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native'
+import { getMoviesApi } from '../../api/getMovies';
 import LargeCard from '../Cards/LargeCard';
 
 const animeList = [
@@ -30,18 +31,34 @@ const animeList = [
 ];
 
 const LargeCardTray = ({ onPress }) => {
+    const [ movies, setMovies ] = useState();
+
+    useEffect(() => {
+        let mounted = true;
+
+        const handleMoviesData = async () => {
+            const { data, ok } = await getMoviesApi(1);
+            if (ok && mounted) setMovies(data);                
+        };
+        handleMoviesData();
+
+        return () => mounted = false;
+    }, []);
+
     return (
         <View style={styles.container}>
-            <Text style={styles.heeader}>POPULAR EPISODES</Text>
+            {/* <Text style={styles.heeader}>POPULAR EPISODES</Text> */}
                 <ScrollView
                     horizontal
                 >   
-                    {animeList.map((anime) => (
+                    {movies && movies.map((movie, index) => (
                         <LargeCard 
-                            key={anime.id} 
-                            title={anime.title} 
-                            description={anime.description} 
-                            imageurl={anime.imageUrl}
+                            key={index} 
+                            title={movie.title} 
+                            category={movie.category}
+                            thumbnail={movie.thumbnail}
+                            url={movie.url}
+                            released={movie.released}
                             onPress={onPress}
                         />
                     ))}
@@ -53,16 +70,9 @@ const LargeCardTray = ({ onPress }) => {
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        // backgroundColor: 'orange',
         marginHorizontal: 5,
-        height: 250,
         paddingLeft: 5,
-        marginBottom: 10
-    },
-    heeader: {
-        marginVertical: 5,
-        color: '#fff'
     }
-})
+});
 
 export default LargeCardTray;

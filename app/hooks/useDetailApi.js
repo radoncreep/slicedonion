@@ -3,14 +3,14 @@ import React, { useEffect, useState } from 'react';
 export const useDetail = (detail, apiFunc) => {
     const [ info, setInfo ] = useState();
     const [ showLoader, setShowLoader ] = useState(false);
-    const { category } = detail;
+    const { category, url } = detail;
 
     useEffect(() => {
         let mounted = true;
 
         const request = async () => {
             if (mounted) setShowLoader(true)
-            let name = category;
+            let name = category || url;
             try {
                 const { data } = await apiFunc(name);
     
