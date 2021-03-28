@@ -8,7 +8,7 @@ import { ListItem } from '../ListItem';
 import { addToWatchLater, removeFromWatchLater } from '../../store/actions';
 
 
-const SmallCard = ({ currentanime, episodeNumber, style, title, subtitle, imageUrl, onPress }) => {
+const SmallCard = ({ currentanime, episodeNumber, style, title, released, imageUrl, onPress }) => {
     const [ selectedOption, setSelectedOption ] = useState();
     const [ showPopover, setShowPopover ] = useState(false);
     const dispatch = useDispatch();
@@ -29,10 +29,9 @@ const SmallCard = ({ currentanime, episodeNumber, style, title, subtitle, imageU
 
     const handleMenu = (item) => {
         setShowPopover(() => !showPopover)
-        console.log(item);
-        if(item.name === 'Remove From WatchLater') removeAnimeCardFromWatchLater()
-        if (item.name === 'Add To WatchLater') addAnimeCardToWatchLater();
-        if (item.name === 'Play Now') onPress();
+        if (item.name === 'Remove From WatchLater') return removeAnimeCardFromWatchLater()
+        if (item.name === 'Add To WatchLater') return addAnimeCardToWatchLater();
+        if (item.name === 'Play Now') return onPress();
     };
 
     const addAnimeCardToWatchLater = () => dispatch(addToWatchLater(currentanime));
@@ -48,7 +47,7 @@ const SmallCard = ({ currentanime, episodeNumber, style, title, subtitle, imageU
 
             <Text numberOfLines={1} style={styles.text}>{title}</Text>
 
-            { episodeNumber && <Text style={styles.text}>{episodeNumber}</Text> }
+            <Text style={styles.text}>{episodeNumber || released}</Text> 
 
             <View style={styles.subContent}>
                 <Text style={{ color: '#fff', fontWeight: '500' }}>SUB</Text>
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: '100%',
-        height: 170,
+        height: 190,
     },
     options: {
         width: 30
