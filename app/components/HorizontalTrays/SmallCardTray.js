@@ -8,6 +8,7 @@ const SmallCardTray = ({ data, navigation, towhere, heading }) => {
     const handleCardPress = (anime) => {
         navigation.navigate(towhere, anime);
     };
+    console.log(data)
 
     return (
         <View style={styles.container}>
@@ -22,6 +23,7 @@ const SmallCardTray = ({ data, navigation, towhere, heading }) => {
                             subtitle={anime.released}
                             episodeNumber={anime.episode}
                             imageUrl={anime.thumbnail}
+                            released={anime.released}
                             currentanime={anime}
                             onPress={() => handleCardPress(anime)}
                         />
@@ -41,6 +43,6 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
     }
-})
+});
 
 export default SmallCardTray;
