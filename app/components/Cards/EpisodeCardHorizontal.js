@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, ImageBackground, Text, TouchableHighlight } from 'react-native'
 
-const EpisodeCardHorizontal = ({ episodeTitle, episodeNumber, imageurl, onPress }) => {
+const EpisodeCardHorizontal = ({ episodeTitle, episodeNumber, imageurl, onPress, style }) => {
     return (
         <TouchableHighlight onPress={onPress}>
-            <View style={styles.container}>
+            <View style={[styles.container, style]}>
                 <ImageBackground style={styles.imagebg} source={{ uri: imageurl }}>
                     <View style={styles.lengthContainer}>
                         <Text style={styles.length}>23.04</Text>

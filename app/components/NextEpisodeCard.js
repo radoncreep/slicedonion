@@ -1,10 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, StyleSheet, ImageBackground, Text, TouchableHighlight } from 'react-native';
+import { useSelector } from 'react-redux';
 
 
 const NextEpisodeCard = (props) => {
+    const { allEpisodes, next } = useSelector((state) => state);
+    const nextEpisode = allEpisodes[next];
+
+    const handlePlayerEpisode = () => {
+        console.log('hi');
+    };
+
+    // use slice of state
     return (
-        <TouchableHighlight onPress={() => console.log('clicked me')}>
+        <TouchableHighlight onPress={() => handlePlayerEpisode()}>
             <View style={styles.container}>
                 
             </View>

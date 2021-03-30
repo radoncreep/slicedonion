@@ -10,28 +10,51 @@ import { getDetailApi } from '../api/getDetailApi';
 import { useDetail } from '../hooks/useDetailApi';
 import { usePagination } from '../hooks/usePagination';
 import ActivityIndicator from '../components/ActivityIndicator';
+import { useDispatch } from 'react-redux';
+import { removeAllEpisodes, updateAllEpisodes } from '../store/actions';
 
 const { height } = Dimensions.get("window");
+
 let statusColor = {
     ongoing: '#7CFC00',
     completed: 'red' ,
     upcoming: 'yellow',
-}
+};
 
 const AnimeDetails = ({ navigation, route }) => {
     const [ showModal, setShowModal ] = useState(false);
+    const dispatch = useDispatch();
 
     const detail = route.params;
-    console.log('route ', detail)
+    // console.log('route ', detail)
 
     const { info, showLoader } = useDetail(detail, getDetailApi);
 
     const { episodes, showSpinner } = usePagination(detail, getEpisodesApi);
 
+    let globalEpisodes = episodes.map(episode => {
+        // console.log(episode)
+        episode['title'] = detail.title || detail.category;
+        episode['thumbnail'] = detail.thumbnail;
+        return episode;
+    });
+
+    // console.log('global ', globalEpisodes)
+    useEffect(() => {
+        let mounted = true;
+        
+        if (mounted && globalEpisodes)
+            dispatch(updateAllEpisodes(globalEpisodes));
+        else
+            dispatch(removeAllEpisodes());
+
+        return () => mounted = false;
+    }, [ episodes ]);
+
     return (
         <>
             <ActivityIndicator visible={showLoader} style={styles.loader}/>
-            {info ? (
+            {info && (
                 <StatusBarComp style={{ paddingTop: 0 }}>
                     <ImageBackground style={styles.bg} source={{ uri: info.thumbnail }}>
                             <Animated.ScrollView
@@ -77,7 +100,7 @@ const AnimeDetails = ({ navigation, route }) => {
                                         </StatusBarComp>
                                     </Modal>
 
-                                    {episodes ? (
+                                    {episodes && (
                                         <>
                                             <EpisodesTrayVertical 
                                                 episodes={episodes}
@@ -87,8 +110,7 @@ const AnimeDetails = ({ navigation, route }) => {
                                                 towhere="Player"
                                             />
                                         </>
-                                    ) : null
-                                    }
+                                    )}
                                     {/* <TouchableOpacity disabled={true}>
                                         <View style={[styles.nextBtn, { backgroundColor: 'grey' }]}>
                                             <Text style={styles.nextBtnText}>Next</Text>
@@ -98,9 +120,7 @@ const AnimeDetails = ({ navigation, route }) => {
                             </Animated.ScrollView>
                     </ImageBackground>
                 </StatusBarComp>
-
-            ) : null
-            }
+            )}
         </>
     );
 };
