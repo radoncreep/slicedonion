@@ -1,19 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 
 import { LoginModal } from './LoginModal';
+import { RegisterModal } from '../AuthModals/Register';
 
 export default HistoryOff = () => {
     const [ isVisible, setIsVisible ] = useState(false);
+    const [ showSignUpModal, setShowSignUpModal ] = useState(false);
 
     const handleLoginPress = () => {
         setIsVisible(true);
     };
 
+    const handleSignUpModal = () => {
+        setShowSignUpModal(true);
+    };
+
+
+    // useEffect(() => {
+    //     let mounted = true;
+
+        
+
+    //     return () => mounted = false;
+    // }, []);
+
     return (
         <>
-            <LoginModal isVisible={isVisible} setIsVisible={setIsVisible}/>
+            {/* <LoginModal isVisible={isVisible} setIsVisible={setIsVisible}/> */}
+            <RegisterModal show={showSignUpModal} setModal={setShowSignUpModal} />
             <View style={styles.container}> 
                 <View style={styles.display}>
                     <LottieView 
@@ -34,7 +50,7 @@ export default HistoryOff = () => {
 
                 <View style={styles.lastContent}> 
                     <Text style={{ color: '#fff', fontSize: 13, fontWeight: '500'}}>Don't have an account?</Text>
-                    <TouchableHighlight>
+                    <TouchableHighlight onPress={() => handleSignUpModal()}>
                         <Text style={{ color: '#ce6dcf', fontWeight: 'bold', fontSize: 12 }}> Sign up</Text>
                     </TouchableHighlight>
                 </View>
