@@ -14,8 +14,8 @@ const validationSchema = Yup.object().shape({
 
 const { height, width} = Dimensions.get("window");
 
-export const LoginModal = ({ isVisible, setIsVisible }) => {
-    console.log(isVisible);
+export const RegisterModal = ({ show, setModal }) => {
+    console.log(show);
 
     const handleSubmit = (userData) => {
         console.log(userData)
@@ -23,19 +23,19 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
 
     return (
         <Modal 
-            visible={isVisible}
+            visible={show}
             animationType="slide"
-            onRequestClose={() => setIsVisible(false)}
+            onRequestClose={() => setModal(false)}
             presentationStyle="fullScreen"
             >
             <View 
                 style={styles.container}
             >
                 <View style={styles.header}>
-                    <TouchableHighlight onPress={() => setIsVisible(false)}>
+                    <TouchableHighlight onPress={() => setModal(false)}>
                         <EvilIcons style={styles.close} name="close" size={26} color="white" />
                     </TouchableHighlight>
-                    <Text style={{ color: '#fff', fontSize: 16, position: 'absolute', left: '40%' }}>Login</Text>
+                    <Text style={{ color: '#fff', fontSize: 16, position: 'absolute', left: '40%' }}>Register</Text>
                 </View>
                 <View style={styles.formContainer}>
                     <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>SLICEDONION</Text>
@@ -64,7 +64,7 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
                             />
                         </AppForm>
                     </View>
-                    <SubmitButton title="Login to Onion Account"/>
+                    <SubmitButton title="Create Account"/>
                 </View>
                 <View style={styles.footer}>
                     <Text style={{ fontSize: 13, fontWeight: '500', color: '#fff', marginBottom: 50, textAlign: 'center' }}>
@@ -73,13 +73,12 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
                     <View style={styles.footerInner}>
                         <Pressable>
                             <Text style={{ color: 'white', fontWeight: '500', fontSize: 14 }}>
-                                Forgot Paasword
+                                Have an account? 
                             </Text>
                         </Pressable>
-                        <Text style={{ color: 'white', fontSize: 14, marginHorizontal: 5 }}> | </Text>
                         <Pressable>
-                            <Text style={{ color: '#c24bde', fontWeight: '500', fontSize: 14 }}>
-                                Create an Onion Account
+                            <Text style={{ color: '#c24bde', fontWeight: '500', fontSize: 14, marginLeft: 10 }}>
+                                Login
                             </Text>
                         </Pressable>
                     </View>

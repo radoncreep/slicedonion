@@ -5,7 +5,7 @@ import HistoryOff from '../components/Offline/HistoryOff';
 import HistoryOn from '../components/Online/HistoryOn';
 
 export default function HistoryScreen() {
-    let auth =  true;
+    let auth =  false;
 
     return (
         <View style={styles.container}>
