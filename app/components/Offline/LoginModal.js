@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { EvilIcons } from '@expo/vector-icons';
 
 import { AppForm } from '../form/AppForm';
-import { CustomFormField } from '../form/FormField';
+import { CustomFormField } from '../form/CustomFormField';
 import SubmitButton from '../form/SubmitFormButton';
 
 const validationSchema = Yup.object().shape({
@@ -50,6 +50,7 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
                                 autoCorrect={false}
                                 keyboardType="email-address"
                                 name="email"
+                                icon="mail"
                                 placeholder="Email"
                                 textContentType="emailAddress"
                             />

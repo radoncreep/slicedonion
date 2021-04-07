@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { EvilIcons } from '@expo/vector-icons';
 
 import { AppForm } from '../form/AppForm';
-import { CustomFormField } from '../form/FormField';
+import { CustomFormField } from '../form/CustomFormField';
 import SubmitButton from '../form/SubmitFormButton';
 
 const validationSchema = Yup.object().shape({
@@ -49,6 +49,7 @@ export const RegisterModal = ({ show, setModal }) => {
                                 autoCapitalize="none"
                                 autoCorrect={false}
                                 keyboardType="email-address"
+                                icon="mail"
                                 name="email"
                                 placeholder="Email"
                                 textContentType="emailAddress"
