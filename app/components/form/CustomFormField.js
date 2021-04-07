@@ -3,7 +3,7 @@ import { useFormikContext } from 'formik';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { CustomTextInput } from './CustomTextInput';
 
-export const CustomFormField = ({ placeholder, name, style }) => {
+export const CustomFormField = ({  icon, name, style, ...otherProps }) => {
     const { setFieldTouched, setFieldValue, errors, touched, values} =  useFormikContext();
 
     return (
@@ -12,7 +12,8 @@ export const CustomFormField = ({ placeholder, name, style }) => {
                 onBlur={() => setFieldTouched(name)}
                 onChangeText={(text) => setFieldValue(name, text)}
                 value ={values[name]}
-                placeholder={placeholder}
+                {...otherProps}
+                icon={icon}
             />
         </View>
     )
@@ -20,7 +21,7 @@ export const CustomFormField = ({ placeholder, name, style }) => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 10,
+        // paddingHorizontal: 10,
         marginVertical: 10,
         borderBottomWidth: .5,
         borderBottomColor: '#c24bde',
