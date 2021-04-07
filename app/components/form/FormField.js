@@ -20,10 +20,10 @@ export const CustomFormField = ({ placeholder, name, style }) => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 5,
+        paddingHorizontal: 10,
         marginVertical: 10,
         borderBottomWidth: .5,
         borderBottomColor: '#c24bde',
-        // backgroundColor: '#8f8391'
+        width: '95%'
     },
 })

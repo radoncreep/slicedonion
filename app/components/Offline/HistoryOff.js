@@ -28,7 +28,7 @@ export default HistoryOff = () => {
 
     return (
         <>
-            {/* <LoginModal isVisible={isVisible} setIsVisible={setIsVisible}/> */}
+            <LoginModal isVisible={isVisible} setIsVisible={setIsVisible}/>
             <RegisterModal show={showSignUpModal} setModal={setShowSignUpModal} />
             <View style={styles.container}> 
                 <View style={styles.display}>
@@ -51,7 +51,7 @@ export default HistoryOff = () => {
                 <View style={styles.lastContent}> 
                     <Text style={{ color: '#fff', fontSize: 13, fontWeight: '500'}}>Don't have an account?</Text>
                     <TouchableHighlight onPress={() => handleSignUpModal()}>
-                        <Text style={{ color: '#ce6dcf', fontWeight: 'bold', fontSize: 12 }}> Sign up</Text>
+                        <Text style={{ color: '#c24bde', fontWeight: 'bold', fontSize: 12 }}> Sign up</Text>
                     </TouchableHighlight>
                 </View>
             </View>   
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     login: {
         // borderWidth: 2,
         // borderColor: 'red',
-        backgroundColor: '#ce6dcf',
+        backgroundColor: '#c24bde',
         width: 300,
         height: 35,
         justifyContent: 'center',

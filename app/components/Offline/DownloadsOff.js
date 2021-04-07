@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { LoginModal } from './LoginModal';
+import { colorPallete } from '../../utils/colors';
 
 
 export default DownloadsOff = () => {
@@ -33,7 +34,7 @@ export default DownloadsOff = () => {
                 <View style={styles.lastContent}> 
                     <Text style={{ color: '#fff', fontSize: 13, fontWeight: '500'}}>Don't have an account?</Text>
                     <TouchableHighlight>
-                        <Text style={{ color: '#ce6dcf', fontWeight: 'bold', fontSize: 12 }}> Sign up</Text>
+                        <Text style={{ color: colorPallete.textPurple, fontWeight: 'bold', fontSize: 12 }}> Sign up</Text>
                     </TouchableHighlight>
                 </View>
             </View>
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
     login: {
         // borderWidth: 2,
         // borderColor: 'red',
-        backgroundColor: '#ce6dcf',
+        backgroundColor: colorPallete.textPurple,
         width: 300,
         height: 35,
         justifyContent: 'center',

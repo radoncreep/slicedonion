@@ -1,10 +1,11 @@
 import React from 'react';
-import { Dimensions, Modal, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Dimensions, Modal, Pressable, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import * as Yup from 'yup';
 import { EvilIcons } from '@expo/vector-icons';
 
 import { AppForm } from '../form/AppForm';
 import { CustomFormField } from '../form/FormField';
+import SubmitButton from '../form/SubmitFormButton';
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email().required().label("Email"),
@@ -63,6 +64,24 @@ export const RegisterModal = ({ show, setModal }) => {
                             />
                         </AppForm>
                     </View>
+                    <SubmitButton title="Create Account"/>
+                </View>
+                <View style={styles.footer}>
+                    <Text style={{ fontSize: 13, fontWeight: '500', color: '#fff', marginBottom: 50, textAlign: 'center' }}>
+                        Your Information is guarranteed protected and will not be given to any third-party for use.
+                    </Text>
+                    <View style={styles.footerInner}>
+                        <Pressable>
+                            <Text style={{ color: 'white', fontWeight: '500', fontSize: 14 }}>
+                                Have an account? 
+                            </Text>
+                        </Pressable>
+                        <Pressable>
+                            <Text style={{ color: '#c24bde', fontWeight: '500', fontSize: 14, marginLeft: 10 }}>
+                                Login
+                            </Text>
+                        </Pressable>
+                    </View>
                 </View>
             </View>
         </Modal>
@@ -71,24 +90,36 @@ export const RegisterModal = ({ show, setModal }) => {
 
 const styles = StyleSheet.create({
     close: {
-        backgroundColor: 'red',
-        width: 30
+        // width: 30
     },
     container: {
         flex: 1,
         backgroundColor: "#0f010f",
         padding: 20,
     },
-    formContainer: {
-        // backgroundColor: 'white',
-        width: '100%',
+    footer: {
         flex: 1,
+        padding: 20
+    },
+    footerInner: {
+        flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center'
+    },
+    formContainer: {
+        marginTop: 100,
+        marginBottom: 30,
+        // height: 200,
+        // backgroundColor: 'red',
+        width: '100%',
+        flex: 2,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     formInner: {
+        alignItems: 'center',
         width: width,
-        paddingHorizontal: 20
+        // paddingHorizontal: 40,
+        padding: 20
     },  
     header: {
         flexDirection: 'row',

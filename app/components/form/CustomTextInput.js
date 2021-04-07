@@ -6,6 +6,7 @@ export const CustomTextInput = ({ placeholder }) => (
         <TextInput 
             placeholderTextColor="#523d57"
             placeholder={placeholder}
+            style={{ color: 'white', fontWeight: '500', fontSize: 14, textDecorationLine: "none" }}
         />
     </View>
 );

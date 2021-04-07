@@ -1,18 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { Linking, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-// import * as WebBrowser from 'expo-web-browser';
-// import * as Google from 'expo-auth-session/providers/google';
-// import Constants from 'expo-constants';
+import React from 'react';
+import { Dimensions, Modal, Pressable, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import * as Yup from 'yup';
+import { EvilIcons } from '@expo/vector-icons';
 
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { RegisterModal } from '../AuthModals/Register';
 import { AppForm } from '../form/AppForm';
+import { CustomFormField } from '../form/FormField';
+import SubmitButton from '../form/SubmitFormButton';
 
-// WebBrowser.maybeCompleteAuthSession();
+const validationSchema = Yup.object().shape({
+    email: Yup.string().email().required().label("Email"),
+    password: Yup.string().min(4).required().label("Password")
+});
 
+const { height, width} = Dimensions.get("window");
 
-export const LoginModal = ({ isVisible=false, setIsVisible }) => {
+export const LoginModal = ({ isVisible, setIsVisible }) => {
+    console.log(isVisible);
 
+    const handleSubmit = (userData) => {
+        console.log(userData)
+    };
 
     return (
         <Modal 
@@ -20,86 +27,103 @@ export const LoginModal = ({ isVisible=false, setIsVisible }) => {
             animationType="slide"
             onRequestClose={() => setIsVisible(false)}
             presentationStyle="fullScreen"
-        >
-            <View style={styles.container}>
+            >
+            <View 
+                style={styles.container}
+            >
                 <View style={styles.header}>
-                    <TouchableWithoutFeedback style={styles.close} onPress={() => setIsVisible(false)}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#fff'}}>X</Text>
-                    </TouchableWithoutFeedback>
-                    <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#fff', marginLeft: 50 }}>Log Into Your Account</Text>
+                    <TouchableHighlight onPress={() => setIsVisible(false)}>
+                        <EvilIcons style={styles.close} name="close" size={26} color="white" />
+                    </TouchableHighlight>
+                    <Text style={{ color: '#fff', fontSize: 16, position: 'absolute', left: '40%' }}>Login</Text>
                 </View>
-
-                <View style={styles.body}>
-                    <Text style={{ color: '#ce6dcf', fontSize: 20, fontWeight: 'bold' }}>SLICEDONION</Text>
-
-                    {/* <RegisterModal /> */}
-                    
-                    <View style={styles.authOptions}>
-                        <TouchableOpacity style={styles.googleStyle} onPress={() => promptAsync()}>
-                            <Text style={{ color: '#fff', fontSize: 14, fontWeight: 'bold', textTransform: 'uppercase' }}>
-                                Login With Google
-                            </Text>
-                        </TouchableOpacity>
+                <View style={styles.formContainer}>
+                    <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>SLICEDONION</Text>
+                    <View style={styles.formInner}>
+                        <AppForm
+                            initialValues={{ emai: '', password: ''}}
+                            validationSchema={validationSchema}
+                            onSubmit={handleSubmit}
+                        >
+                            <CustomFormField 
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                keyboardType="email-address"
+                                name="email"
+                                placeholder="Email"
+                                textContentType="emailAddress"
+                            />
+                            <CustomFormField 
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                icon="lock"
+                                name="password"
+                                placeholder="Password"
+                                secureTextEntry
+                                textContentType="password"
+                            />
+                        </AppForm>
                     </View>
-                    
-                    <Text numberOfLines={2} style={{ color: '#fff', fontSize: 13, fontWeight: '500', width: '75.7%', textAlign: 'center' }}>
-                        Information you provide is guaranteed safe and will not be shared or used elsewhere.
-                    </Text>
+                    <SubmitButton title="Login to Onion Account"/>
                 </View>
-                <View style={{ flex: 1 }}></View>
+                <View style={styles.footer}>
+                    <Text style={{ fontSize: 13, fontWeight: '500', color: '#fff', marginBottom: 50, textAlign: 'center' }}>
+                        Your Information is guarranteed protected and will not be given to any third-party for use.
+                    </Text>
+                    <View style={styles.footerInner}>
+                        <Pressable>
+                            <Text style={{ color: 'white', fontWeight: '500', fontSize: 14 }}>
+                                Forgot Paasword
+                            </Text>
+                        </Pressable>
+                        <Text style={{ color: 'white', fontSize: 14, marginHorizontal: 5 }}> | </Text>
+                        <Pressable>
+                            <Text style={{ color: '#c24bde', fontWeight: '500', fontSize: 14 }}>
+                                Create an Onion Account
+                            </Text>
+                        </Pressable>
+                    </View>
+                </View>
             </View>
         </Modal>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
-    authOptions: {
-        height: 200,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    body: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        // borderWidth: 2,
-        // borderColor: 'red',
-    },
     close: {
-        // marginLeft: 20
+        // width: 30
     },
     container: {
-        backgroundColor: '#000',
-        flex: 1
+        flex: 1,
+        backgroundColor: "#0f010f",
+        padding: 20,
     },
-    discordStyle: {
-        backgroundColor: '#7289da',
-        width: 300,
-        height: 35,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginVertical: 5
+    footer: {
+        flex: 1,
+        padding: 20
     },
-    googleStyle: {
-        backgroundColor: '#ea4335',
-        width: 300,
-        height: 35,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginVertical: 5
-    },
-    header: {
+    footerInner: {
         flexDirection: 'row',
         justifyContent: 'center',
-        flex: 1,
-        paddingTop: 20
     },
-    twitterStyle: {
-        backgroundColor: 'rgba(29,161,242,1.00)',
-        width: 300,
-        height: 35,
+    formContainer: {
+        marginTop: 100,
+        marginBottom: 30,
+        // height: 200,
+        // backgroundColor: 'red',
+        width: '100%',
+        flex: 2,
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 5
     },
-
-})
+    formInner: {
+        alignItems: 'center',
+        width: width,
+        // paddingHorizontal: 40,
+        padding: 20
+    },  
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    }
+});
