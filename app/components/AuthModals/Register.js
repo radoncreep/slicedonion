@@ -6,6 +6,7 @@ import { EvilIcons } from '@expo/vector-icons';
 import { AppForm } from '../form/AppForm';
 import { CustomFormField } from '../form/CustomFormField';
 import SubmitButton from '../form/SubmitFormButton';
+import { registerUser } from '../../api/getAuthApi';
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email().required().label("Email"),
@@ -15,10 +16,14 @@ const validationSchema = Yup.object().shape({
 const { height, width} = Dimensions.get("window");
 
 export const RegisterModal = ({ show, setModal }) => {
-    console.log(show);
 
-    const handleSubmit = (userData) => {
-        console.log(userData)
+    const handleSubmit = async (userData) => {
+        // console.log(userData);
+
+        const response = await registerUser(userData);
+        console.log(response.data);
+
+        return;
     };
 
     return (
@@ -41,7 +46,7 @@ export const RegisterModal = ({ show, setModal }) => {
                     <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>SLICEDONION</Text>
                     <View style={styles.formInner}>
                         <AppForm
-                            initialValues={{ emai: '', password: ''}}
+                            initialValues={{ email: '', password: ''}}
                             validationSchema={validationSchema}
                             onSubmit={handleSubmit}
                         >
@@ -63,9 +68,9 @@ export const RegisterModal = ({ show, setModal }) => {
                                 secureTextEntry
                                 textContentType="password"
                             />
+                            <SubmitButton title="Create Account" />
                         </AppForm>
                     </View>
-                    <SubmitButton title="Create Account"/>
                 </View>
                 <View style={styles.footer}>
                     <Text style={{ fontSize: 13, fontWeight: '500', color: '#fff', marginBottom: 50, textAlign: 'center' }}>
