@@ -2,6 +2,7 @@ import React from 'react';
 import { useFormikContext } from 'formik';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { CustomTextInput } from './CustomTextInput';
+import AppErrorMessage from './AppErrorMessage';
 
 export const CustomFormField = ({  icon, name, style, ...otherProps }) => {
     const { setFieldTouched, setFieldValue, errors, touched, values} =  useFormikContext();
@@ -15,6 +16,7 @@ export const CustomFormField = ({  icon, name, style, ...otherProps }) => {
                 {...otherProps}
                 icon={icon}
             />
+            {/* <AppErrorMessage error={errors[name]} visible={touched[name]}/> */}
         </View>
     )
 }

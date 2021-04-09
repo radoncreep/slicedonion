@@ -15,8 +15,6 @@ const validationSchema = Yup.object().shape({
 const { height, width} = Dimensions.get("window");
 
 export const LoginModal = ({ isVisible, setIsVisible }) => {
-    console.log(isVisible);
-
     const handleSubmit = (userData) => {
         console.log(userData)
     };
@@ -41,7 +39,7 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
                     <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>SLICEDONION</Text>
                     <View style={styles.formInner}>
                         <AppForm
-                            initialValues={{ emai: '', password: ''}}
+                            initialValues={{ email: '', password: ''}}
                             validationSchema={validationSchema}
                             onSubmit={handleSubmit}
                         >
@@ -63,9 +61,9 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
                                 secureTextEntry
                                 textContentType="password"
                             />
+                            <SubmitButton title="Login to Onion Account"/>
                         </AppForm>
                     </View>
-                    <SubmitButton title="Login to Onion Account"/>
                 </View>
                 <View style={styles.footer}>
                     <Text style={{ fontSize: 13, fontWeight: '500', color: '#fff', marginBottom: 50, textAlign: 'center' }}>
