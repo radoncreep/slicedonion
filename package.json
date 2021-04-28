@@ -11,6 +11,7 @@
     "@expo/vector-icons": "^12.0.4",
     "@fortawesome/react-native-fontawesome": "^0.2.6",
     "@react-native-community/masked-view": "0.1.10",
+    "@react-native-community/netinfo": "^6.0.0",
     "@react-native-picker/picker": "^1.12.0",
     "@react-navigation/bottom-tabs": "^5.11.7",
     "@react-navigation/material-top-tabs": "^5.3.14",
@@ -26,6 +27,7 @@
     "expo-random": "~10.0.0",
     "expo-status-bar": "~1.0.3",
     "expo-web-browser": "~8.6.0",
+    "formik": "^2.2.6",
     "lottie-react-native": "~2.6.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -40,7 +42,8 @@
     "react-native-web": "~0.13.12",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
-    "rn-placeholder": "^3.0.3"
+    "rn-placeholder": "^3.0.3",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

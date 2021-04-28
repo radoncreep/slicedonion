@@ -28,6 +28,7 @@ export const BrowseTabNavigator = () => {
 };
 
 export const LibraryTabNavigator = () => {
+    
     return (
         <StatusBarComp>
             <Tab.Navigator 
