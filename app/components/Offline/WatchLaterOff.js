@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import LottieView from 'lottie-react-native';
-import { LoginModal } from './LoginModal';
+
 import { colorPallete } from '../../utils/colors';
-import { RegisterModal } from '../AuthModals/Register';
+import { RegisterModal } from '../AuthModals/RegisterModal';
+import { LoginModal } from '../AuthModals/LoginModal';
 
 
 export default WathcLaterOff = () => {

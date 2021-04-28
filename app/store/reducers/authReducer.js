@@ -3,7 +3,8 @@ import { AUTH_REGISTER } from "../types";
 const INITIAL_STATE = {
     user: {
         email: null,
-        password: null
+        password: null,
+        isAuth: false
     }
 };
 
@@ -15,7 +16,8 @@ export const authReducer = (state=INITIAL_STATE, action) => {
                 user : {
                     ...state.user,
                     email: action.payload.email,
-                    password: action.payload.password
+                    password: action.payload.password,
+                    isAuth: true
                 }
             }    
         default:
