@@ -63,14 +63,14 @@ const styles = StyleSheet.create({
         paddingTop: 10
     },
     topDesc: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold'
-    },
-    topTitle: {
         color: '#F8F8FF',
         fontWeight: '500',
         fontSize: 13,
+    },
+    topTitle: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold'
     }
 })
 

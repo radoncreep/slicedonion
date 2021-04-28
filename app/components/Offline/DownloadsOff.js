@@ -2,18 +2,27 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { LoginModal } from './LoginModal';
+import { colorPallete } from '../../utils/colors';
+import { RegisterModal } from '../AuthModals/Register';
 
 
 export default DownloadsOff = () => {
     const [ isVisible, setIsVisible ] = useState(false);
+    const [ showSignUpModal, setShowSignUpModal ] = useState(false);
+
     
     const handleLoginPress = () => {
         setIsVisible(true);
     };
 
+    const handleSignUpPress = () => {
+        setShowSignUpModal(true)
+    }
+
     return (
         <>
             <LoginModal isVisible={isVisible} setIsVisible={setIsVisible}/>
+            <RegisterModal show={showSignUpModal} setModal={setShowSignUpModal} />
             <View style={styles.container}> 
                 <View style={styles.display}>
                     <LottieView 
@@ -27,13 +36,13 @@ export default DownloadsOff = () => {
                 </View>
 
                 <TouchableOpacity style={styles.login} onPress={handleLoginPress} >
-                    <Text style={{ color: '#000', fontSize: 16, fontWeight: '500', textTransform: 'uppercase' }}>Login</Text>
+                    <Text style={{ color: '#fff', fontSize: 16, fontWeight: '500', textTransform: 'uppercase' }}>Login</Text>
                 </TouchableOpacity>
 
                 <View style={styles.lastContent}> 
                     <Text style={{ color: '#fff', fontSize: 13, fontWeight: '500'}}>Don't have an account?</Text>
-                    <TouchableHighlight>
-                        <Text style={{ color: '#ce6dcf', fontWeight: 'bold', fontSize: 12 }}> Sign up</Text>
+                    <TouchableHighlight onPress={handleSignUpPress}>
+                        <Text style={{ color: colorPallete.textPurple, fontWeight: 'bold', fontSize: 14 }}> Sign up</Text>
                     </TouchableHighlight>
                 </View>
             </View>
@@ -65,14 +74,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     login: {
-        // borderWidth: 2,
-        // borderColor: 'red',
-        backgroundColor: '#ce6dcf',
-        width: 300,
+        backgroundColor: colorPallete.textPurple,
+        width: 150,
         height: 35,
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 20
+        marginVertical: 20,
+        borderRadius: 20
     },
     statement: {
         color: '#fff',
