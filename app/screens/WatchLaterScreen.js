@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
+
 import WatchLaterOff from '../components/Offline/WatchLaterOff';
 import WatchLaterOn from '../components/Online/WatchLaterOn';
 
 export const WatchLaterScreen = () => {
-    // const [ isAuth, setIsAuth ] = useState(false);
-    let isAuth = true
+    const { email } = useSelector(state => state.register.user);
+
     return (
-        !isAuth ? <WatchLaterOff /> : <WatchLaterOn />
+        !email ? <WatchLaterOff /> : <WatchLaterOn />
     )
 };
 

@@ -6,9 +6,9 @@ const EpisodeCardHorizontal = ({ episodeTitle, episodeNumber, imageurl, onPress 
         <TouchableHighlight onPress={onPress}>
             <View style={styles.container}>
                 <ImageBackground style={styles.imagebg} source={{ uri: imageurl }}>
-                    <View style={styles.lengthContainer}>
+                    {/* <View style={styles.lengthContainer}>
                         <Text style={styles.length}>23.04</Text>
-                    </View>
+                    </View> */}
                 </ImageBackground>
                 <View style={styles.minicard}>
                     <Text style={styles.minicardText}>{episodeNumber} - {episodeTitle}</Text>

@@ -8,16 +8,18 @@ export const CustomFormField = ({  icon, name, style, ...otherProps }) => {
     const { setFieldTouched, setFieldValue, errors, touched, values} =  useFormikContext();
 
     return (
-        <View style={[styles.container, style ]}>
-            <CustomTextInput 
-                onBlur={() => setFieldTouched(name)}
-                onChangeText={(text) => setFieldValue(name, text)}
-                value ={values[name]}
-                {...otherProps}
-                icon={icon}
-            />
-            {/* <AppErrorMessage error={errors[name]} visible={touched[name]}/> */}
-        </View>
+        <>
+            <View style={[styles.container, style ]}>
+                <CustomTextInput 
+                    onBlur={() => setFieldTouched(name)}
+                    onChangeText={(text) => setFieldValue(name, text)}
+                    value ={values[name]}
+                    {...otherProps}
+                    icon={icon}
+                />
+            </View>
+            <AppErrorMessage error={errors[name]} visible={touched[name]}/>
+        </>
     )
 }
 

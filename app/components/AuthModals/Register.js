@@ -2,11 +2,13 @@ import React from 'react';
 import { Dimensions, Modal, Pressable, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import * as Yup from 'yup';
 import { EvilIcons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
 
 import { AppForm } from '../form/AppForm';
 import { CustomFormField } from '../form/CustomFormField';
-import SubmitButton from '../form/SubmitFormButton';
+import { SubmitFormButton } from '../form/SubmitFormButton';
 import { registerUser } from '../../api/getAuthApi';
+import { registerUserAuth } from '../../store/actions';
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email().required().label("Email"),
@@ -16,13 +18,15 @@ const validationSchema = Yup.object().shape({
 const { height, width} = Dimensions.get("window");
 
 export const RegisterModal = ({ show, setModal }) => {
+    const dispatch = useDispatch();
 
     const handleSubmit = async (userData) => {
         // console.log(userData);
 
-        const response = await registerUser(userData);
-        console.log(response.data);
-
+        const { data, ok }= await registerUser(userData);
+        
+        if (ok && data )
+            dispatch(registerUserAuth(data));
         return;
     };
 
@@ -68,7 +72,7 @@ export const RegisterModal = ({ show, setModal }) => {
                                 secureTextEntry
                                 textContentType="password"
                             />
-                            <SubmitButton title="Create Account" />
+                            <SubmitFormButton title="Create Account" />
                         </AppForm>
                     </View>
                 </View>

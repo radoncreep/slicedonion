@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text, FlatList } from 'react-native'
+import { useSelector } from 'react-redux';
 import { ListItem } from '../components/ListItem';
 import ListItemSeparator from '../components/ListItemSeparator';
 import StatusBarComp from '../components/StatusBarComp';
@@ -53,6 +54,8 @@ const extras = [
 ];
 
 const AccountScreen = (props) => {
+    const { email } = useSelector(state => state.register.user);
+
     return (
         <StatusBarComp style={styles.container}>
             <View style={styles.menu}>
@@ -66,7 +69,7 @@ const AccountScreen = (props) => {
                             title={item.name}
                             towhere={item.targetScreen}
                             onPress={() => console.log('hi')}
-                            value={item.value}
+                            value={item.name === 'Change Email' ? email : item.value}
                         />
                     )}
                 />
