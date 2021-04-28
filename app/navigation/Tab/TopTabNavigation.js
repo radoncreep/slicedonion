@@ -32,7 +32,7 @@ export const LibraryTabNavigator = () => {
     return (
         <StatusBarComp>
             <Tab.Navigator 
-                initialRouteName="History"
+                initialRouteName="WatchList"
                 tabBarOptions={{
                     activeTintColor: '#bd44c9',
                     inactiveTintColor: 'gray',

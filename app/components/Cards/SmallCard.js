@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, Image, TouchableHighlight, FlatList } from 'react-native';
+import { View, StyleSheet, Text, Image, TouchableHighlight, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -8,14 +8,15 @@ import { ListItem } from '../ListItem';
 import { addToWatchLater, removeFromWatchLater } from '../../store/actions';
 
 
-const SmallCard = ({ currentanime, episodeNumber, style, title, released, imageUrl, onPress }) => {
-    const [ selectedOption, setSelectedOption ] = useState();
-    const [ showPopover, setShowPopover ] = useState(false);
+const SmallCard = ({ currentanime, episodeNumber, navigation, style, title, released, imageUrl, onPress }) => {
+    const { watchLater, register } = useSelector(state => state);
+
     const dispatch = useDispatch();
-    const state = useSelector(state => state.watchLater.list);
+
+    const [ showPopover, setShowPopover ] = useState(false);
 
     const checkValue = () => {
-        return state.includes(currentanime);
+        return watchLater.list.includes(currentanime);
     }
     
     let popoverMenu = [
@@ -23,20 +24,27 @@ const SmallCard = ({ currentanime, episodeNumber, style, title, released, imageU
         { name: 'Share'},
         { name: 'Play Now'},
     ];
+
     const handlePopover = () => {
         setShowPopover(() => !showPopover);
     };
 
     const handleMenu = (item) => {
         setShowPopover(() => !showPopover)
-        if (item.name === 'Remove From WatchLater') return removeAnimeCardFromWatchLater()
-        if (item.name === 'Add To WatchLater') return addAnimeCardToWatchLater();
+        if (item.name === 'Remove From WatchLater') return removeAnimeCardFromWatchLater();
+        if (item.name === 'Add To WatchLater') {
+            if (!register.user.isAuth) {
+                navigation.navigate("Library");
+                return;
+            }
+            return addAnimeCardToWatchLater();
+        } 
         if (item.name === 'Play Now') return onPress();
     };
 
     const addAnimeCardToWatchLater = () => dispatch(addToWatchLater(currentanime));
 
-    const removeAnimeCardFromWatchLater = () => dispatch(removeFromWatchLater(currentanime))
+    const removeAnimeCardFromWatchLater = () => dispatch(removeFromWatchLater(currentanime));
 
 
     return (
@@ -73,6 +81,9 @@ const SmallCard = ({ currentanime, episodeNumber, style, title, released, imageU
                              />
                         )}
                     />
+                    <TouchableWithoutFeedback onPress={() => setShowPopover(false)}>
+                        <Text style={{ position: 'absolute', bottom: 20, right: 20, color: '#fff', fontSize: 13 }}>Hide</Text>
+                    </TouchableWithoutFeedback>
                 </View>
             )}
         </View>
@@ -94,7 +105,7 @@ const styles = StyleSheet.create({
         width: 30
     },
     popover: {
-        height: 230,
+        height: 290,
         width: 150,
         backgroundColor: '#0f010f',
         position: 'absolute',
