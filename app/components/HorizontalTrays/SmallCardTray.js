@@ -26,6 +26,7 @@ const SmallCardTray = ({ data, navigation, towhere, heading }) => {
                             released={anime.released}
                             currentanime={anime}
                             onPress={() => handleCardPress(anime)}
+                            navigation={navigation}
                         />
                     ))}
                 </ScrollView>

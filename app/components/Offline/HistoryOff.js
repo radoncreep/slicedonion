@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 
-import { LoginModal } from './LoginModal';
-import { RegisterModal } from '../AuthModals/Register';
+import { RegisterModal } from '../AuthModals/RegisterModal';
 import { colorPallete } from '../../utils/colors';
+import { LoginModal } from '../AuthModals/LoginModal';
 
 export default HistoryOff = () => {
     const [ isVisible, setIsVisible ] = useState(false);
