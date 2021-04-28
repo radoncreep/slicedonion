@@ -1,14 +1,14 @@
 import React from 'react';
-import { View, StyleSheet, ImageBackground, Text } from 'react-native'
+import { View, StyleSheet, ImageBackground, Text, TouchableHighlight } from 'react-native'
 
-const GenreCard = ({ genreImageUrl, genreName, icon }) => {
+const GenreCard = ({ genreImageUrl, genreName, icon, onPress }) => {
     
     return (
-        <View style={styles.container}>
-            <ImageBackground style={styles.bgimg} source={{ uri: 'https://gogocdn.net/cover/dr-stone-stone-wars.png' }}>
+        <TouchableHighlight style={styles.container} onPress={onPress}>
+            <View style={styles.bgimg}>
                 <Text style={styles.genretitle}>{genreName}</Text>
-            </ImageBackground>
-        </View>
+            </View>
+        </TouchableHighlight>
     );
 };
 
@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginHorizontal: 5,
-        marginVertical: 5
+        marginVertical: 5,
+        backgroundColor: '#646c87'
     },
     genretitle: {
         color: '#fff',

@@ -5,14 +5,14 @@ import { getStreamUrl } from '../api/getEpisode';
 import ErrorMessage from './ErrorMessage';
 import ActivityIndicator from './ActivityIndicator';
 
-const VideoPlayer = ({ route }) => {
+const VideoPlayer = ({ videodata }) => {
     const video = useRef(null);
     const [ status, setStatus ] = useState({});
     const [ stream, setStream ] = useState('');
     const [ error, setError ] = useState('');
     const [ buffer, setBuffer ] = useState(false);
 
-    const { episodeUrl } = route.params;
+    // const { episodeUrl } = videodata.params;
     
     useEffect(() => {
         let mounted = true;
@@ -25,7 +25,7 @@ const VideoPlayer = ({ route }) => {
             const { data, ok } = await getStreamUrl(url);
     
             if (!ok && mounted) return setError(data.message);
-            console.log(data.remote);
+            console.log('stream link ', data.remote);
     
             if (mounted) {
                 setStream(data.remote);
@@ -33,7 +33,7 @@ const VideoPlayer = ({ route }) => {
             };
         };
         
-        getStreamUrlApi(episodeUrl);
+        getStreamUrlApi(videodata);
 
         return () => mounted= false;
     }, [])

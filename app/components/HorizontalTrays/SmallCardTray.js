@@ -1,26 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
-import { create } from 'apisauce';
-
 
 import SmallCard from '../Cards/SmallCard';
 
-const api = create({
-    baseURL: 'http://192.168.43.211:3300'
-});
-
-
 const SmallCardTray = ({ data, navigation, towhere, heading }) => {
-    // const getAnimeEpisodes = async (anime) => {
-    //     console.log('hih')
-    //     navigation.navigate(towhere, anime);
-    //     try {
-    //         const response = await api.get(`/episodes/${anime.category}`);
-    //     } catch (error) {    
-    //         console.log(error);
-    //     }
-    // };
-
     return (
         <View style={styles.container}>
             <Text style={styles.header}>{heading}</Text>
@@ -29,7 +12,7 @@ const SmallCardTray = ({ data, navigation, towhere, heading }) => {
                 >   
                     {data && data.map((anime, index) => (
                         <SmallCard 
-                            key={anime.id} 
+                            key={anime.id || index} 
                             title={anime.title} 
                             subtitle={anime.released}
                             episodeNumber={anime.episode}
@@ -50,7 +33,7 @@ const styles = StyleSheet.create({
     },
     header: {
         color: '#fff',
-        fontWeight: '600',
+        fontWeight: 'bold',
     }
 })
 

@@ -4,18 +4,22 @@ import { View, StyleSheet, Text, Image, TouchableHighlight } from 'react-native'
 const SmallCard = ({ episodeNumber, title, subtitle, imageUrl, onPress }) => {
     return (
         <TouchableHighlight style={styles.container} onPress={onPress} underlayColor="#000" activeOpacity={0.95}>
-            <View >
+            <View>
                 <View style={styles.favourite}>
                     {/* Favourrite Icon here instead of text */}
                     <Text style={{ color: 'red' }}>Like</Text>
                 </View>
+
                 <Image style={styles.image} source={{ uri: imageUrl }}/>
+
                 <Text numberOfLines={1} style={styles.text}>{title}</Text>
-                <Text style={styles.text}>{episodeNumber}</Text>
+
+                { episodeNumber && <Text style={styles.text}>{episodeNumber}</Text> }
+
                 <View style={styles.subTitle}>
-                    <Text style={{ color: '#fff', fontWeight: 'bold' }}>SUB</Text>
+                    <Text style={{ color: '#fff', fontWeight: '500' }}>SUB</Text>
                     {/* Share going to be an icon to share */}
-                    <Text style={{ color: '#fff', fontWeight: 'bold' }}>Share</Text>
+                    <Text style={{ color: '#fff', fontWeight: '500' }}>Share</Text>
                 </View>
             </View>
         </TouchableHighlight>
@@ -24,7 +28,7 @@ const SmallCard = ({ episodeNumber, title, subtitle, imageUrl, onPress }) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#660000',
+        backgroundColor: '#0f011f',
         width: 150,
         alignSelf: 'center',
         marginRight: 8 
@@ -44,10 +48,7 @@ const styles = StyleSheet.create({
     subTitle: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        color: '#fff',
-        fontSize: 13,
-        fontWeight: 'bold',
-        marginVertical: 5,
+        marginVertical: 3,
         marginHorizontal: 10
     },
     text: {
