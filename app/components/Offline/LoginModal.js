@@ -5,7 +5,7 @@ import { EvilIcons } from '@expo/vector-icons';
 
 import { AppForm } from '../form/AppForm';
 import { CustomFormField } from '../form/CustomFormField';
-import SubmitButton from '../form/SubmitFormButton';
+import { SubmitFormButton } from '../form/SubmitFormButton';
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email().required().label("Email"),
@@ -61,7 +61,7 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
                                 secureTextEntry
                                 textContentType="password"
                             />
-                            <SubmitButton title="Login to Onion Account"/>
+                            <SubmitFormButton title="Login to Onion Account"/>
                         </AppForm>
                     </View>
                 </View>

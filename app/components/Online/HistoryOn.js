@@ -1,12 +1,13 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import ActivityIndicator from '../ActivityIndicator';
 
 import EpisodeCardHorizontal from '../Cards/EpisodeCardHorizontal';
 
-export default HistoryOff = () => {
+export default HistoryOn = ({ loader }) => {
     const state = useSelector(state => state.history.current);
-    console.log('state', state);
+    console.log('history state ', state);
 
     const historyList = () => (
         <ScrollView>
@@ -29,6 +30,7 @@ export default HistoryOff = () => {
 
     return (
         <View style={styles.history}>
+            <ActivityIndicator visible={loader} />
             { state && state.length ? historyList() : emptyHistoryText() }
         </View>
     );
