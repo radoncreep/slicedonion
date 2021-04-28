@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Modal, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { LoginModal } from './LoginModal';
 
 
-export default SavedVideos = () => {
+export default WathcLaterOff = () => {
     const [ isVisible, setIsVisible ] = useState(false);
     
     const handleLoginPress = () => {

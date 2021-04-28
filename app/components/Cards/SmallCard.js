@@ -1,28 +1,81 @@
-import React from 'react';
-import { View, StyleSheet, Text, Image, TouchableHighlight } from 'react-native'
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Text, Image, TouchableHighlight, FlatList } from 'react-native';
+import { SimpleLineIcons } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
 
-const SmallCard = ({ episodeNumber, title, subtitle, imageUrl, onPress }) => {
+import ListItemSeparator from '../ListItemSeparator';
+import { ListItem } from '../ListItem';
+import { addToWatchLater, removeFromWatchLater } from '../../store/actions';
+
+
+const SmallCard = ({ currentanime, episodeNumber, style, title, released, imageUrl, onPress }) => {
+    const [ selectedOption, setSelectedOption ] = useState();
+    const [ showPopover, setShowPopover ] = useState(false);
+    const dispatch = useDispatch();
+    const state = useSelector(state => state.watchLater.list);
+
+    const checkValue = () => {
+        return state.includes(currentanime);
+    }
+    
+    let popoverMenu = [
+        { name: checkValue() ? 'Remove From WatchLater' : 'Add To WatchLater'},
+        { name: 'Share'},
+        { name: 'Play Now'},
+    ];
+    const handlePopover = () => {
+        setShowPopover(() => !showPopover);
+    };
+
+    const handleMenu = (item) => {
+        setShowPopover(() => !showPopover)
+        if (item.name === 'Remove From WatchLater') return removeAnimeCardFromWatchLater()
+        if (item.name === 'Add To WatchLater') return addAnimeCardToWatchLater();
+        if (item.name === 'Play Now') return onPress();
+    };
+
+    const addAnimeCardToWatchLater = () => dispatch(addToWatchLater(currentanime));
+
+    const removeAnimeCardFromWatchLater = () => dispatch(removeFromWatchLater(currentanime))
+
+
     return (
-        <TouchableHighlight style={styles.container} onPress={onPress} underlayColor="#000" activeOpacity={0.95}>
-            <View>
-                <View style={styles.favourite}>
-                    {/* Favourrite Icon here instead of text */}
-                    <Text style={{ color: 'red' }}>Like</Text>
-                </View>
+        <View style={[styles.container, style]} >
+            <TouchableHighlight onPress={onPress} underlayColor="#000" activeOpacity={0.95}>
+                <Image style={styles.image} source={{ uri: imageUrl }}/>    
+            </TouchableHighlight>
 
-                <Image style={styles.image} source={{ uri: imageUrl }}/>
+            <Text numberOfLines={1} style={styles.text}>{title}</Text>
 
-                <Text numberOfLines={1} style={styles.text}>{title}</Text>
+            <Text style={styles.text}>{episodeNumber || released}</Text> 
 
-                { episodeNumber && <Text style={styles.text}>{episodeNumber}</Text> }
-
-                <View style={styles.subTitle}>
-                    <Text style={{ color: '#fff', fontWeight: '500' }}>SUB</Text>
-                    {/* Share going to be an icon to share */}
-                    <Text style={{ color: '#fff', fontWeight: '500' }}>Share</Text>
-                </View>
+            <View style={styles.subContent}>
+                <Text style={{ color: '#fff', fontWeight: '500' }}>SUB</Text>
+                <TouchableHighlight 
+                    style={styles.options} 
+                    onPress={() => handlePopover()}
+                >
+                    <SimpleLineIcons name="options-vertical" size={20} color="white" />
+                </TouchableHighlight>
             </View>
-        </TouchableHighlight>
+
+            { showPopover && (
+                <View style={styles.popover}>
+                    <FlatList 
+                        data={popoverMenu}
+                        keyExtractor={(popoverMenu) => popoverMenu.name}
+                        ItemSeparatorComponent={() => <ListItemSeparator style={styles.separator} />}
+                        renderItem={({ item, index }) => (
+                            <ListItem 
+                                style={{ fontSize: 14 }} 
+                                title={item.name}
+                                onPress={() => handleMenu(item)}
+                             />
+                        )}
+                    />
+                </View>
+            )}
+        </View>
     );
 };
 
@@ -34,22 +87,29 @@ const styles = StyleSheet.create({
         marginRight: 8 
     },
     image: {
+        width: '100%',
+        height: 190,
+    },
+    options: {
+        width: 30
+    },
+    popover: {
+        height: 230,
         width: 150,
-        height: 170,
-    },
-    favourite: {
+        backgroundColor: '#0f010f',
         position: 'absolute',
-        color: 'red',
-        top: 120,
-        right: 10,
-        borderColor: 'green',
-        zIndex: 1
+        alignItems: 'center',
     },
-    subTitle: {
+    separator: {
+        backgroundColor: 'silver',
+        height: .5,
+        opacity: .5,
+    },
+    subContent: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginVertical: 3,
-        marginHorizontal: 10
+        marginVertical: 5,
+        paddingLeft: 10
     },
     text: {
         color: '#fff',

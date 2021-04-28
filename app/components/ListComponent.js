@@ -11,8 +11,8 @@ const ListComponent = ({ navigation }) => {
     return (
         <View style={styles.container} >
             <Recents navigation={navigation} towhere="Player"/>
-            <LargeCardTray navigation={navigation}/>
             <PopularAnimeComponent navigation={navigation} param={1} towhere="Details"/>
+            <LargeCardTray navigation={navigation}/>
             <PopularAnimeComponent navigation={navigation} param={2} towhere="Details"/>
             <PopularAnimeComponent navigation={navigation} param={3} towhere="Details"/>
             <PopularAnimeComponent navigation={navigation} param={4} towhere="Details"/>
