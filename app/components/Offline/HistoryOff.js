@@ -1,19 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 
 import { LoginModal } from './LoginModal';
+import { RegisterModal } from '../AuthModals/Register';
+import { colorPallete } from '../../utils/colors';
 
 export default HistoryOff = () => {
     const [ isVisible, setIsVisible ] = useState(false);
+    const [ showSignUpModal, setShowSignUpModal ] = useState(false);
 
     const handleLoginPress = () => {
         setIsVisible(true);
     };
 
+    const handleSignUpModal = () => {
+        setShowSignUpModal(true);
+    };
+
+
+    // useEffect(() => {
+    //     let mounted = true;
+
+        
+
+    //     return () => mounted = false;
+    // }, []);
+
     return (
         <>
             <LoginModal isVisible={isVisible} setIsVisible={setIsVisible}/>
+            <RegisterModal show={showSignUpModal} setModal={setShowSignUpModal} />
             <View style={styles.container}> 
                 <View style={styles.display}>
                     <LottieView 
@@ -27,15 +44,15 @@ export default HistoryOff = () => {
                 </View>
 
                 <TouchableOpacity style={styles.login} onPress={handleLoginPress} >
-                    <Text style={{ color: '#000', fontSize: 16, fontWeight: '500', textTransform: 'uppercase' }}>
+                    <Text style={{ color: '#fff', fontSize: 16, fontWeight: '500', textTransform: 'uppercase' }}>
                         Login
                     </Text>
                 </TouchableOpacity>
 
                 <View style={styles.lastContent}> 
                     <Text style={{ color: '#fff', fontSize: 13, fontWeight: '500'}}>Don't have an account?</Text>
-                    <TouchableHighlight>
-                        <Text style={{ color: '#ce6dcf', fontWeight: 'bold', fontSize: 12 }}> Sign up</Text>
+                    <TouchableHighlight onPress={() => handleSignUpModal()}>
+                        <Text style={{ color: '#c24bde', fontWeight: 'bold', fontSize: 14 }}> Sign up</Text>
                     </TouchableHighlight>
                 </View>
             </View>   
@@ -69,12 +86,13 @@ const styles = StyleSheet.create({
     login: {
         // borderWidth: 2,
         // borderColor: 'red',
-        backgroundColor: '#ce6dcf',
-        width: 300,
+        backgroundColor: colorPallete.textPurple,
+        width: 150,
         height: 35,
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 20
+        marginVertical: 20,
+        borderRadius: 20
     },
     statement: {
         color: '#fff',

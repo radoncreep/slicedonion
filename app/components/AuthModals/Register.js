@@ -2,10 +2,13 @@ import React from 'react';
 import { Dimensions, Modal, Pressable, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import * as Yup from 'yup';
 import { EvilIcons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
 
 import { AppForm } from '../form/AppForm';
 import { CustomFormField } from '../form/CustomFormField';
 import { SubmitFormButton } from '../form/SubmitFormButton';
+import { registerUser } from '../../api/getAuthApi';
+import { registerUserAuth } from '../../store/actions';
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email().required().label("Email"),
@@ -14,26 +17,34 @@ const validationSchema = Yup.object().shape({
 
 const { height, width} = Dimensions.get("window");
 
-export const LoginModal = ({ isVisible, setIsVisible }) => {
-    const handleSubmit = (userData) => {
-        console.log(userData)
+export const RegisterModal = ({ show, setModal }) => {
+    const dispatch = useDispatch();
+
+    const handleSubmit = async (userData) => {
+        // console.log(userData);
+
+        const { data, ok }= await registerUser(userData);
+        
+        if (ok && data )
+            dispatch(registerUserAuth(data));
+        return;
     };
 
     return (
         <Modal 
-            visible={isVisible}
+            visible={show}
             animationType="slide"
-            onRequestClose={() => setIsVisible(false)}
+            onRequestClose={() => setModal(false)}
             presentationStyle="fullScreen"
             >
             <View 
                 style={styles.container}
             >
                 <View style={styles.header}>
-                    <TouchableHighlight onPress={() => setIsVisible(false)}>
+                    <TouchableHighlight onPress={() => setModal(false)}>
                         <EvilIcons style={styles.close} name="close" size={26} color="white" />
                     </TouchableHighlight>
-                    <Text style={{ color: '#fff', fontSize: 16, position: 'absolute', left: '40%' }}>Login</Text>
+                    <Text style={{ color: '#fff', fontSize: 16, position: 'absolute', left: '40%' }}>Register</Text>
                 </View>
                 <View style={styles.formContainer}>
                     <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>SLICEDONION</Text>
@@ -47,8 +58,8 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
                                 autoCapitalize="none"
                                 autoCorrect={false}
                                 keyboardType="email-address"
-                                name="email"
                                 icon="mail"
+                                name="email"
                                 placeholder="Email"
                                 textContentType="emailAddress"
                             />
@@ -61,7 +72,7 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
                                 secureTextEntry
                                 textContentType="password"
                             />
-                            <SubmitFormButton title="Login to Onion Account"/>
+                            <SubmitFormButton title="Create Account" />
                         </AppForm>
                     </View>
                 </View>
@@ -72,13 +83,12 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
                     <View style={styles.footerInner}>
                         <Pressable>
                             <Text style={{ color: 'white', fontWeight: '500', fontSize: 14 }}>
-                                Forgot Paasword
+                                Have an account? 
                             </Text>
                         </Pressable>
-                        <Text style={{ color: 'white', fontSize: 14, marginHorizontal: 5 }}> | </Text>
                         <Pressable>
-                            <Text style={{ color: '#c24bde', fontWeight: '500', fontSize: 14 }}>
-                                Create an Onion Account
+                            <Text style={{ color: '#c24bde', fontWeight: '500', fontSize: 14, marginLeft: 10 }}>
+                                Login
                             </Text>
                         </Pressable>
                     </View>

@@ -38,7 +38,7 @@ const LargeCardTray = ({ onPress }) => {
 
         const handleMoviesData = async () => {
             const { data, ok } = await getMoviesApi(1);
-            if (ok && mounted) setMovies(data);                
+            if (mounted) return setMovies(data);                
         };
         handleMoviesData();
 

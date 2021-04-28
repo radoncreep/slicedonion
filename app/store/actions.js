@@ -1,8 +1,16 @@
 import { 
     ADD_TO_HISTORY, 
     ADD_TO_WATCHLATER, 
+    AUTH_REGISTER, 
     REMOVE_FROM_WATCHLATER }
 from "./types";
+
+export const registerUserAuth = (user) => (
+    {
+        type: AUTH_REGISTER,
+        payload: user
+    }
+);
 
 export const addToHistory = (animedata) => (
     {
@@ -24,3 +32,4 @@ export const removeFromWatchLater = (animedata) => (
         payload: animedata
     }
 );
+
