@@ -2,6 +2,7 @@ import {
     ADD_TO_HISTORY, 
     ADD_TO_WATCHLATER, 
     AUTH_REGISTER, 
+    LOGOUT, 
     REMOVE_FROM_WATCHLATER }
 from "./types";
 
@@ -11,6 +12,13 @@ export const registerUserAuth = (user) => (
         payload: user
     }
 );
+
+export const logoutUser = () => (
+    {
+        type: LOGOUT,
+        payload: null
+    }
+)
 
 export const addToHistory = (animedata) => (
     {
