@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dimensions, Modal, Pressable, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import * as Yup from 'yup';
 import { EvilIcons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
+import jwtDecode from 'jwt-decode';
 
 import { AppForm } from '../form/AppForm';
 import { CustomFormField } from '../form/CustomFormField';
 import { SubmitFormButton } from '../form/SubmitFormButton';
 import authApi from '../../api/getAuthApi';
 import { registerUserAuth } from '../../store/actions';
+import AppErrorMessage from '../form/AppErrorMessage';
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email().required().label("Email"),
@@ -18,13 +20,25 @@ const validationSchema = Yup.object().shape({
 const { height, width} = Dimensions.get("window");
 
 export const RegisterModal = ({ show, setModal }) => {
+    const [ registerError, setRegisterError ] = useState(null);
+    const [ loading, setLoading ] = useState(false);
     const dispatch = useDispatch();
 
     const handleSubmit = async (userData) => {
-        const { data, ok } = authApi.registerUser(userData);
+        setLoading(true);
+        const { data, ok } = await authApi.registerUser(userData);
         
-        if (ok && data )
-            dispatch(registerUserAuth(data));
+        if (!ok) {
+            setLoading(false);
+            if (data.message) setRegisterError(data.message);
+            return;
+        };
+
+        setLoading(false);
+        setRegisterError(null);
+
+        const newUser = jwtDecode(data.token);
+        dispatch(registerUserAuth(newUser));
         return;
     };
 
@@ -45,8 +59,11 @@ export const RegisterModal = ({ show, setModal }) => {
                     <Text style={{ color: '#fff', fontSize: 16, position: 'absolute', left: '40%' }}>Register</Text>
                 </View>
                 <View style={styles.formContainer}>
+
                     <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>SLICEDONION</Text>
+                    
                     <View style={styles.formInner}>
+
                         <AppForm
                             initialValues={{ email: '', password: ''}}
                             validationSchema={validationSchema}
@@ -72,6 +89,10 @@ export const RegisterModal = ({ show, setModal }) => {
                             />
                             <SubmitFormButton title="Create Account" />
                         </AppForm>
+
+                        <View style={{ alignSelf: 'center' }}>
+                            <AppErrorMessage error={registerError} visible={registerError} />
+                        </View>
                     </View>
                 </View>
                 <View style={styles.footer}>
