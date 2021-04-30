@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#0f011f',
         width: 150,
         alignSelf: 'center',
-        marginRight: 8 
+        marginRight: 8,
     },
     image: {
         width: '100%',

@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dimensions, Modal, Pressable, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import * as Yup from 'yup';
 import { EvilIcons } from '@expo/vector-icons';
+import jwtDecode from 'jwt-decode';
 
 import { AppForm } from '../form/AppForm';
 import { CustomFormField } from '../form/CustomFormField';
 import { SubmitFormButton } from '../form/SubmitFormButton';
+import authApi from '../../api/getAuthApi';
+import { useDispatch } from 'react-redux';
+import { registerUserAuth } from '../../store/actions';
+import AppErrorMessage from '../form/AppErrorMessage';
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email().required().label("Email"),
@@ -15,9 +20,23 @@ const validationSchema = Yup.object().shape({
 const { height, width} = Dimensions.get("window");
 
 export const LoginModal = ({ isVisible, setIsVisible }) => {
-    const handleSubmit = (userData) => {
-        console.log(userData)
-    };
+    const [ loginFailed, setLoginFailed ] = useState(false);
+    const [ errorMsg, setErrorMsg ] = useState();
+    const dispatch = useDispatch();
+
+    const handleSubmit = async (userData) => {
+        const { data, ok } = await authApi.loginUser(userData);
+        
+        if (!ok) {
+            setLoginFailed(true);
+            if (data.message) setErrorMsg(data.message);
+            return;
+        };
+
+        setLoginFailed(false);
+        const user = jwtDecode(data.token);
+        dispatch(registerUserAuth(user));
+    };  
 
     return (
         <Modal 
@@ -37,6 +56,7 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
                 </View>
                 <View style={styles.formContainer}>
                     <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>SLICEDONION</Text>
+
                     <View style={styles.formInner}>
                         <AppForm
                             initialValues={{ email: '', password: ''}}
@@ -63,6 +83,10 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
                             />
                             <SubmitFormButton title="Login to Onion Account"/>
                         </AppForm>
+
+                        <View style={{ alignSelf: 'center' }}>
+                            <AppErrorMessage error={errorMsg} visible={loginFailed}/> 
+                        </View>
                     </View>
                 </View>
                 <View style={styles.footer}>
