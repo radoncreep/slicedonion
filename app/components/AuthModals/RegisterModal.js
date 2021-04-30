@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { AppForm } from '../form/AppForm';
 import { CustomFormField } from '../form/CustomFormField';
 import { SubmitFormButton } from '../form/SubmitFormButton';
-import { registerUser } from '../../api/getAuthApi';
+import authApi from '../../api/getAuthApi';
 import { registerUserAuth } from '../../store/actions';
 
 const validationSchema = Yup.object().shape({
@@ -21,9 +21,7 @@ export const RegisterModal = ({ show, setModal }) => {
     const dispatch = useDispatch();
 
     const handleSubmit = async (userData) => {
-        // console.log(userData);
-
-        const { data, ok }= await registerUser(userData);
+        const { data, ok } = authApi.registerUser(userData);
         
         if (ok && data )
             dispatch(registerUserAuth(data));

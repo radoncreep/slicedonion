@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { NextEpisodeContext } from '../util/nextContext';
+import { NextEpisodeContext } from '../utility/nextContext';
 
 export const useVideoContext = (playlist) => {
     const { nextEpisode, setNextEpisode } = useContext(NextEpisodeContext);

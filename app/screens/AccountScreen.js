@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, Text, FlatList } from 'react-native'
-import { useSelector } from 'react-redux';
+import { View, StyleSheet, Text, FlatList, TouchableHighlight, Alert } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux';
 import { ListItem } from '../components/ListItem';
 import ListItemSeparator from '../components/ListItemSeparator';
 import StatusBarComp from '../components/StatusBarComp';
+import { logoutUser } from '../store/actions';
 
 const profileOptions = [
     {
@@ -53,8 +54,31 @@ const extras = [
     }
 ];
 
-const AccountScreen = (props) => {
+const AccountScreen = () => {
     const { email } = useSelector(state => state.register.user);
+    const dispatch = useDispatch();
+
+    const handleLogoutPress = (item) => {
+        if (item.name === 'Logout') handleAlert();
+        return;
+    };
+
+    const handleAlert = () => {
+        Alert.alert(
+            "Logout",
+            "Sure you want to logout?",
+            [
+              {
+                text: "Yes",
+                onPress: () => dispatch(logoutUser()),
+              },
+              {
+                text: "No",
+                onPress: () => console.log("Cancel Pressed"),
+              }
+            ]
+        )
+    };
 
     return (
         <StatusBarComp style={styles.container}>
@@ -102,7 +126,7 @@ const AccountScreen = (props) => {
                         <ListItem 
                             title={item.name}
                             towhere={item.targetScreen}
-                            onPress={() => console.log('hi')}
+                            onPress={() => handleLogoutPress(item)}
                             value={item.value}
                         />
                     )}
