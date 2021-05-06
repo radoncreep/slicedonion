@@ -5,6 +5,7 @@ import { ListItem } from '../components/ListItem';
 import ListItemSeparator from '../components/ListItemSeparator';
 import StatusBarComp from '../components/StatusBarComp';
 import { logoutUser } from '../store/actions';
+import authStorage from '../utility/storage';
 
 const profileOptions = [
     {
@@ -70,7 +71,10 @@ const AccountScreen = () => {
             [
               {
                 text: "Yes",
-                onPress: () => dispatch(logoutUser()),
+                onPress: () => { 
+                    dispatch(logoutUser());
+                    authStorage.removeToken();
+                },
               },
               {
                 text: "No",
