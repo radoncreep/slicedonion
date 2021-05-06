@@ -6,22 +6,22 @@ import VideoPlayer from '../components/VideoPlayer';
 import { useVideoContext } from '../hooks/useVideoContext';
 
 const PlayerScreen = ({ navigation, route }) => {
-    let [ episodes, setEpisodes ] = useState();
+    // let [ episodes, setEpisodes ] = useState();
 
-    let { updateNextVideo, nextEpisode } = useVideoContext(route.params);
-    let { episodeNumber, episodeUrl, id, index, subimage , title } = nextEpisode;
+    // let { updateNextVideo, nextEpisode } = useVideoContext(route.params);
+    // let { episodeNumber, episodeUrl, id, index, subimage , title } = nextEpisode;
 
-    console.log('next context', nextEpisode);
+    // console.log('next context', nextEpisode);
 
-    const handleEpisodeChange = () => {
-        let videobj = { title, subimage}
-        updateNextVideo(index, videobj);
-        navigation.navigate('Player', episodeUrl)
-    };
+    // const handleEpisodeChange = () => {
+    //     let videobj = { title, subimage}
+    //     updateNextVideo(index, videobj);
+    //     navigation.navigate('Player', episodeUrl)
+    // };
 
     return (
         <View style={styles.container}>
-            <VideoPlayer videodata={episodeUrl}/>
+            {/* <VideoPlayer videodata={episodeUrl}/> */}
             <EpisodeCardHorizontal 
                 style={{ position: 'absolute', top: 400 }}
                 episodeTitle={title}

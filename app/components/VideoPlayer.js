@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Button, Dimensions } from 'react-native';
 import { Video, AVPlaybackStatus } from 'expo-av';
+
 import { getStreamUrl } from '../api/getEpisode';
 import ErrorMessage from './ErrorMessage';
 import ActivityIndicator from './ActivityIndicator';

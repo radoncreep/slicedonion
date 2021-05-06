@@ -18,9 +18,7 @@ const EpisodesTrayVertical = ({ episodes, navigation, subimage, title, towhere }
         handleEpisodeAddHistory(elems, index);
 
         // this goes to video player
-        if (towhere === 'Details') {
-            navigation.navigate(towhere, elems);
-        };
+        navigation.navigate(towhere, elems);
         return;
     };
     
@@ -41,6 +39,7 @@ const EpisodesTrayVertical = ({ episodes, navigation, subimage, title, towhere }
                     episodeNumber={anime.episodeNumber}
                     episodeTitle={title}
                     imageurl={subimage}
+                    version={anime.version}
                     onPress={() => handleEpisodeFunctionality(elems, index)}
                 />
             ))}

@@ -1,9 +1,13 @@
 import { 
+    ADD_EPISODES,
     ADD_TO_HISTORY, 
     ADD_TO_WATCHLATER, 
     AUTH_REGISTER, 
     LOGOUT, 
-    REMOVE_FROM_WATCHLATER }
+    REMOVE_FROM_WATCHLATER, 
+    SET_AS_CURRENT_EPISODE,
+    SET_AS_NEXT_EPISODE,
+    SET_AS_PREVIOUS_EPISODE}
 from "./types";
 
 export const registerUserAuth = (user) => (
@@ -41,3 +45,37 @@ export const removeFromWatchLater = (animedata) => (
     }
 );
 
+export const addEpisodesFromShow = (episodes) => (
+    {
+        type: ADD_EPISODES,
+        payload: episodes
+    }
+);
+
+export const removeEpisodesFromShow = () => (
+    {
+        type: REMMOVE_EPISODES,
+        payload: null
+    }
+);
+
+export const setCurrentEpisode = (currentEpisodeData) => (
+    {
+        type: SET_AS_CURRENT_EPISODE,
+        payload: currentEpisodeData
+    }
+);
+
+export const setPreviousEpisode = (previousEpisodeData) => (
+    {
+        type: SET_AS_PREVIOUS_EPISODE,
+        payload: previousEpisodeData
+    }
+);
+
+export const setNextEpisode = (nextEpisodeData) => (
+    {
+        type: SET_AS_NEXT_EPISODE,
+        payload: nextEpisodeData
+    }
+);

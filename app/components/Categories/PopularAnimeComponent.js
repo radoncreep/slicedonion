@@ -26,7 +26,10 @@ const PopularAnimeComponent = ({ navigation, param, towhere }) => {
             console.log(error);
         };
 
-        return () => mounted = false;
+        return () => {
+            console.log('mounted', mounted)
+            mounted = false;
+        }
     };
 
     useEffect(() => {
