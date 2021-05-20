@@ -6,16 +6,15 @@ export const usePagination = (detail, epiFunc) => {
     const [ episodes, setEpisodes ] = useState([]);
     const [showSpinner, setShowSpinner] = useState(false);
     let [ pagequery, setPageQuery ] = useState(0);
-
-    let dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const { category, url } = detail;
+    
     
     useEffect(() => {
         let mounted = true;
 
         const getEpisodeList = async () => {
-            console.log(mounted)
             if (mounted) {
                 setShowSpinner(true)
             }
@@ -29,7 +28,7 @@ export const usePagination = (detail, epiFunc) => {
 
                 let temp = episodes;
                 setEpisodes(temp.concat(data.totalEpisodes));
-                dispatch(addEpisodesFromShow(data.totalEpisodes));
+                await dispatch(addEpisodesFromShow(data.totalEpisodes));
             }
             return data;
         };

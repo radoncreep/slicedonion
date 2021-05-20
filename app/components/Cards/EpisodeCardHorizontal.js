@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         backgroundColor: '#7cc5fc',
         paddingLeft: 10,
-        justifyContent: 'center',
+        alignItems: 'center',
         marginTop: 5,
         fontSize: 11,
         fontWeight: '400',

@@ -9,5 +9,5 @@ export default combineReducers({
     history: historyReducer,
     watchLater: watchLaterReducer,
     register: authReducer,
-    episodes: episodesReducer
+    playlist: episodesReducer
 });

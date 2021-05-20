@@ -29,7 +29,7 @@ const AnimeDetails = ({ navigation, route }) => {
     const { info, showLoader } = useDetail(detail, getDetailApi);
 
     const { episodes, showSpinner } = usePagination(detail, getEpisodesApi);
-
+    
     return (
         <>
             <ActivityIndicator visible={showLoader} style={styles.loader}/>

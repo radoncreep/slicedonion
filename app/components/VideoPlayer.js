@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, Button, Dimensions } from 'react-native';
+import { View, StyleSheet, Button, Dimensions, TouchableHighlight, Text } from 'react-native';
 import { Video, AVPlaybackStatus } from 'expo-av';
 
 import { getStreamUrl } from '../api/getEpisode';
@@ -37,7 +37,11 @@ const VideoPlayer = ({ videodata }) => {
         getStreamUrlApi(videodata);
 
         return () => mounted= false;
-    }, [])
+    }, []);
+
+    // const handlePlayAndPause = () => {
+        
+    // }
 
     return (
         <View style={styles.container}>
@@ -54,12 +58,17 @@ const VideoPlayer = ({ videodata }) => {
                 resizeMode="cover"
                 isLooping
                 onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+                // shouldPlay={true}
             />
             <View style={styles.buttons}>
-                <Button 
-                    title={status.isPlaying ? 'Pause' : 'Play'}
+                <TouchableHighlight
+                    style={{ width: 150, height: 50, backgroundColor: 'red', marginTop: 70 }}
                     onPress={() => status.isPlaying ? video.current.pauseAsync() : video.current.playAsync() }
-                />
+                >
+                    <Text>
+                        {status.isPlaying ? 'Pause' :  'Play'}
+                    </Text>
+                </TouchableHighlight>
             </View>
         </View>
     );
