@@ -10,7 +10,7 @@ const Recents = ({ navigation, towhere }) => {
         try {
             const response = await getRecents();
 
-            setRecents(response.data.list);
+            if (response.data && response.ok) setRecents(response.data.list);
         } catch (error) {
             console.log(error);
         }

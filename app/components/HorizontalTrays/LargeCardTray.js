@@ -31,7 +31,7 @@ const animeList = [
 ];
 
 const LargeCardTray = ({ onPress }) => {
-    const [ movies, setMovies ] = useState();
+    const [ movies, setMovies ] = useState([]);
 
     useEffect(() => {
         let mounted = true;
@@ -51,7 +51,7 @@ const LargeCardTray = ({ onPress }) => {
                 <ScrollView
                     horizontal
                 >   
-                    {movies && movies.map((movie, index) => (
+                    {Array.isArray(movies) && movies.map((movie, index) => (
                         <LargeCard 
                             key={index} 
                             title={movie.title} 
