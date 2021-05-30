@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import EpisodeCardHorizontal from '../components/Cards/EpisodeCardHorizontal';
+import CurrentPlayer from '../components/CurrentPlayer';
 
 import VideoPlayer from '../components/VideoPlayer';
 import { useVideoContext } from '../hooks/useVideoContext';
@@ -10,11 +11,12 @@ import { colorPallete } from '../utils/colors';
 
 const PlayerScreen = ({ navigation, route }) => {
     const { episodes } = useSelector(state => state.playlist);
-    console.log('player screen ', episodes);
+    // console.log('player screen ', episodes);
     // const dispatch = useDispatch();
 
     let { currentEpisode, nextEpisode } = episodes;
-    let { episodeNumber, episodeUrl } = currentEpisode;
+    console.log('current ', currentEpisode)
+    let { episodeNumber, episodeUrl, version } = currentEpisode;
 
     // console.log('video current ', currentEpisode);
     // console.log('video next ', nextEpisode);
@@ -69,14 +71,21 @@ const PlayerScreen = ({ navigation, route }) => {
             <View style={styles.videoStyle}>
                 <VideoPlayer videodata={episodeUrl}/>
             </View>
-            {/* <View style={{ position: 'absolute', top: 400 }}>
-                <EpisodeCardHorizontal 
-                    // episodeTitle={title}
-                    episodeNumber={episodeNumber} 
-                    // imageurl={subimage}
-                    // onPress={handleEpisodeChange}
-                />
-            </View> */}
+            <CurrentPlayer                
+                episodeNumber={episodeNumber}
+                seasonNumber="S1"
+                title="hard coded"
+                version={version}
+            >
+                <View>
+                    <EpisodeCardHorizontal 
+                        // episodeTitle={title}
+                        episodeNumber={episodeNumber} 
+                        // imageurl={subimage}
+                        // onPress={handleEpisodeChange}
+                    />
+                </View>
+            </CurrentPlayer>
         </View>
     );
 };
@@ -84,11 +93,11 @@ const PlayerScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#000'
+        backgroundColor: colorPallete.smallBgPurple
     },
     videoStyle: {
-        flex: 1,
         width: '100%',
+        flex: 1
     },
     nextEpisodeStyle: {
         flex: 1,
