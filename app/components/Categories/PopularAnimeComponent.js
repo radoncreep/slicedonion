@@ -14,22 +14,18 @@ const PopularAnimeComponent = ({ navigation, param, towhere }) => {
         let mounted = true;
 
         try {
-            const response = await getAllPopularPage(param);
+            const { data, ok } = await getAllPopularPage(param);
             
-            if (mounted) {
+            if (mounted && ok) {
                 console.log('popular loaded');
                 setFetched(true)
-                setPopularShows(response.data.list);
+                setPopularShows(data.list);
             };
-            return response;
         } catch (error) {
             console.log(error);
         };
 
-        return () => {
-            console.log('mounted', mounted)
-            mounted = false;
-        }
+        return () => mounted = false;
     };
 
     useEffect(() => {
