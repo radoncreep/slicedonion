@@ -1,8 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import jwtDecode from 'jwt-decode';
+import { useDispatch } from 'react-redux';
+import AppLoading from 'expo-app-loading';
+
 
 import Content from '../components/Content';
+import authStorage from '../utility/storage';
+import { registerUserAuth } from '../store/actions';
+import { ContentPlaceholder } from '../components/ContentPlaceholder';
 
 const HomeScreen = ({ navigation }) => {
+    const [ hasLoaded, setHasLoaded ] = useState(false);
+    const dispatch = useDispatch();
+  
+    const retrieveToken = async () => {
+        const token = await authStorage.getToken();
+        if (!token) return;
+
+        const authUser = jwtDecode(token);
+        dispatch(registerUserAuth(authUser));
+    }
+  
+    useEffect(() => {
+      retrieveToken();
+    }, []);
+
+
+    if (!hasLoaded) {
+        return (
+            <AppLoading 
+                startAsync={retrieveToken} 
+                onFinish={() => setHasLoaded(true)} 
+                onError={console.warn}
+            />
+        )
+    };
+    
     return (
         <Content
             imagebgUrl="https://avatarfiles.alphacoders.com/211/211710.jpg"
@@ -18,7 +51,7 @@ const HomeScreen = ({ navigation }) => {
             title="DOCTOR STONE"
             navigation={navigation}
         />
-    );
+   );
 };
 
 export default HomeScreen;

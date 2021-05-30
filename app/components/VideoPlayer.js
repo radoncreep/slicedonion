@@ -1,9 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, Button, Dimensions } from 'react-native';
+import { View, StyleSheet, Button, Dimensions, TouchableHighlight, Text } from 'react-native';
 import { Video, AVPlaybackStatus } from 'expo-av';
+import { AntDesign } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+
 import { getStreamUrl } from '../api/getEpisode';
 import ErrorMessage from './ErrorMessage';
 import ActivityIndicator from './ActivityIndicator';
+
+const { width } = Dimensions.get("screen");
+
+
 
 const VideoPlayer = ({ videodata }) => {
     const video = useRef(null);
@@ -36,7 +43,11 @@ const VideoPlayer = ({ videodata }) => {
         getStreamUrlApi(videodata);
 
         return () => mounted= false;
-    }, [])
+    }, []);
+
+    const renderPlayIcon = () => <AntDesign style={{ borderRadius: 0, backgroundColor: 'transparent', borderColor: 'transparent' }} name="caretright" size={60} color="red" />;
+
+    const renderPauseIcon = () => <Feather style={{ borderRadius: 0, backgroundColor: 'transparent', borderColor: 'transparent' }} name="pause" size={60} color="red" />
 
     return (
         <View style={styles.container}>
@@ -55,10 +66,20 @@ const VideoPlayer = ({ videodata }) => {
                 onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             />
             <View style={styles.buttons}>
-                <Button 
-                    title={status.isPlaying ? 'Pause' : 'Play'}
+                <TouchableHighlight
                     onPress={() => status.isPlaying ? video.current.pauseAsync() : video.current.playAsync() }
-                />
+                >
+                    <View
+                        style={{ 
+                            outline: 'none',
+                            borderColor: 'transparent',
+                            borderRadius: 0,
+                            backgroundColor: 'transparent'
+                        }}
+                    >
+                        {status.isPlaying ? renderPauseIcon() :  renderPlayIcon()}
+                    </View>
+                </TouchableHighlight>
             </View>
         </View>
     );
@@ -74,17 +95,20 @@ const styles = StyleSheet.create({
     buttons: {
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        position: 'absolute',
+        top: 150,
+        left: '40%'
     },
     container: {
         flex: 1,
         backgroundColor: '#ecf0f1',
-        // paddingTop: 50
+        width: '100%'
     },
     video: {
         width: Dimensions.get('window').width,
-        height: 250, 
-        backgroundColor: '#000'
+        flex: 1, 
+        // backgroundColor: '#000'
     },
 })
 

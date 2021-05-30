@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
@@ -9,10 +9,10 @@ import AppNavigator from './app/navigation/Tab/AppNavigator';
 import rootReducer from './app/store/reducers/index';
 import OfflinePage from './app/components/Offline/OfflineMode';
 
+
 const store = createStore(rootReducer);
 
 export default function App() {
-  const [ nextEpisode, setNextEpisode ] = useState();
   const netInfo = useNetInfo();
   
   return (

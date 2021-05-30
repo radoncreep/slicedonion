@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 
 export const GenreNavigation = () => {
     return (
-        <Stack.Navigator initialRouteName="All Genre" mode="modal" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="All Genre" screenOptions={{ headerShown: false }}>
             <Stack.Screen
                 name="Genre Screen" 
                 component={GenreScreen}

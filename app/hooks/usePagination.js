@@ -1,29 +1,34 @@
-import React, {useEffect, useReducer, useState } from 'react';
+import React, {useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addEpisodesFromShow } from '../store/actions';
 
 export const usePagination = (detail, epiFunc) => {
     const [ episodes, setEpisodes ] = useState([]);
     const [showSpinner, setShowSpinner] = useState(false);
     let [ pagequery, setPageQuery ] = useState(0);
+    const dispatch = useDispatch();
+
     const { category, url } = detail;
+    
     
     useEffect(() => {
         let mounted = true;
 
         const getEpisodeList = async () => {
-            console.log(mounted)
             if (mounted) {
                 setShowSpinner(true)
             }
             let name = category || url;
     
-            const { data } = await epiFunc(name, pagequery);
+            const { data, ok } = await epiFunc(name, pagequery);
     
-            if (mounted) {
+            if (ok && mounted) {
                 console.log('responded')
                 setShowSpinner(false);
 
                 let temp = episodes;
                 setEpisodes(temp.concat(data.totalEpisodes));
+                await dispatch(addEpisodesFromShow(data.totalEpisodes));
             }
             return data;
         };
@@ -31,7 +36,7 @@ export const usePagination = (detail, epiFunc) => {
         getEpisodeList();
 
         return () => mounted = false;
-    }, [])
+    }, []);
 
     return { pagequery, episodes, showSpinner };
 };

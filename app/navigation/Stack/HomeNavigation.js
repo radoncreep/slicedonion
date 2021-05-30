@@ -23,9 +23,7 @@ export const HomeNavigation = () => {
                 options={{
                     headerShown: false,
                     headerTitle: true,
-                    headerStyle: {
-                        backgroundColor: '#000'
-                    },
+                    headerShown: false
                 }}
             />
             <Stack.Screen 
