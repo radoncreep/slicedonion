@@ -23,7 +23,6 @@ export const usePagination = (detail, epiFunc) => {
             const { data, ok } = await epiFunc(name, pagequery);
     
             if (ok && mounted) {
-                console.log('responded')
                 setShowSpinner(false);
 
                 let temp = episodes;

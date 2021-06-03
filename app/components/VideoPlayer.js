@@ -4,7 +4,7 @@ import { Video, AVPlaybackStatus } from 'expo-av';
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 
-import { getStreamUrl } from '../api/getEpisode';
+import { playlistApi } from '../api/getPlaylist';
 import ErrorMessage from './ErrorMessage';
 import ActivityIndicator from './ActivityIndicator';
 
@@ -20,6 +20,9 @@ const VideoPlayer = ({ videodata }) => {
     const [ buffer, setBuffer ] = useState(false);
 
     // const { episodeUrl } = videodata.params;
+    const { getCurrentEpisodeUrl } = playlistApi();
+    const { episodeUrl } = videodata;
+    console.log('viddata', episodeUrl);
     
     useEffect(() => {
         let mounted = true;
@@ -28,8 +31,9 @@ const VideoPlayer = ({ videodata }) => {
             if (mounted) {
                 setBuffer(true);
                 setError(null);
-            }
-            const { data, ok } = await getStreamUrl(url);
+            };
+            
+            const { data, ok } = await getCurrentEpisodeUrl(url);
     
             if (!ok && mounted) return setError(data.message);
             console.log('stream link ', data.remote);
@@ -40,7 +44,7 @@ const VideoPlayer = ({ videodata }) => {
             };
         };
         
-        getStreamUrlApi(videodata);
+        getStreamUrlApi(episodeUrl);
 
         return () => mounted= false;
     }, []);

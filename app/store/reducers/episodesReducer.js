@@ -67,7 +67,7 @@ export const episodesReducer = (state=INITIAL_STATE, {type, payload} = action) =
             };
 
             nextClone.episodes.nextEpisode = payload;
-            console.log('reducer ', nextClone);
+            // console.log('reducer ', nextClone);
             return nextClone;
         default:
             return state;

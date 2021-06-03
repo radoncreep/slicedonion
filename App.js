@@ -14,6 +14,7 @@ const store = createStore(rootReducer);
 
 export default function App() {
   const netInfo = useNetInfo();
+
   
   return (
     <Provider store={store}>

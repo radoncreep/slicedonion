@@ -8,7 +8,7 @@ export default CurrentPlayer = ({ children, episodeNumber, seasonNumber, title, 
                 <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'red' }}>{title}</Text>
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>
-                        {seasonNumber}-{episodeNumber}
+                        S{seasonNumber}-E{episodeNumber}
                     </Text>
                     <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#fff', marginLeft: 10 }}>
                         {version}

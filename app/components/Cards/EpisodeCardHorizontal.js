@@ -4,21 +4,17 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { colorPallete } from '../../utils/colors';
 
-const EpisodeCardHorizontal = ({ episodeTitle, episodeNumber, imageurl, onPress, version }) => {
+const EpisodeCardHorizontal = ({ episodeNumber, episodeTitle, onPress, othername, releaseed, streamUrl, thumbnail, version, status }) => {
     return (
         <TouchableHighlight onPress={onPress}>
             <View style={styles.container}>
-                <ImageBackground style={styles.imagebg} source={{ uri: imageurl }}>
-                    {/* <View style={styles.lengthContainer}>
-                        <Text style={styles.length}>23.04</Text>
-                    </View> */}
-                </ImageBackground>
+                <ImageBackground style={styles.imagebg} source={{ uri: thumbnail }} />
+        
                 <View style={styles.minicard}>
                     <View style={{
                         flexDirection: 'column',
                         width: '80%',
                         height: '50%',
-                        // backgroundColor: 'red',
                         justifyContent: 'space-around',
                     }}>
                         <View style={styles.minicardTItle}>
@@ -133,6 +129,7 @@ const styles = StyleSheet.create({
     minicardIconBtn: {
         marginTop: 20,
         alignSelf: 'flex-end',
+        marginRight: 10
     }
 })
 
