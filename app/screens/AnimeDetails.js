@@ -12,6 +12,7 @@ import { usePagination } from '../hooks/usePagination';
 import ActivityIndicator from '../components/ActivityIndicator';
 import GradientView from '../components/GradientView';
 
+
 const { height } = Dimensions.get("window");
 
 let statusColor = {
@@ -24,11 +25,10 @@ const AnimeDetails = ({ navigation, route }) => {
     const [ showModal, setShowModal ] = useState(false);
 
     const detail = route.params;
-    // console.log('route ', detail)
 
     const { info, showLoader } = useDetail(detail, getDetailApi);
 
-    const { episodes, showSpinner } = usePagination(detail, getEpisodesApi);
+    const { showSpinner } = usePagination(detail, getEpisodesApi);
     
     return (
         <>
@@ -74,22 +74,8 @@ const AnimeDetails = ({ navigation, route }) => {
                                         </StatusBarComp>
                                     </Modal>
 
-                                    {episodes && (
-                                        <>
-                                            <EpisodesTrayVertical 
-                                                episodes={episodes}
-                                                subimage={detail.thumbnail}
-                                                title={detail.category || detail.title}
-                                                navigation={navigation}
-                                                towhere="Player"
-                                            />
-                                        </>
-                                    )}
-                                    {/* <TouchableOpacity disabled={true}>
-                                        <View style={[styles.nextBtn, { backgroundColor: 'grey' }]}>
-                                            <Text style={styles.nextBtnText}>Next</Text>
-                                        </View>
-                                    </TouchableOpacity> */}
+                                    <EpisodesTrayVertical towhere="Player"/>
+
                                 </View>
                             </Animated.ScrollView>
                     </ImageBackground>
