@@ -19,10 +19,9 @@ const VideoPlayer = ({ videodata }) => {
     const [ error, setError ] = useState('');
     const [ buffer, setBuffer ] = useState(false);
 
-    // const { episodeUrl } = videodata.params;
+   
     const { getCurrentEpisodeUrl } = playlistApi();
     const { episodeUrl } = videodata;
-    console.log('viddata', episodeUrl);
     
     useEffect(() => {
         let mounted = true;

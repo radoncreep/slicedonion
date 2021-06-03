@@ -24,7 +24,7 @@ const PlayerScreen = () => {
 
     const handlePlayerEpisodePress = (nextEpisode) => {
         handleEpisodeFunctionality(nextEpisode)
-        navigation.navigate('Player');
+        navigation.replace('Player');
     };
 
     return (
@@ -42,6 +42,7 @@ const PlayerScreen = () => {
                         episodeNumber={nextEpisode.episodeNumber} 
                         thumbnail={nextEpisode.thumbnail}
                         episodeTitle={nextEpisode.title}
+                        version={nextEpisode.version}
                         onPress={() => handlePlayerEpisodePress(nextEpisode)}
                     />
                 </View>
