@@ -65,6 +65,9 @@ export const RegisterModal = ({ show, setModal }) => {
                     <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>SLICEDONION</Text>
                     
                     <View style={styles.formInner}>
+                        <View style={{ alignSelf: 'center' }}>
+                            <AppErrorMessage error={registerError} visible={registerError} />
+                        </View>
 
                         <AppForm
                             initialValues={{ email: '', password: ''}}
@@ -92,9 +95,6 @@ export const RegisterModal = ({ show, setModal }) => {
                             <SubmitFormButton title="Create Account" />
                         </AppForm>
 
-                        <View style={{ alignSelf: 'center' }}>
-                            <AppErrorMessage error={registerError} visible={registerError} />
-                        </View>
                     </View>
                 </View>
                 <View style={styles.footer}>

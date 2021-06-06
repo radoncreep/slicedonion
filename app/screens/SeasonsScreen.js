@@ -1,11 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text } from 'react-native';
+import { SeasonHeader } from '../components/SeasonComponents/SeasonHeader';
 
 const SeasonsScreen = (props) => {
     return (
-        <View style={styles.container}>
-            <Text>Seasonals</Text>
-        </View>
+        <SeasonHeader />
     );
 };
 
@@ -13,7 +12,8 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 1
+        flex: 1,
+        backgroundColor: '#000'
     },
 })
 

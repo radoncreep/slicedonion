@@ -10,6 +10,7 @@ from '../../screens';
 import { HomeNavigation } from '../Stack/HomeNavigation';
 import { BrowseTabNavigator, LibraryTabNavigator } from './TopTabNavigation';
 import { AccountNavigation } from '../Stack/AccountNavigation';
+import { SeasonsNavigation } from '../Stack/SeasonsNavigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -50,7 +51,7 @@ const AppNavigator = (props) => {
             />
             <Tab.Screen 
                 name="Seasons" 
-                component={SeasonsScreen}
+                component={SeasonsNavigation}
                 options={{
                     tabBarIcon: ({ color }) => <MaterialIcons name="explore" size={24} color={color} />
                 }}

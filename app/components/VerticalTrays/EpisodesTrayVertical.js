@@ -17,7 +17,6 @@ const EpisodesTrayVertical = ({ towhere }) => {
     const { data } = episodes;
 
     const handleEpisodePress = (anime) => {
-
         handleEpisodeFunctionality(anime)
         navigation.navigate(towhere);
     };
