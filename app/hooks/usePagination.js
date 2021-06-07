@@ -1,6 +1,6 @@
 import React, {useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addEpisodesFromShow } from '../store/actions';
+import { addEpisodesFromShow, removeEpisodesFromShow } from '../store/actions';
 
 export const usePagination = (detail, epiFunc) => {
     const [ episodes, setEpisodes ] = useState([]);
@@ -15,6 +15,8 @@ export const usePagination = (detail, epiFunc) => {
         let mounted = true;
 
         const getEpisodeList = async () => {
+            dispatch(removeEpisodesFromShow());
+
             if (mounted) {
                 setShowSpinner(true)
             }
@@ -34,7 +36,11 @@ export const usePagination = (detail, epiFunc) => {
 
         getEpisodeList();
 
-        return () => mounted = false;
+        return () => {
+            setEpisodes([]);
+            mounted = false;
+            dispatch(removeEpisodesFromShow());
+        }
     }, []);
 
     return { pagequery, episodes, showSpinner };

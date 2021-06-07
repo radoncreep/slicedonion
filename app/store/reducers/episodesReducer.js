@@ -23,9 +23,10 @@ export const episodesReducer = (state=INITIAL_STATE, {type, payload} = action) =
                 }
             };
         case REMOVE_EPISODES:
+            console.log('removed')
             return {
                 episodes: {
-                    ...INITIAL_STATE
+                    ...INITIAL_STATE.episodes
                 }
             };
         case SET_AS_CURRENT_EPISODE:

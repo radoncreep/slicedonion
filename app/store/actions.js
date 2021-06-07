@@ -7,7 +7,9 @@ import {
     REMOVE_FROM_WATCHLATER, 
     SET_AS_CURRENT_EPISODE,
     SET_AS_NEXT_EPISODE,
-    SET_AS_PREVIOUS_EPISODE}
+    SET_AS_PREVIOUS_EPISODE,
+    REMOVE_EPISODES
+}
 from "./types";
 
 export const registerUserAuth = (user) => (
@@ -54,7 +56,7 @@ export const addEpisodesFromShow = (episodes) => (
 
 export const removeEpisodesFromShow = () => (
     {
-        type: REMMOVE_EPISODES,
+        type: REMOVE_EPISODES,
         payload: null
     }
 );

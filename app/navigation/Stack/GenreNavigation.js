@@ -25,7 +25,7 @@ export const GenreNavigation = () => {
                     headerTitleStyle: { color: 'silver' } 
                 }} 
             />
-            <Stack.Screen 
+            {/* <Stack.Screen 
                 name="Details" 
                 mode="modal"
                 component={AnimeDetails} 
@@ -33,7 +33,7 @@ export const GenreNavigation = () => {
                     headerTitle: false,
                     headerTransparent: true,
                 }}
-            />
+            /> */}
         </Stack.Navigator>
     )
 };

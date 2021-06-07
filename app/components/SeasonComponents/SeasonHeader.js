@@ -3,7 +3,6 @@ import { FlatList, Modal, StyleSheet, Text, TouchableHighlight, TouchableWithout
 import { EvilIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { getSeasonAnimeShows, getSeasonNamesApi } from '../../api/SeasonsApi';
-// import { AppForm } from '../form/AppForm';
 
 
 export const SeasonHeader = ({ setShows }) => {
