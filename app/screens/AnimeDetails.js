@@ -11,6 +11,8 @@ import { useDetail } from '../hooks/useDetailApi';
 import { usePagination } from '../hooks/usePagination';
 import ActivityIndicator from '../components/ActivityIndicator';
 import GradientView from '../components/GradientView';
+import { useDispatch } from 'react-redux';
+import { removeEpisodesFromShow } from '../store/actions';
 
 
 const { height } = Dimensions.get("window");
@@ -22,6 +24,7 @@ let statusColor = {
 };
 
 const AnimeDetails = ({ navigation, route }) => {
+    const dispatch = useDispatch();
     const [ showModal, setShowModal ] = useState(false);
 
     const detail = route.params;
