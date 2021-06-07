@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     },
     popover: {
         height: 290,
-        width: 150,
+        width: '100%',
         backgroundColor: '#0f010f',
         position: 'absolute',
         alignItems: 'center',

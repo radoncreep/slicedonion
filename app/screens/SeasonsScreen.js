@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { SeasonHeader } from '../components/SeasonComponents/SeasonHeader';
+import { Season } from '../components/SeasonComponents/Season';
 
 const SeasonsScreen = (props) => {
     return (
-        <SeasonHeader />
+        <Season />
     );
 };
 

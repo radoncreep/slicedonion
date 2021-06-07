@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, Modal, StyleSheet, Text, TouchableHighlight, TouchableWithoutFeedback, View } from 'react-native';
 import { EvilIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { getSeasonNamesApi } from '../../api/SeasonsApi';
+import { getSeasonAnimeShows, getSeasonNamesApi } from '../../api/SeasonsApi';
 // import { AppForm } from '../form/AppForm';
 
 
-export const SeasonHeader = () => {
-    const [ seasonValue, setSeasonValue ] = useState("Spring");
+export const SeasonHeader = ({ setShows }) => {
+    console.log('hi');
+    const [ seasonValue, setSeasonValue ] = useState("Winter 2021");
     const [ seasons, setSeasons ] = useState([seasonValue]);
     const [ modalVisible, setModalVisible ] = useState(false);
 
@@ -19,7 +20,15 @@ export const SeasonHeader = () => {
 
             if (mounted && ok) setSeasons(data);
         }
+
+        const getInitialSeasonShows = async() => {
+            const { data, ok } = await getSeasonAnimeShows("winter-2021-anime");
+
+        
+            if (mounted && ok) setShows(data)
+        }
         getSeasons();
+        getInitialSeasonShows();
 
         return () => mounted = false;
     }, []);
@@ -32,9 +41,16 @@ export const SeasonHeader = () => {
 
     const renderModal = () => {
 
-        const getSeasonData = (seasonItem) => {
+        const getSeasonShows = async (seasonItem) => {
+            console.log(seasonItem)
             setModalVisible(false);
             setSeasonValue(seasonItem.name);
+
+            const { data, ok } = await getSeasonAnimeShows(seasonItem.seasonUrl);
+            
+            if (ok) {
+                setShows(data);
+            }
         };
 
         return (
@@ -48,7 +64,7 @@ export const SeasonHeader = () => {
                         data={seasons}
                         keyExtractor={(item) => item.name}
                         renderItem={({ item }, index) => (
-                                <TouchableHighlight key={index} onPress={() => getSeasonData(item)}>
+                                <TouchableHighlight key={index} onPress={() => getSeasonShows(item)}>
                                     { renderNames(item.name) }
                                 </TouchableHighlight>
                             )
@@ -60,23 +76,25 @@ export const SeasonHeader = () => {
     };
 
     const renderSelectedSeason = () => {
-        console.log("season Value ", seasonValue);
         return (
             <TouchableHighlight onPress={() => setModalVisible(true)}>
-                <Text style={styles.headerText}>
-                    {seasonValue}
-                </Text>
+                <View style={styles.seasonHeader}>
+                    <MaterialCommunityIcons
+                        name="chevron-down"
+                        size={24}
+                        color="white"
+                    />
+                    <Text style={styles.headerText}>
+                        {seasonValue}
+                    </Text>
+                </View>
             </TouchableHighlight>
         )
     }
 
     return (
         <View style={styles.container}>
-            <MaterialCommunityIcons
-                name="chevron-down"
-                size={24}
-                color="white"
-            />
+            
             <View >
                 { modalVisible ? renderModal() : renderSelectedSeason()}
             </View>
@@ -90,10 +108,8 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: '#0f011f',
         width: '100%', 
-        display: 'flex',
-        flexDirection: 'row',
-        paddingHorizontal: 10,
-        alignItems: 'center'
+        paddingLeft: 10,
+
         // backgroundColor: 'transparent'
     },
     headerText: {
@@ -106,5 +122,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
         paddingHorizontal: 10,
         paddingVertical: 5,
+    },
+    seasonHeader: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: '100%'
     }
 })
