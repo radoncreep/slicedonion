@@ -23,7 +23,7 @@ const PlayerScreen = () => {
     console.log('next episode ', nextEpisode);
 
     const handlePlayerEpisodePress = (nextEpisode) => {
-        handleEpisodeFunctionality(nextEpisode)
+        handleEpisodeFunctionality(nextEpisode);
         navigation.replace('Player');
     };
 

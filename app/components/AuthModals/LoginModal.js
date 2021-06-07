@@ -62,6 +62,9 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
                     <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>SLICEDONION</Text>
 
                     <View style={styles.formInner}>
+                        <View style={{ alignSelf: 'center' }}>
+                            <AppErrorMessage error={errorMsg} visible={loginFailed}/> 
+                        </View>
                         <AppForm
                             initialValues={{ email: '', password: ''}}
                             validationSchema={validationSchema}
@@ -87,10 +90,6 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
                             />
                             <SubmitFormButton title="Login to Onion Account"/>
                         </AppForm>
-
-                        <View style={{ alignSelf: 'center' }}>
-                            <AppErrorMessage error={errorMsg} visible={loginFailed}/> 
-                        </View>
                     </View>
                 </View>
                 <View style={styles.footer}>
