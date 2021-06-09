@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import SmallCard from '../Cards/SmallCard';
 import { SeasonHeader } from './SeasonHeader';
+import SmallCard from '../Cards/SmallCard';
 
 export const Season = () => {
     const [ shows, setShows ] = useState([]);
