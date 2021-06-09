@@ -8,8 +8,9 @@ import { AppSearchIcon } from '../../components/AppSearchIcon';
 const Stack = createStackNavigator();
 
 export const HomeNavigation = () => {
+    
     return (
-        <Stack.Navigator screenOptions={{ headerShown: true }}>
+        <Stack.Navigator>
             <Stack.Screen
                 name="slicedonion" 
                 component={AppNavigator}

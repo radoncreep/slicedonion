@@ -4,7 +4,6 @@ import { EvilIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { getSeasonAnimeShows, getSeasonNamesApi } from '../../api/SeasonsApi';
 
-
 export const SeasonHeader = ({ setShows }) => {
     const [ seasonValue, setSeasonValue ] = useState("Winter 2021");
     const [ seasons, setSeasons ] = useState([seasonValue]);
