@@ -9,6 +9,8 @@ export const Season = () => {
     const [ shows, setShows ] = useState([]);
 
     const navigation = useNavigation();
+
+    const handleNavigationPress = (item) => navigation.navigate("Details", item);
     
     return (
         <View style={styles.container}>
@@ -25,7 +27,7 @@ export const Season = () => {
                         title={item && item.title} 
                         released={item &&  item.released}
                         imageUrl={item &&  item.thumbnail}
-                        onPress={() => console.log(item)}
+                        onPress={() => handleNavigationPress(item)}
                         style={{ width: 180, margin: 10 }}
                     />
                 )}

@@ -6,7 +6,6 @@ import { getSeasonAnimeShows, getSeasonNamesApi } from '../../api/SeasonsApi';
 
 
 export const SeasonHeader = ({ setShows }) => {
-    console.log('hi');
     const [ seasonValue, setSeasonValue ] = useState("Winter 2021");
     const [ seasons, setSeasons ] = useState([seasonValue]);
     const [ modalVisible, setModalVisible ] = useState(false);
@@ -22,9 +21,8 @@ export const SeasonHeader = ({ setShows }) => {
 
         const getInitialSeasonShows = async() => {
             const { data, ok } = await getSeasonAnimeShows("winter-2021-anime");
-
         
-            if (mounted && ok) setShows(data)
+            if (mounted && ok) setShows(data);
         }
         getSeasons();
         getInitialSeasonShows();
@@ -41,7 +39,6 @@ export const SeasonHeader = ({ setShows }) => {
     const renderModal = () => {
 
         const getSeasonShows = async (seasonItem) => {
-            console.log(seasonItem)
             setModalVisible(false);
             setSeasonValue(seasonItem.name);
 
@@ -93,7 +90,6 @@ export const SeasonHeader = ({ setShows }) => {
 
     return (
         <View style={styles.container}>
-            
             <View >
                 { modalVisible ? renderModal() : renderSelectedSeason()}
             </View>

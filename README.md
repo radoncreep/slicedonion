@@ -7,3 +7,8 @@ so a component is mounted and immediately unmounted then
 the cleanup function executes but then the useEffect doesnt 
 
 there are cases where the dependecies change and we need to cleanup prev state
+
+
+
+# Hiding tab bar in specific screens
+link = https://reactnavigation.org/docs/hiding-tabbar-in-screens/
