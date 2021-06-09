@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { AnimeDetails, PlayerScreen } from '../../screens';
 import AppNavigator from '../Tab/AppNavigator';
+import { AppSearchIcon } from '../../components/AppSearchIcon';
 
 const Stack = createStackNavigator();
 
@@ -13,11 +14,14 @@ export const HomeNavigation = () => {
                 name="slicedonion" 
                 component={AppNavigator}
                 options={{ 
-                    headerShown: false,
+                    headerShown: true,
                     headerStyle: { backgroundColor: '#0f011f'}, 
-                    headerTitleStyle: { color: '#fff' } 
+                    headerTitleStyle: { color: '#fff' },
+                    headerRight: () => (
+                        <AppSearchIcon />
+                    )
                 }} 
-                />
+            />
             <Stack.Screen 
                 name="Player"
                 component={PlayerScreen}
@@ -33,7 +37,8 @@ export const HomeNavigation = () => {
                 options={{ 
                     headerTitle: false,
                     headerTransparent: true,
-            }}/>
+                }}
+            />
         </Stack.Navigator>
     )
 };

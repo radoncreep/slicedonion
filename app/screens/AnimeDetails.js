@@ -24,7 +24,6 @@ let statusColor = {
 };
 
 const AnimeDetails = ({ navigation, route }) => {
-    const dispatch = useDispatch();
     const [ showModal, setShowModal ] = useState(false);
 
     const detail = route.params;
