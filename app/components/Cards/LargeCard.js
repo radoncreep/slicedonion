@@ -11,7 +11,7 @@ const LargeCard = ({ released, thumbnail, onPress, title }) => {
                     style={StyleSheet.absoluteFill}
                     start={[1, 4]}
                     end={[0, 2.5]}
-                    colors={["transparent", "rgba(0, 0, 0, 0.5)", "rgba(0, 0, 0, 0.6)"]}
+                    colors={["transparent", "rgba(0, 0, 0, 1)", "rgba(0, 0, 0, 0.6)"]}
                 >
                     <View style={styles.topContent}>
                         <Text style={styles.topTitle} numberOfLines={1}>{title}</Text>
@@ -33,7 +33,7 @@ const LargeCard = ({ released, thumbnail, onPress, title }) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: 380,
+        width: 340,
         marginRight: 10,
         height: 220,
         marginTop: 25
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     topTitle: {
         color: '#fff',
         fontSize: 16,
-        fontWeight: 'bold'
+        fontWeight: '500'
     }
 })
 
