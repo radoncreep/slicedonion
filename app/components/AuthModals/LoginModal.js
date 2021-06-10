@@ -11,6 +11,8 @@ import authApi from '../../api/getAuthApi';
 import { useDispatch } from 'react-redux';
 import { registerUserAuth } from '../../store/actions';
 import AppErrorMessage from '../form/AppErrorMessage';
+import authStorage from '../../utility/storage';
+
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email().required().label("Email"),
@@ -36,6 +38,8 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
         setLoginFailed(false);
         const user = jwtDecode(data.token);
         dispatch(registerUserAuth(user));
+        authStorage.storeToken(data.token);
+        return;
     };  
 
     return (
@@ -58,6 +62,9 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
                     <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>SLICEDONION</Text>
 
                     <View style={styles.formInner}>
+                        <View style={{ alignSelf: 'center' }}>
+                            <AppErrorMessage error={errorMsg} visible={loginFailed}/> 
+                        </View>
                         <AppForm
                             initialValues={{ email: '', password: ''}}
                             validationSchema={validationSchema}
@@ -83,10 +90,6 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
                             />
                             <SubmitFormButton title="Login to Onion Account"/>
                         </AppForm>
-
-                        <View style={{ alignSelf: 'center' }}>
-                            <AppErrorMessage error={errorMsg} visible={loginFailed}/> 
-                        </View>
                     </View>
                 </View>
                 <View style={styles.footer}>

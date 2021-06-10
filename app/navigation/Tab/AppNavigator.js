@@ -1,15 +1,12 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AntDesign, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 
-import { AccountScreen, 
-    LibraryScreen, 
-    SeasonsScreen } 
-from '../../screens';
-import { HomeNavigation } from '../Stack/HomeNavigation';
+import { HomeScreen } from '../../screens';
 import { BrowseTabNavigator, LibraryTabNavigator } from './TopTabNavigation';
 import { AccountNavigation } from '../Stack/AccountNavigation';
+import { SeasonsNavigation } from '../Stack/SeasonsNavigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,7 +26,7 @@ const AppNavigator = (props) => {
         >
             <Tab.Screen 
                 name="Home" 
-                component={HomeNavigation}
+                component={HomeScreen}
                 options={{
                     tabBarIcon: ({ color }) => <AntDesign name="home" size={24} color={color} /> 
                 }}
@@ -50,7 +47,7 @@ const AppNavigator = (props) => {
             />
             <Tab.Screen 
                 name="Seasons" 
-                component={SeasonsScreen}
+                component={SeasonsNavigation}
                 options={{
                     tabBarIcon: ({ color }) => <MaterialIcons name="explore" size={24} color={color} />
                 }}

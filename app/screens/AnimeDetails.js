@@ -10,28 +10,32 @@ import { getDetailApi } from '../api/getDetailApi';
 import { useDetail } from '../hooks/useDetailApi';
 import { usePagination } from '../hooks/usePagination';
 import ActivityIndicator from '../components/ActivityIndicator';
+import GradientView from '../components/GradientView';
+import { useDispatch } from 'react-redux';
+import { removeEpisodesFromShow } from '../store/actions';
+
 
 const { height } = Dimensions.get("window");
+
 let statusColor = {
     ongoing: '#7CFC00',
     completed: 'red' ,
     upcoming: 'yellow',
-}
+};
 
 const AnimeDetails = ({ navigation, route }) => {
     const [ showModal, setShowModal ] = useState(false);
 
     const detail = route.params;
-    console.log('route ', detail)
 
     const { info, showLoader } = useDetail(detail, getDetailApi);
 
-    const { episodes, showSpinner } = usePagination(detail, getEpisodesApi);
-
+    const { showSpinner } = usePagination(detail, getEpisodesApi);
+    
     return (
         <>
             <ActivityIndicator visible={showLoader} style={styles.loader}/>
-            {info ? (
+            {info && (
                 <StatusBarComp style={{ paddingTop: 0 }}>
                     <ImageBackground style={styles.bg} source={{ uri: info.thumbnail }}>
                             <Animated.ScrollView
@@ -39,12 +43,7 @@ const AnimeDetails = ({ navigation, route }) => {
                                 scrollEventThrottle={1}
                             >
                                 <Animated.View style={{ height: height - 180 }}>
-                                    <LinearGradient
-                                        style={StyleSheet.absoluteFill}
-                                        start={[0, 0.3]}
-                                        end={[0, 1]}
-                                        colors={["transparent", "rgba(0, 0, 0, 0.5)", "black"]}
-                                    >
+                                    <GradientView>
                                         <View style={styles.bgContent}>
                                             <Text style={styles.bgTitle}>{info.title}</Text>
                                             <View style={styles.status}>
@@ -62,7 +61,7 @@ const AnimeDetails = ({ navigation, route }) => {
                                             <Text numberOfLines={2} style={styles.bgDesc}>{info.summary}</Text>
                                             <Button onPress={() => setShowModal(true)} style={styles.btnLink} title="DETAILS" />
                                         </View>
-                                    </LinearGradient>
+                                    </GradientView>
                                 </Animated.View>
 
                                 <View style={{ backgroundColor: 'black', paddingTop: 7 }}>
@@ -77,30 +76,14 @@ const AnimeDetails = ({ navigation, route }) => {
                                         </StatusBarComp>
                                     </Modal>
 
-                                    {episodes ? (
-                                        <>
-                                            <EpisodesTrayVertical 
-                                                episodes={episodes}
-                                                subimage={detail.thumbnail}
-                                                title={detail.category || detail.title}
-                                                navigation={navigation}
-                                                towhere="Player"
-                                            />
-                                        </>
-                                    ) : null
-                                    }
-                                    {/* <TouchableOpacity disabled={true}>
-                                        <View style={[styles.nextBtn, { backgroundColor: 'grey' }]}>
-                                            <Text style={styles.nextBtnText}>Next</Text>
-                                        </View>
-                                    </TouchableOpacity> */}
+                                    <EpisodesTrayVertical towhere="Player"/>
+
                                 </View>
                             </Animated.ScrollView>
                     </ImageBackground>
                 </StatusBarComp>
 
-            ) : null
-            }
+            )}
         </>
     );
 };

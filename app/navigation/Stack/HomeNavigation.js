@@ -1,31 +1,35 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { AnimeDetails, HomeScreen, PlayerScreen } from '../../screens';
+import { AnimeDetails, PlayerScreen } from '../../screens';
+import AppNavigator from '../Tab/AppNavigator';
+import { AppSearchIcon } from '../../components/AppSearchIcon';
 
 const Stack = createStackNavigator();
 
 export const HomeNavigation = () => {
+    
     return (
-        <Stack.Navigator screenOptions={{ headerShown: true }}>
+        <Stack.Navigator>
             <Stack.Screen
                 name="slicedonion" 
-                component={HomeScreen}
+                component={AppNavigator}
                 options={{ 
                     headerShown: true,
                     headerStyle: { backgroundColor: '#0f011f'}, 
-                    headerTitleStyle: { color: '#fff' } 
+                    headerTitleStyle: { color: '#fff' },
+                    headerRight: () => (
+                        <AppSearchIcon />
+                    )
                 }} 
-                />
+            />
             <Stack.Screen 
                 name="Player"
                 component={PlayerScreen}
                 options={{
                     headerShown: false,
                     headerTitle: true,
-                    headerStyle: {
-                        backgroundColor: '#000'
-                    },
+                    headerShown: false
                 }}
             />
             <Stack.Screen 
@@ -34,7 +38,8 @@ export const HomeNavigation = () => {
                 options={{ 
                     headerTitle: false,
                     headerTransparent: true,
-            }}/>
+                }}
+            />
         </Stack.Navigator>
     )
 };

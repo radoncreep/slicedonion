@@ -11,6 +11,7 @@ import { SubmitFormButton } from '../form/SubmitFormButton';
 import authApi from '../../api/getAuthApi';
 import { registerUserAuth } from '../../store/actions';
 import AppErrorMessage from '../form/AppErrorMessage';
+import authStorage from '../../utility/storage';
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email().required().label("Email"),
@@ -39,6 +40,7 @@ export const RegisterModal = ({ show, setModal }) => {
 
         const newUser = jwtDecode(data.token);
         dispatch(registerUserAuth(newUser));
+        authStorage.storeToken(data.token);
         return;
     };
 
@@ -63,6 +65,9 @@ export const RegisterModal = ({ show, setModal }) => {
                     <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>SLICEDONION</Text>
                     
                     <View style={styles.formInner}>
+                        <View style={{ alignSelf: 'center' }}>
+                            <AppErrorMessage error={registerError} visible={registerError} />
+                        </View>
 
                         <AppForm
                             initialValues={{ email: '', password: ''}}
@@ -90,9 +95,6 @@ export const RegisterModal = ({ show, setModal }) => {
                             <SubmitFormButton title="Create Account" />
                         </AppForm>
 
-                        <View style={{ alignSelf: 'center' }}>
-                            <AppErrorMessage error={registerError} visible={registerError} />
-                        </View>
                     </View>
                 </View>
                 <View style={styles.footer}>

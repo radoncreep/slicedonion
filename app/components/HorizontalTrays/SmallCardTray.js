@@ -8,7 +8,6 @@ const SmallCardTray = ({ data, navigation, towhere, heading }) => {
     const handleCardPress = (anime) => {
         navigation.navigate(towhere, anime);
     };
-    console.log(data)
 
     return (
         <View style={styles.container}>

@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 
 export const GenreNavigation = () => {
     return (
-        <Stack.Navigator initialRouteName="All Genre" mode="modal" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="All Genre" screenOptions={{ headerShown: false }}>
             <Stack.Screen
                 name="Genre Screen" 
                 component={GenreScreen}
@@ -25,7 +25,7 @@ export const GenreNavigation = () => {
                     headerTitleStyle: { color: 'silver' } 
                 }} 
             />
-            <Stack.Screen 
+            {/* <Stack.Screen 
                 name="Details" 
                 mode="modal"
                 component={AnimeDetails} 
@@ -33,7 +33,7 @@ export const GenreNavigation = () => {
                     headerTitle: false,
                     headerTransparent: true,
                 }}
-            />
+            /> */}
         </Stack.Navigator>
     )
 };
