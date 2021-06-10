@@ -1,25 +1,26 @@
 import React, { useState} from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+
 
 import { AppSearch } from './AppSearch';
 
 export const AppSearchIcon = () => {
-    const [ searchModal, setSearchModal ] = useState(false);
+    const navigation = useNavigation();
 
     return (
-        <>
-            { !searchModal ?  ( <Pressable 
-                    onPress={() => setSearchModal(true)}
-                    style={{ marginRight: 20 }}
-                >
-                    <EvilIcons name="search" size={30} color="white" />
-                </Pressable> 
-            ) 
-            : 
-                ( <AppSearch searchModal={searchModal} setSearchModal={setSearchModal} /> ) 
-            }
-        </>
+        <Pressable 
+            onPress={() => navigation.navigate('SearchScreen')}
+            style={{ 
+                alignItems: 'center',
+                justifyContent: 'center', 
+                height: '100%', 
+                width: 60,  
+            }}
+        >
+            <EvilIcons name="search" size={30} color="white" />
+        </Pressable> 
     )
 };
 

@@ -34,7 +34,7 @@ const dummyData = [
     { id: 1221, title: 'vinland saga'},
 ];
 
-export const AppSearch = ({ searchModal, setSearchModal, customStyle }) => {
+export const AppSearch = ({  customStyle }) => {
     const [ search, setSearch ] = useState(null);
     const [ searchHistory, setSearchHistory ] = useState([]);
     const [ searchResult, setSearchResult ] = useState();
@@ -42,7 +42,7 @@ export const AppSearch = ({ searchModal, setSearchModal, customStyle }) => {
     const [ loading, setLoading ] = useState(false); 
     let [ mounted, setMounted ] = useState(false);
 
-    const navigation = useNavigation()
+    const navigation = useNavigation();
 
     let resultHolder = [];
 
@@ -56,7 +56,6 @@ export const AppSearch = ({ searchModal, setSearchModal, customStyle }) => {
 
     const renderSearchText = (item) => {
         const handleSearchTextPress = () => {
-            setSearchModal(false);
             navigation.navigate('Details', item);
         };
 
@@ -66,7 +65,7 @@ export const AppSearch = ({ searchModal, setSearchModal, customStyle }) => {
                 style={{ display: 'flex', flexDirection: 'row', marginVertical: 10, width: '100%', alignItems: 'center' }}
                 onPress={() => handleSearchTextPress()}    
             >
-                <EvilIcons style={{  paddingHorizontal: 5, marginRight: 8 }} name="search" size={24} color="grey" />
+                <EvilIcons style={{  paddingHorizontal: 5, marginRight: 22 }} name="search" size={24} color="grey" />
                 <Text style={{ color: '#fff', fontSize: 16, fontWeight: '500', flex: 2, textDecorationLine: "none" }}>{item.title}</Text>
                 <EvilIcons style={{ paddingHorizontal: 5 }} name="external-link" size={26} color="grey" />
             </Pressable>
@@ -111,7 +110,7 @@ export const AppSearch = ({ searchModal, setSearchModal, customStyle }) => {
         } 
 
         return (
-            <View style={{ width: '80%' }}>
+            <View style={{ marginLeft: 15, width: '80%', flexDirection: 'row', alignItems: 'center' }}>
                 <TextInput 
                     autoCapitalize="none"
                     onChangeText={(text) => handleSearchTextChange(text)}
@@ -121,6 +120,15 @@ export const AppSearch = ({ searchModal, setSearchModal, customStyle }) => {
                     placeholderTextColor="#fff"
                     autoFocus={true}
                 />
+                {search ? (
+                    <Pressable 
+                        onPress={() => { 
+                            setSearch(null)
+                            // setSearchResult([])
+                        }}>
+                        <AntDesign name="delete" size={22} color="white" />
+                    </Pressable>
+                )  : null }
             </View>
         )
     };
@@ -157,52 +165,46 @@ export const AppSearch = ({ searchModal, setSearchModal, customStyle }) => {
         )
     }
 
-    const renderSearchModal = () => {
+    const renderSearchView = () => {
         const handleCloseModal = () => {
+            navigation.goBack();
             setSearch(null);
-            setSearchModal(false)
         };
 
         return (
-            <Modal 
-                animationType="fade"
-                onRequestClose={() => handleCloseModal()}
-                visible={searchModal}
-            >
-                <View style={styles.searchModal}>
-                    <View
-                        style={{ paddingHorizontal: 7, flexDirection: 'row', height: 55, backgroundColor: '#414345', width: '100%' }}
-                    >
-                        <Pressable 
-                            onPress={() => handleCloseModal()}
-                            style={{ width: 30, alignItems: 'center', justifyContent: 'center', marginLeft: 5 }}
-                            >
-                            <Ionicons name="arrow-back" size={24} color="white" />
-                        </Pressable>
-                        { renderSearchBar() }
-                    </View>
-                    <View style={{ paddingHorizontal: 10 }}>
-                        <ActivityIndicator visible={loading }/>
-                        { !searchResult ? (
-                            <FlatList
-                                contentContainerStyle={{ paddingBottom: 40 }}
-                                data={searchHistory}
-                                keyExtractor={(item) => item.id.toString()}
-                                renderItem={({ item }, index ) => (
-                                   renderSearchText(item)
-                                )}
-                            />
-                        ) : renderFetchedData()
-                        }
-                    </View>
+            <View style={styles.searchModal}>
+                <View
+                    style={{ paddingHorizontal: 7, flexDirection: 'row', height: 55, backgroundColor: '#414345', width: '100%' }}
+                >
+                    <Pressable 
+                        onPress={() => handleCloseModal()}
+                        style={{ width: 30, alignItems: 'center', justifyContent: 'center', marginLeft: 5 }}
+                        >
+                        <Ionicons name="arrow-back" size={24} color="white" />
+                    </Pressable>
+                    { renderSearchBar() }
                 </View>
-            </Modal>    
+                <View style={{ paddingHorizontal: 10 }}>
+                    <ActivityIndicator visible={loading }/>
+                    { !searchResult ? (
+                        <FlatList
+                            contentContainerStyle={{ paddingBottom: 40 }}
+                            data={searchHistory}
+                            keyExtractor={(item) => item.id.toString()}
+                            renderItem={({ item }, index ) => (
+                                renderSearchText(item)
+                            )}
+                        />
+                    ) : renderFetchedData()
+                    }
+                </View>
+            </View>
         )
     }
 
     return (
         <View style={[styles.container, { customStyle }]}>
-            { renderSearchModal () }
+            { renderSearchView () }
         </View>
     )
 };
