@@ -21,7 +21,6 @@ const GenresComponent = ({ navigation }) => {
     };
 
     const handleGenreNavigation = (item) => {
-        console.log(item)
         navigation.navigate("Genre Screen", item);
         return;
     };

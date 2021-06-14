@@ -5,6 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 import { SeasonHeader } from './SeasonHeader';
 import SmallCard from '../Cards/SmallCard';
 
+const screenWidth = Dimensions.get("screen").width;
+
 export const Season = () => {
     const [ shows, setShows ] = useState([]);
 
@@ -31,6 +33,7 @@ export const Season = () => {
                         style={{ width: 180, margin: 10 }}
                     />
                 )}
+                contentContainerStyle={styles.contentContainer}
             />
         </View>
     )
@@ -38,12 +41,16 @@ export const Season = () => {
 
 const styles = StyleSheet.create({
     card: {
-        width: (Dimensions.get("screen").width / 2) - 20,
+        width: (screenWidth / 2) - 20,
         height: 150
     },  
     container: {
-        backgroundColor: '#000',
         flex: 1,
-        width: '100%'
+        width: screenWidth
     },
+    contentContainer: {
+        width: screenWidth,
+        alignItems: 'center',
+        backgroundColor: '#0f010f'
+    }
 })

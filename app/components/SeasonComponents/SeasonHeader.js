@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Modal, StyleSheet, Text, TouchableHighlight, TouchableWithoutFeedback, View } from 'react-native';
+import { Dimensions, FlatList, Modal, StyleSheet, Text, TouchableHighlight, TouchableWithoutFeedback, View } from 'react-native';
 import { EvilIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { getSeasonAnimeShows, getSeasonNamesApi } from '../../api/SeasonsApi';
@@ -70,10 +70,10 @@ export const SeasonHeader = ({ setShows }) => {
         )
     };
 
-    const renderSelectedSeason = () => {
+    const renderSelectedSeasonTab = () => {
         return (
             <TouchableHighlight onPress={() => setModalVisible(true)}>
-                <View style={styles.seasonHeader}>
+                <View style={styles.seasonTab}>
                     <MaterialCommunityIcons
                         name="chevron-down"
                         size={24}
@@ -90,7 +90,7 @@ export const SeasonHeader = ({ setShows }) => {
     return (
         <View style={styles.container}>
             <View >
-                { modalVisible ? renderModal() : renderSelectedSeason()}
+                { modalVisible ? renderModal() : renderSelectedSeasonTab()}
             </View>
         </View>
     );
@@ -98,13 +98,9 @@ export const SeasonHeader = ({ setShows }) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
+        width: Dimensions.get('screen').width,
         height: 50,
-        backgroundColor: '#0f011f',
-        width: '100%', 
-        paddingLeft: 10,
-
-        // backgroundColor: 'transparent'
+        backgroundColor: '#0f010f',
     },
     headerText: {
         color: '#fff',
@@ -117,10 +113,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 5,
     },
-    seasonHeader: {
+    seasonTab: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        height: '100%'
+        height: '100%',
+        width: '100%',
+        paddingLeft: 10
     }
 })
