@@ -4,7 +4,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { GenreListComponent } from '../components/GenreListComponent';
 
 const GenreScreen = ({ navigation, route }) => {
-    console.log('route ', route.params);
     let { genreName, genreUrl, id } = route.params;
 
     return (
