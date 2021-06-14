@@ -1,61 +1,77 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Dimensions, FlatList, Modal, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { AntDesign, EvilIcons, Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { AntDesign, EvilIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+
+import ActivityIndicator from '../ActivityIndicator';
+import { addSearchToHistory, getSearchHistory } from '../../hooks/useHistoryStore';
 
 
-import { getSearch } from '../api/getSearch';
-import ActivityIndicator from './ActivityIndicator';
-
-const dummyData = [
-    { id: 1, title: 'attack on titan'},
-    { id: 2, title: 'jujutsu kaisen'},
-    { id: 3, title: 'robinhood'},
-    { id: 4, title: 'bungo stray dogs'},
-    { id: 5, title: 'kimetsu no yaiba'},
-    { id: 6, title: 'vinland saga'},
-    { id: 7, title: 'attack on titan'},
-    { id: 8, title: 'jujutsu kaisen'},
-    { id: 9, title: 'robinhood'},
-    { id: 10, title: 'bungo stray dogs'},
-    { id: 11, title: 'kimetsu no yaiba'},
-    { id: 12, title: 'vinland saga'},
-    { id: 21, title: 'attack on titan'},
-    { id: 23, title: 'jujutsu kaisen'},
-    { id: 33, title: 'robinhood'},
-    { id: 421, title: 'bungo stray dogs'},
-    { id: 53, title: 'kimetsu no yaiba'},
-    { id: 326, title: 'vinland saga'},
-    { id: 73, title: 'attack on titan'},
-    { id: 832, title: 'jujutsu kaisen'},
-    { id: 921, title: 'robinhood'},
-    { id: 1032, title: 'bungo stray dogs'},
-    { id: 1123, title: 'kimetsu no yaiba'},
-    { id: 1221, title: 'vinland saga'},
-];
 
 export const AppSearch = ({  customStyle }) => {
-    const [ search, setSearch ] = useState(null);
-    const [ searchHistory, setSearchHistory ] = useState([]);
+    const [ searchText, setSearchText ] = useState(null);
     const [ searchResult, setSearchResult ] = useState();
-    const [ error, setError ] = useState(null);
+    const [ errorMessage, setError ] = useState(null);
     const [ loading, setLoading ] = useState(false); 
-    let [ mounted, setMounted ] = useState(false);
+    const [ previousSearch, setPreviousSearch ] = useState();
 
     const navigation = useNavigation();
 
-    let resultHolder = [];
+    let resultHolder = [], mounted = true;
 
     useEffect(() => {
-        let mounted = true;
+        const source = axios.CancelToken.source();
+        // setLoading(false);
 
-        if (mounted) setSearchHistory(dummyData);
+        if (mounted) {
+            if (searchText) {
+                setLoading(true)
+            }
+            else {
+                setLoading(false);
+                setSearchResult();
+            }
 
-        return () => mounted = false;
-    }, []);
+            ( async() => setPreviousSearch( await getSearchHistory() ))();
+        }
+   
+        (async () => { 
+            try {
+                if (searchText) {
+                    
+                    const response = await axios({
+                        url: `/search-shows-data/${searchText}/${1}`,
+                        baseURL: 'http://192.168.43.211:3300',
+                        cancelToken: source.token
+                    });
+
+                    if (mounted) {
+                        setLoading(false);
+                        setSearchResult(response.data);
+                        
+                        resultHolder = data;
+                        searchFilter(searchResult);
+                    }
+                }
+                
+            } catch (error) {
+                if (axios.isCancel(error)) {
+                    console.log(error);
+                } 
+            }
+        })();
+
+        return () => { 
+            source.cancel();
+            mounted = false;
+        }
+    }, [searchText]);
 
     const renderSearchText = (item) => {
+
         const handleSearchTextPress = () => {
+            addSearchToHistory(item);
             navigation.navigate('Details', item);
         };
 
@@ -65,66 +81,44 @@ export const AppSearch = ({  customStyle }) => {
                 style={{ display: 'flex', flexDirection: 'row', marginVertical: 10, width: '100%', alignItems: 'center' }}
                 onPress={() => handleSearchTextPress()}    
             >
-                <EvilIcons style={{  paddingHorizontal: 5, marginRight: 22 }} name="search" size={24} color="grey" />
+                {previousSearch && !searchResult ? 
+                    (<MaterialIcons style={{  paddingHorizontal: 5, marginRight: 22 }} name="history" size={24} color="grey" />) :
+
+                    (<EvilIcons style={{  paddingHorizontal: 5, marginRight: 22 }} name="search" size={24} color="grey" />)
+                }
                 <Text style={{ color: '#fff', fontSize: 16, fontWeight: '500', flex: 2, textDecorationLine: "none" }}>{item.title}</Text>
                 <EvilIcons style={{ paddingHorizontal: 5 }} name="external-link" size={26} color="grey" />
             </Pressable>
         );
     }
     
+    const searchFilter = (text) => {
+        const newData = resultHolder.filter((item) => {
+            const itemData = item.title.toLowerCase();
+            const textData = text.toLowerCase();
+
+            return itemData.indexOf(textData) > - 1;
+        });
+
+        if (mounted) setSearchResult(newData);
+    } 
 
     const renderSearchBar = () => {
-
-        const handleSearchTextChange = async (text) => {
-            setSearch(text);
-            setLoading(true);
-
-            try {
-                    const { data, ok } = await getSearch(text);
-    
-                    if (ok) {
-                        setSearchResult(data);
-                        
-                        resultHolder = data;
-                        searchFilter(searchResult);
-                        setTimeout(() => {
-                            setLoading(false);
-                        }, 2000);
-                    } 
-                
-            } catch (error) {
-                setError(error);
-            };
-        };
-
-        const searchFilter = (text) => {
-            const newData = resultHolder.filter((item) => {
-                const itemData = item.title.toLowerCase();
-                const textData = text.toLowerCase();
-
-                return itemData.indexOf(textData) > - 1;
-            });
-
-
-            setSearchResult(newData);
-        } 
-
         return (
             <View style={{ marginLeft: 15, width: '80%', flexDirection: 'row', alignItems: 'center' }}>
                 <TextInput 
                     autoCapitalize="none"
-                    onChangeText={(text) => handleSearchTextChange(text)}
+                    onChangeText={(text) => setSearchText(text)}
                     style={styles.textInputStyle}
-                    value={search}
+                    value={searchText}
                     placeholder="Search anime"
                     placeholderTextColor="#fff"
                     autoFocus={true}
                 />
-                {search ? (
+                {searchText ? (
                     <Pressable 
                         onPress={() => { 
-                            setSearch(null)
-                            // setSearchResult([])
+                            if (mounted) setSearchText(null);
                         }}>
                         <AntDesign name="delete" size={22} color="white" />
                     </Pressable>
@@ -133,10 +127,11 @@ export const AppSearch = ({  customStyle }) => {
         )
     };
 
+
     const renderFetchedData = () => {
         return (
             <>
-                { searchResult.length > 0 ?
+                {  (searchResult && searchResult.length !== 0) ?
                     ( <FlatList
                             contentContainerStyle={{ paddingBottom: 60 }}
                             data={searchResult}
@@ -156,7 +151,7 @@ export const AppSearch = ({  customStyle }) => {
                                 fontWeight: '500', 
                                 fontSize: 18 }}
                                 >
-                                    {`could not find "${search}"`}
+                                    {`could not find "${searchText}"`}
                             </Text>
                         </View>
                     )
@@ -166,10 +161,8 @@ export const AppSearch = ({  customStyle }) => {
     }
 
     const renderSearchView = () => {
-        const handleCloseModal = () => {
-            navigation.goBack();
-            setSearch(null);
-        };
+
+        const handleCloseModal = () => navigation.goBack();
 
         return (
             <View style={styles.searchModal}>
@@ -184,18 +177,21 @@ export const AppSearch = ({  customStyle }) => {
                     </Pressable>
                     { renderSearchBar() }
                 </View>
+
                 <View style={{ paddingHorizontal: 10 }}>
-                    <ActivityIndicator visible={loading }/>
-                    { !searchResult ? (
+                    <ActivityIndicator visible={loading}/>
+
+                    {  previousSearch && !searchResult ? (
                         <FlatList
                             contentContainerStyle={{ paddingBottom: 40 }}
-                            data={searchHistory}
+                            data={!previousSearch ? renderDummyData : previousSearch}
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({ item }, index ) => (
                                 renderSearchText(item)
                             )}
                         />
-                    ) : renderFetchedData()
+                    ) 
+                    : renderFetchedData()
                     }
                 </View>
             </View>
