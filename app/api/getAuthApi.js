@@ -1,8 +1,7 @@
-import cache from '../utility/cache';
 import { api } from './client';
 
 const registerUserRoute = '/api/auth/signup/newuser';
-const loginUserRRoute = '/api/auth/signin/user';
+const loginUserRoute = '/api/auth/signin/user';
 
 const registerUser = async (userData) => {
     const response = await api.post(registerUserRoute, userData);
@@ -25,7 +24,7 @@ const registerUser = async (userData) => {
 
 
 const loginUser = async (userData) => {
-    const response = await api.post(loginUserRRoute, userData);
+    const response = await api.post(loginUserRoute, userData);
     // console.log('res ', response.data);
     
     return response;
