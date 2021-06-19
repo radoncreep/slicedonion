@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import SmallCard from '../Cards/SmallCard';
 
-const SmallCardTray = ({ data, navigation, towhere, heading }) => {
+const SmallCardTray = ({ data, navigation, towhere, heading, isFromHome }) => {
 
     const handleCardPress = (anime) => {
         navigation.navigate(towhere, anime);
@@ -11,7 +12,10 @@ const SmallCardTray = ({ data, navigation, towhere, heading }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>{heading}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={styles.heading}>{heading}</Text>
+                <MaterialIcons style={{ marginTop: 3 }} name="chevron-right" size={26} color="white" />
+            </View>
                 <ScrollView
                     horizontal
                 >   
@@ -26,6 +30,7 @@ const SmallCardTray = ({ data, navigation, towhere, heading }) => {
                             currentanime={anime}
                             onPress={() => handleCardPress(anime)}
                             navigation={navigation}
+                            isFromHome={isFromHome}
                         />
                     ))}
                 </ScrollView>
@@ -39,9 +44,10 @@ const styles = StyleSheet.create({
         height: 330,
         paddingLeft: 5, 
     },
-    header: {
+    heading: {
         color: '#fff',
         fontWeight: 'bold',
+        fontSize: 18,
     }
 });
 
