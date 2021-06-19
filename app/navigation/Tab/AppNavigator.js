@@ -19,44 +19,45 @@ const AppNavigator = (props) => {
                 activeBackgroundColor: '#0f011f',
                 inactiveBackgroundColor: '#0f011f',
                 tabStyle: {
-                    borderTopWidth: 0
+                    borderTopWidth: 0,
+                    paddingVertical: 10,
                 },
-                style: { borderTopWidth: 0 }
+                style: { borderTopWidth: 0, height: 57, justifyContent: 'center' }
             }}
         >
             <Tab.Screen 
                 name="Home" 
                 component={HomeScreen}
                 options={{
-                    tabBarIcon: ({ color }) => <AntDesign name="home" size={24} color={color} /> 
+                    tabBarIcon: ({ color }) => <AntDesign name="home" size={22} color={color} /> 
                 }}
             />
             <Tab.Screen 
                 name="Library" 
                 component={LibraryTabNavigator}
                 options={{
-                    tabBarIcon: ({ color }) => <MaterialIcons name="video-library" size={24} color={color} /> 
+                    tabBarIcon: ({ color }) => <MaterialIcons name="video-library" size={22} color={color} /> 
                 }}
             />
             <Tab.Screen 
                 name="Browse" 
                 component={BrowseTabNavigator} 
                 options={{
-                    tabBarIcon: ({ color }) => <MaterialIcons name="grid-view" size={24} color={color} />
+                    tabBarIcon: ({ color }) => <MaterialIcons name="grid-view" size={22} color={color} />
                 }}
             />
             <Tab.Screen 
                 name="Seasons" 
                 component={SeasonsNavigation}
                 options={{
-                    tabBarIcon: ({ color }) => <MaterialIcons name="explore" size={24} color={color} />
+                    tabBarIcon: ({ color }) => <MaterialIcons name="explore" size={22} color={color} />
                 }}
             />
             <Tab.Screen 
                 name="Account" 
                 component={AccountNavigation} 
                 options={{
-                    tabBarIcon: ({ color }) => <MaterialIcons name="account-circle" size={24} color={color} />
+                    tabBarIcon: ({ color }) => <MaterialIcons name="account-circle" size={22} color={color} />
                 }}
             />
         </Tab.Navigator>

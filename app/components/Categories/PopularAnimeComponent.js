@@ -40,8 +40,9 @@ const PopularAnimeComponent = ({ navigation, param, towhere }) => {
                     data={popularShows} 
                     navigation={navigation}
                     towhere={towhere}
-                    heading="MOST POPULAR SERIES"
+                    heading="Popular Series"
                     fetched={fetched}
+                    isFromHome={true}
                 />  
             )}
         </>
