@@ -55,7 +55,7 @@ export const SeasonHeader = ({ setShows }) => {
                         <EvilIcons name="close" size={24} color="white" />
                     </TouchableWithoutFeedback>
 
-                    <FlatList 
+                    {seasons.length > 1 && <FlatList 
                         data={seasons}
                         keyExtractor={(item) => item.name}
                         renderItem={({ item }, index) => (
@@ -64,7 +64,7 @@ export const SeasonHeader = ({ setShows }) => {
                                 </TouchableHighlight>
                             )
                         }
-                    />
+                    /> }
                 </View>
             </Modal>
         )

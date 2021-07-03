@@ -6,20 +6,27 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import EpisodeCardHorizontal from '../Cards/EpisodeCardHorizontal';
 import { usePlaylist } from '../../hooks/usePlaylist';
+import { addToHistory } from '../../store/actions';
 
 const EpisodesTrayVertical = ({ towhere }) => {
-    const navigation = useNavigation();
-
     const { handleEpisodeFunctionality } = usePlaylist();
 
     const playlist = useSelector(state => state.playlist);
     const { episodes } = playlist;
     const { data } = episodes;
 
+    const dispatch = useDispatch();
+
+    const navigation = useNavigation();
+
     const handleEpisodePress = (anime) => {
-        handleEpisodeFunctionality(anime)
+        handleEpisodeFunctionality(anime);
+        handleEpisodeAddHistory(anime);
         navigation.navigate(towhere);
     };
+
+    const handleEpisodeAddHistory = (anime) =>  dispatch(addToHistory(anime));   
+
     
     return (
         <View style={styles.container}>

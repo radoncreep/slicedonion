@@ -23,7 +23,6 @@ export const episodesReducer = (state=INITIAL_STATE, {type, payload} = action) =
                 }
             };
         case REMOVE_EPISODES:
-            console.log('removed')
             return {
                 episodes: {
                     ...INITIAL_STATE.episodes
@@ -56,7 +55,6 @@ export const episodesReducer = (state=INITIAL_STATE, {type, payload} = action) =
             previousClone.episodes.previousEpisode = payload;
             return previousClone;
         case SET_AS_NEXT_EPISODE:
-            // console.log('next ', next);
             let nextClone = {
                 ...state,
                 episodes: {
@@ -68,7 +66,6 @@ export const episodesReducer = (state=INITIAL_STATE, {type, payload} = action) =
             };
 
             nextClone.episodes.nextEpisode = payload;
-            // console.log('reducer ', nextClone);
             return nextClone;
         default:
             return state;

@@ -18,7 +18,7 @@ const validationSchema = Yup.object().shape({
     password: Yup.string().min(4).required().label("Password")
 });
 
-const { height, width} = Dimensions.get("window");
+const { width} = Dimensions.get("window");
 
 export const RegisterModal = ({ show, setModal }) => {
     const [ registerError, setRegisterError ] = useState(null);
@@ -139,8 +139,6 @@ const styles = StyleSheet.create({
     formContainer: {
         marginTop: 100,
         marginBottom: 30,
-        // height: 200,
-        // backgroundColor: 'red',
         width: '100%',
         flex: 2,
         justifyContent: 'center',
@@ -149,7 +147,6 @@ const styles = StyleSheet.create({
     formInner: {
         alignItems: 'center',
         width: width,
-        // paddingHorizontal: 40,
         padding: 20
     },  
     header: {

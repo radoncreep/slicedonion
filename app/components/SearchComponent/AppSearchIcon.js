@@ -1,10 +1,8 @@
-import React, { useState} from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import React from 'react';
+import { Pressable, StyleSheet } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-
-import { AppSearch } from './AppSearch';
 
 export const AppSearchIcon = () => {
     const navigation = useNavigation();

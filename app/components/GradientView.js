@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import Animated from 'react-native-reanimated';
 
 export default GradinetView = ({ children }) => {
     return (
@@ -15,12 +14,3 @@ export default GradinetView = ({ children }) => {
         </LinearGradient>
     )
 }
-
-const styles = StyleSheet.create({
- linearGradient: {
-//   flex: 1,
-  width: '100%',
-  borderRadius: 5,
-  opacity: 0.9
- }
-});

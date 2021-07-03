@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, ImageBackground, Text, TouchableHighlight, ColorPropType, Dimensions, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, ImageBackground, Text, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { colorPallete } from '../../utils/colors';
 
 const EpisodeCardHorizontal = ({ episodeNumber, episodeTitle, onPress, othername, releaseed, streamUrl, thumbnail, version, status }) => {
     return (

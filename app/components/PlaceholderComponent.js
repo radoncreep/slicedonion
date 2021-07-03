@@ -23,7 +23,7 @@ export const PlaceholderComponent = (style) => (
             />
         )}
     >
-        <Vieww style={{ position: 'absolute'}}>
+        <View style={{ position: 'absolute'}}>
             <PlaceholderLine style={{ marginTop: responsiveHeight(1) }} width={50} />
             <PlaceholderLine style={{ marginTop: responsiveHeight(1.5) }} width={50} />
             <PlaceholderLine width={50} />

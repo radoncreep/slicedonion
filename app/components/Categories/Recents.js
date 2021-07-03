@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { getRecents } from '../../api/getRecentRelease';
 import { SmallCardTray } from '../HorizontalTrays';
 
