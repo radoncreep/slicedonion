@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Text, Image, TouchableHighlight, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
     },
     options: {
         width: 30,
-        // backgroundColor: 'red',
         alignItems: 'center'
     },
     popover: {

@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         justifyContent: 'center'
-        // flex: 1,
     },
     genreScroll: {
         flex: 1,

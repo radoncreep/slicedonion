@@ -208,13 +208,11 @@ export const AppSearch = ({  customStyle }) => {
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        // backgroundColor: 'orange',
         height: '100%',
         justifyContent: 'center',
     },
     searchBarContainer: {
         width: '100%',
-        // backgroundColor: 'orange',
         height: 40,
         padding: 0,
         margin: 0

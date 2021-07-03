@@ -8,10 +8,6 @@ import { playlistApi } from '../api/getPlaylist';
 import ErrorMessage from './ErrorMessage';
 import ActivityIndicator from './ActivityIndicator';
 
-const { width } = Dimensions.get("screen");
-
-
-
 const VideoPlayer = ({ videodata }) => {
     const video = useRef(null);
     const [ status, setStatus ] = useState({});
@@ -111,7 +107,6 @@ const styles = StyleSheet.create({
     video: {
         width: Dimensions.get('window').width,
         flex: 1, 
-        // backgroundColor: '#000'
     },
 })
 

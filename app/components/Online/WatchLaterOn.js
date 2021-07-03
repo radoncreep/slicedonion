@@ -58,7 +58,6 @@ export default WatchLaterOn = () => {
 const styles = StyleSheet.create({
     containerStyle: {
         width: screenWidth - 43,
-        // backgroundColor: 'red',
     },
     empty: {
         color: '#fff',
@@ -71,7 +70,6 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         alignItems: 'center',
         width: screenWidth,
-        // backgroundColor: 'green',
         justifyContent:  'center'
     },
 });

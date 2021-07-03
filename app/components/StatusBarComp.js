@@ -1,5 +1,5 @@
-import React, { Children, useState } from 'react';
-import { Button, Platform, SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import {  SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 
 const STYLES = ['default', 'dark-content', 'light-content'];

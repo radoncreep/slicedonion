@@ -3,7 +3,6 @@ import { ActivityIndicator, StyleSheet } from 'react-native';
 import { getAllPopularPage } from '../../api/getPopular';
 
 import { SmallCardTray } from '../HorizontalTrays';
-import Spinner from '../Spinner';
 
 
 const PopularAnimeComponent = ({ navigation, param, towhere }) => {

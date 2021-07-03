@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, ImageBackground, Text, TouchableHighlight } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, TouchableHighlight } from 'react-native';
 
 
 const NextEpisodeCard = (props) => {
@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     minicard: {
-        // flexGrow: 1,
         paddingHorizontal: 10,
         paddingVertical: 5,
         width: 250,

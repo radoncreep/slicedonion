@@ -27,6 +27,7 @@ const AnimeDetails = ({ navigation, route }) => {
     const [ showModal, setShowModal ] = useState(false);
 
     const detail = route.params;
+    console.log('detail ', detail)
 
     const { info, showLoader } = useDetail(detail, getDetailApi);
 
