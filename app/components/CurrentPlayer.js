@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default CurrentPlayer = ({ children, description, episodeNumber, seasonNumber, title, version }) => {
-    const [ lineNumber, setLineNumber ] = useState(3)
+    const navigation = useNavigation();
+
+    const [ lineNumber, setLineNumber ] = useState(3);
 
     const handleDescriptionDisplay = () => {
         if (lineNumber === 3) return setLineNumber(null);
@@ -34,6 +38,23 @@ export default CurrentPlayer = ({ children, description, episodeNumber, seasonNu
             <View>
                 {children}
             </View>
+            <View style={styles.backBtnView}>
+                <Pressable 
+                    style={{ flexDirection: 'row', justifyContent: 'center', height: 40, alignItems: 'center'}}
+                    onPress={() => navigation.goBack()}
+                >
+                    <Ionicons name="chevron-back-sharp" size={24} color="red" />
+                    <Text 
+                        style={{ 
+                            fontSize: 14,
+                            fontWeight: 'bold',
+                            color: 'red', 
+                            textTransform: 'uppercase'
+                        }}>
+                        All Episodes
+                    </Text>
+                </Pressable>
+            </View>
         </View>
     )
 };
@@ -43,9 +64,14 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 20
     },
+    backBtnView: {
+        justifyContent: 'center', 
+        padding: 20, 
+        marginTop: 50, 
+        flexDirection: 'row',
+    },
     details: {
         width: '100%',
-        // paddingHorizontal: 20,
         paddingVertical: 25,
     }
 })

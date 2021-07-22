@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -19,8 +19,6 @@ const PlayerScreen = () => {
     const { episodes } = useSelector(state => state.playlist);
     const { currentEpisode, nextEpisode } = episodes;
 
-    console.log('current episode ', currentEpisode);
-    // console.log('next episode ', nextEpisode);
 
     const handlePlayerEpisodePress = (nextEpisode) => {
         handleEpisodeFunctionality(nextEpisode);

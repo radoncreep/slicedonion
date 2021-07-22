@@ -23,7 +23,7 @@ export const Season = () => {
                 keyExtractor={(item ) => item && item.id}
                 renderItem={({ item }, index) => (
                     <SmallCard 
-                        key={item.id && (item.id)}
+                        key={item.id && (item.id + index)}
                         currentanime={item}
                         navigation={navigation}
                         title={item && item.title} 
