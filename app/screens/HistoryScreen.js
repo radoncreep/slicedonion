@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
+
 import ActivityIndicator from '../components/ActivityIndicator';
-
-
 import HistoryOff from '../components/Offline/HistoryOff';
 import HistoryOn from '../components/Online/HistoryOn';
 import Spinner from '../components/Spinner';

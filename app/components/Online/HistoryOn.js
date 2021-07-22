@@ -31,9 +31,7 @@ export default HistoryOn = ({ loader }) => {
         />
     );
 
-    const emptyHistoryText = () => (
-        <Text style={styles.empty}>You haven't viewed any show yet.</Text>
-    );
+    const emptyHistoryText = () => <Text style={styles.empty}>You haven't viewed any show yet.</Text>
 
     return (
         <View style={styles.history}>
