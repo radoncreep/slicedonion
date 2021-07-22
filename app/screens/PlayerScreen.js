@@ -20,7 +20,7 @@ const PlayerScreen = () => {
     const { currentEpisode, nextEpisode } = episodes;
 
     console.log('current episode ', currentEpisode);
-    console.log('next episode ', nextEpisode);
+    // console.log('next episode ', nextEpisode);
 
     const handlePlayerEpisodePress = (nextEpisode) => {
         handleEpisodeFunctionality(nextEpisode);
@@ -34,6 +34,7 @@ const PlayerScreen = () => {
             </View>
             <CurrentPlayer                
                 episodeNumber={currentEpisode.episodeNumber}
+                description={currentEpisode.description}
                 title={currentEpisode.title}
                 version={currentEpisode.version}
             >
@@ -58,7 +59,6 @@ const styles = StyleSheet.create({
     },
     videoStyle: {
         width: '100%',
-        flex: 1
     },
     nextEpisodeStyle: {
         flex: 1,
