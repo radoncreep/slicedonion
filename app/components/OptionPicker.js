@@ -1,6 +1,5 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 
 export const OptionPicker = () => {
     return (

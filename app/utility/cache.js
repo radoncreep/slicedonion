@@ -4,13 +4,8 @@ import moment from 'moment';
 const prefix = 'cache';
 
 const addToCache = async (key, value) => {
-    const item = {
-        value: value,
-        timestamp: Date.now()
-    };
-
     try {
-        await AsyncStorage.setItem(key, JSON.stringify(item));
+        await AsyncStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
         console.log(error);
     };
@@ -42,7 +37,18 @@ const getFromCache = async(key) => {
     }
 };
 
+const clearCache = async () => {
+    try {
+        await AsyncStorage.clear()
+      } catch(e) {
+        // clear error
+      }
+    
+    console.log('Done.')
+};
+
 export default {
     addToCache,
-    getFromCache
+    getFromCache,
+    clearCache
 };

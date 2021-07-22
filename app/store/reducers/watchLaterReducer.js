@@ -7,7 +7,6 @@ const INITIAL_STATE = {
 export const watchLaterReducer = (state=INITIAL_STATE, action) => {
     switch(action.type) {
         case ADD_TO_WATCHLATER:
-            // console.log('payload', action.payload);
             let clone = [...state.list];
             let filterClone = clone.filter(anime => {
                 if (anime.title === action.payload.title)
@@ -20,10 +19,8 @@ export const watchLaterReducer = (state=INITIAL_STATE, action) => {
                 list: [ action.payload, ...filterClone]
             };
         case REMOVE_FROM_WATCHLATER:
-            console.log('ehy')
             let rmClone = [...state.list];
             let rmfilterClone = rmClone.filter(anime => anime.title !== action.payload.title);
-            console.log('filter ', rmfilterClone)
 
             return {
                 list: [ ...rmfilterClone ]

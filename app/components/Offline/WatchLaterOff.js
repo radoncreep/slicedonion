@@ -74,8 +74,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     login: {
-        // borderWidth: 2,
-        // borderColor: 'red',
         backgroundColor: colorPallete.textPurple,
         width: 150,
         height: 35,

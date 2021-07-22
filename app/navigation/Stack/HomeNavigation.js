@@ -3,7 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { AnimeDetails, PlayerScreen } from '../../screens';
 import AppNavigator from '../Tab/AppNavigator';
-import { AppSearchIcon } from '../../components/AppSearchIcon';
+import { AppSearchIcon } from '../../components/SearchComponent/AppSearchIcon';
+import { SearchScreen } from '../../screens/SearchScreen';
 
 const Stack = createStackNavigator();
 
@@ -38,6 +39,13 @@ export const HomeNavigation = () => {
                 options={{ 
                     headerTitle: false,
                     headerTransparent: true,
+                }}
+            />
+            <Stack.Screen 
+                name="SearchScreen"
+                component={SearchScreen}
+                options={{
+                    headerShown: false
                 }}
             />
         </Stack.Navigator>

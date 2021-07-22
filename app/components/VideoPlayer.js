@@ -8,10 +8,6 @@ import { playlistApi } from '../api/getPlaylist';
 import ErrorMessage from './ErrorMessage';
 import ActivityIndicator from './ActivityIndicator';
 
-const { width } = Dimensions.get("screen");
-
-
-
 const VideoPlayer = ({ videodata }) => {
     const video = useRef(null);
     const [ status, setStatus ] = useState({});
@@ -21,7 +17,9 @@ const VideoPlayer = ({ videodata }) => {
 
    
     const { getCurrentEpisodeUrl } = playlistApi();
-    const { episodeUrl } = videodata;
+    const { episodeUrl, thumbnail } = videodata;
+
+    console.log(thumbnail)
     
     useEffect(() => {
         let mounted = true;
@@ -48,9 +46,9 @@ const VideoPlayer = ({ videodata }) => {
         return () => mounted= false;
     }, []);
 
-    const renderPlayIcon = () => <AntDesign style={{ borderRadius: 0, backgroundColor: 'transparent', borderColor: 'transparent' }} name="caretright" size={60} color="red" />;
+    // const renderPlayIcon = () => <AntDesign style={{ borderRadius: 0, backgroundColor: 'transparent', borderColor: 'transparent' }} name="caretright" size={60} color="red" />;
 
-    const renderPauseIcon = () => <Feather style={{ borderRadius: 0, backgroundColor: 'transparent', borderColor: 'transparent' }} name="pause" size={60} color="red" />
+    // const renderPauseIcon = () => <Feather style={{ borderRadius: 0, backgroundColor: 'transparent', borderColor: 'transparent' }} name="pause" size={60} color="red" />
 
     return (
         <View style={styles.container}>
@@ -59,12 +57,19 @@ const VideoPlayer = ({ videodata }) => {
             <Video 
                 ref={video}
                 style={styles.video}
+                posterSource={{
+                    uri: thumbnail
+                }}
+                posterStyle={{
+                    resizeMode: "cover"
+                }}
+                usePoster={true}
                 source={{
                     uri: stream,
                     overrideFileExtensionAndroid: "mu38"
                 }}
                 useNativeControls
-                resizeMode="cover"
+                resizeMode="contain"
                 isLooping
                 onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             />
@@ -80,7 +85,7 @@ const VideoPlayer = ({ videodata }) => {
                             backgroundColor: 'transparent'
                         }}
                     >
-                        {status.isPlaying ? renderPauseIcon() :  renderPlayIcon()}
+                        {/* {status.isPlaying ? renderPauseIcon() :  renderPlayIcon()} */}
                     </View>
                 </TouchableHighlight>
             </View>
@@ -93,25 +98,23 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         height: 0,
         position: 'absolute',
-        top: 90
+        // top: 90
     },
     buttons: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'absolute',
-        top: 150,
-        left: '40%'
+        // position: 'absolute',
+        // top: 150,
+        // left: '40%',
+        // backgroundColor: 'orange'
     },
     container: {
-        flex: 1,
-        backgroundColor: '#ecf0f1',
-        width: '100%'
+        width: '100%',
     },
     video: {
-        width: Dimensions.get('window').width,
-        flex: 1, 
-        // backgroundColor: '#000'
+        width: '100%',
+        aspectRatio: 16/9, 
     },
 })
 

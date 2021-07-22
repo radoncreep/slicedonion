@@ -11,9 +11,7 @@ export default ({element, children}) => <MaskedView
 </MaskedView>
 
 const styles = StyleSheet.create({
- container: {
-  flex: 1, 
-//   flexDirection: 'row', 
-//   height: '100%'
+  container: {
+    flex: 1, 
  }
 });

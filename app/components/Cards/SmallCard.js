@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Text, Image, TouchableHighlight, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +8,7 @@ import { ListItem } from '../ListItem';
 import { addToWatchLater, removeFromWatchLater } from '../../store/actions';
 
 
-const SmallCard = ({ currentanime, episodeNumber, navigation, style, title, released, imageUrl, onPress }) => {
+const SmallCard = ({ currentanime, episodeNumber, isFromHome, navigation, style, title, released, imageUrl, onPress }) => {
     const { watchLater, register } = useSelector(state => state);
 
     const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const SmallCard = ({ currentanime, episodeNumber, navigation, style, title, rele
     }
     
     let popoverMenu = [
-        { name: checkValue() ? 'Remove From WatchLater' : 'Add To WatchLater'},
+        { name: checkValue() || !isFromHome ? 'Remove From WatchList' : 'Add To WatchLater'},
         { name: 'Share'},
         { name: 'Play Now'},
     ];
@@ -31,7 +31,7 @@ const SmallCard = ({ currentanime, episodeNumber, navigation, style, title, rele
 
     const handleMenu = (item) => {
         setShowPopover(() => !showPopover)
-        if (item.name === 'Remove From WatchLater') return removeAnimeCardFromWatchLater();
+        if (item.name === 'Remove From WatchList') return removeAnimeCardFromWatchLater();
         if (item.name === 'Add To WatchLater') {
             if (!register.user.isAuth) {
                 navigation.navigate("Library");
@@ -63,7 +63,7 @@ const SmallCard = ({ currentanime, episodeNumber, navigation, style, title, rele
                     style={styles.options} 
                     onPress={() => handlePopover()}
                 >
-                    <SimpleLineIcons name="options-vertical" size={20} color="white" />
+                    <SimpleLineIcons name="options-vertical" size={20} color="#fff" />
                 </TouchableHighlight>
             </View>
 
@@ -100,9 +100,12 @@ const styles = StyleSheet.create({
     image: {
         width: '100%',
         height: 190,
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5
     },
     options: {
-        width: 30
+        width: 30,
+        alignItems: 'center'
     },
     popover: {
         height: 290,

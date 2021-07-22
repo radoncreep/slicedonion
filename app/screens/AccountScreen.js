@@ -5,6 +5,7 @@ import { ListItem } from '../components/ListItem';
 import ListItemSeparator from '../components/ListItemSeparator';
 import StatusBarComp from '../components/StatusBarComp';
 import { logoutUser } from '../store/actions';
+import cache from '../utility/cache';
 import authStorage from '../utility/storage';
 
 const profileOptions = [
@@ -46,6 +47,10 @@ const accountNavigations = [
 
 const extras = [
     {
+        name: 'Clear Search History',
+        targetScreen: null
+    },
+    {
         name: 'Suggestions',
         targetScreen: null
     },
@@ -59,7 +64,8 @@ const AccountScreen = () => {
     const { email } = useSelector(state => state.register.user);
     const dispatch = useDispatch();
 
-    const handleLogoutPress = (item) => {
+    const handleExtrasPress = (item) => {
+        if (item.name === 'Clear Search History') cache.clearCache()
         if (item.name === 'Logout') handleAlert();
         return;
     };
@@ -130,7 +136,7 @@ const AccountScreen = () => {
                         <ListItem 
                             title={item.name}
                             towhere={item.targetScreen}
-                            onPress={() => handleLogoutPress(item)}
+                            onPress={() => handleExtrasPress(item)}
                             value={item.value}
                         />
                     )}

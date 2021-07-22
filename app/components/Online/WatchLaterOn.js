@@ -1,37 +1,46 @@
 import React from 'react';
-import { Dimensions, FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+
 
 import SmallCard from '../Cards/SmallCard';
 import ListItemSeparator from '../ListItemSeparator';
 
+const screenWidth = Dimensions.get("screen").width;
+
 export default WatchLaterOn = () => {
     const state = useSelector(state => state.watchLater.list);
     const { width } = Dimensions.get("window");
-    // console.log('state', state);
+    const navigation = useNavigation();
+
+    const handleCardPress = (anime) => {
+        navigation.navigate('Details', anime);
+    };
+  
 
     const WatchLaterList = () => (
-        <FlatList 
+        <FlatList
             data={state}
             keyExtractor={(item, index) => item.id.toString()}
             ItemSeparatorComponent={ListItemSeparator}
-            renderItem={({ item, index })   => {
-                console.log('item', item);
-
-                return (
+            renderItem={({ item, index })   => 
+                (
                     <View>
                         <SmallCard 
-                            style={{ width: width / 2.5 }}
+                            style={{ width: width / 3.5 }}
                             key={index} 
                             title={item.title} 
                             subtitle={item.released}
                             imageUrl={item.thumbnail}
+                            onPress={() => handleCardPress(item)}
                         />
                         <ListItemSeparator />
                     </View>
                 )
-            }}
-            numColumns={2}
+            }
+            numColumns={3}
+            contentContainerStyle={styles.containerStyle}
         />
     );
 
@@ -47,6 +56,9 @@ export default WatchLaterOn = () => {
 };
 
 const styles = StyleSheet.create({
+    containerStyle: {
+        width: screenWidth - 43,
+    },
     empty: {
         color: '#fff',
         fontSize: 16,
@@ -55,9 +67,9 @@ const styles = StyleSheet.create({
     watchlater: {
         flex: 1,
         backgroundColor: '#000',
-        paddingHorizontal: 7,
-        paddingVertical: 5,
-        justifyContent: 'center',
-        alignItems: 'center'
+        paddingVertical: 10,
+        alignItems: 'center',
+        width: screenWidth,
+        justifyContent:  'center'
     },
 });

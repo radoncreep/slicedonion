@@ -3,12 +3,12 @@ import { Dimensions, Modal, Pressable, StyleSheet, Text, TouchableHighlight, Vie
 import * as Yup from 'yup';
 import { EvilIcons } from '@expo/vector-icons';
 import jwtDecode from 'jwt-decode';
+import { useDispatch } from 'react-redux';
 
 import { AppForm } from '../form/AppForm';
 import { CustomFormField } from '../form/CustomFormField';
 import { SubmitFormButton } from '../form/SubmitFormButton';
 import authApi from '../../api/getAuthApi';
-import { useDispatch } from 'react-redux';
 import { registerUserAuth } from '../../store/actions';
 import AppErrorMessage from '../form/AppErrorMessage';
 import authStorage from '../../utility/storage';
@@ -19,7 +19,7 @@ const validationSchema = Yup.object().shape({
     password: Yup.string().min(4).required().label("Password")
 });
 
-const { height, width} = Dimensions.get("window");
+const { width} = Dimensions.get("window");
 
 export const LoginModal = ({ isVisible, setIsVisible }) => {
     const [ loginFailed, setLoginFailed ] = useState(false);
@@ -135,8 +135,6 @@ const styles = StyleSheet.create({
     formContainer: {
         marginTop: 100,
         marginBottom: 30,
-        // height: 200,
-        // backgroundColor: 'red',
         width: '100%',
         flex: 2,
         justifyContent: 'center',
@@ -145,7 +143,6 @@ const styles = StyleSheet.create({
     formInner: {
         alignItems: 'center',
         width: width,
-        // paddingHorizontal: 40,
         padding: 20
     },  
     header: {
