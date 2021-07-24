@@ -5,6 +5,8 @@ import { AnimeDetails, PlayerScreen } from '../../screens';
 import AppNavigator from '../Tab/AppNavigator';
 import { AppSearchIcon } from '../../components/SearchComponent/AppSearchIcon';
 import { SearchScreen } from '../../screens/SearchScreen';
+import { ModifyEmailScreen } from '../../screens/ModifyEmailScreen';
+import { ModifyPaswwordScreen } from '../../screens/ModifyPasswordScreen';
 
 const Stack = createStackNavigator();
 
@@ -47,6 +49,42 @@ export const HomeNavigation = () => {
                 options={{
                     headerShown: false
                 }}
+            />
+            <Stack.Screen
+                name="Change Email" 
+                component={ModifyEmailScreen}
+                options={{ 
+                    headerShown: true,
+                    headerTintColor: '#fff',
+                    headerStyle: { 
+                        backgroundColor: '#0f010f',
+                        borderBottomWidth: .5,
+                        borderBottomColor: '#523d57'
+                    }, 
+                    headerTitleStyle: { 
+                        color: '#fff',
+                        fontSize: 16,
+                        fontWeight: '500',
+                    }
+                }} 
+            />
+            <Stack.Screen
+                name="Change Password" 
+                component={ModifyPaswwordScreen}
+                options={{ 
+                    headerShown: true,
+                    headerTintColor: '#fff',
+                    headerStyle: { 
+                        backgroundColor: '#0f010f',
+                        borderBottomWidth: .7,
+                        borderBottomColor: '#523d57'
+                    }, 
+                    headerTitleStyle: { 
+                        color: '#fff',
+                        fontSize: 16,
+                        fontWeight: '500',
+                    }
+                }} 
             />
         </Stack.Navigator>
     )

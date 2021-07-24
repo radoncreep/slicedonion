@@ -1,12 +1,74 @@
 import React from 'react';
-import { View, StyleSheet, Text, FlatList, TouchableHighlight, Alert } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
+import { View, StyleSheet, Text, FlatList, ScrollView, TouchableHighlight, Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
+
 import { ListItem } from '../components/ListItem';
 import ListItemSeparator from '../components/ListItemSeparator';
 import StatusBarComp from '../components/StatusBarComp';
 import { logoutUser } from '../store/actions';
 import cache from '../utility/cache';
 import authStorage from '../utility/storage';
+
+const accountSettings = [
+    {
+        profileOptions: [
+            {
+                name: 'Username',
+                value: 'radon',
+                targetScreen: null
+            },
+            {
+                name: 'Change Email',
+                value: 'radoncreep@mail.com',
+                targetScreen: 'Change Email'
+            },
+            {
+                name: 'Change Password',
+                value: '********',
+                targetScreen: 'Change Password'
+            }
+        ]
+    },
+    {
+        mediaControls: [
+            {
+                name: 'Stream Using Cellular data',
+                targetScreen: null
+            },
+            {
+                name: 'Parental Control',
+                targetScreen: null
+            },
+            {
+                name: 'Notifications',
+                targetScreen: 'NotificationScreen'
+            },
+            {
+                name: 'Report',
+                targetScreen: null
+            },
+        ]
+    },
+    {
+        extras: [
+            {
+                name: 'Clear Search History',
+                targetScreen: null
+            },
+            {
+                name: 'Suggestions',
+                targetScreen: null
+            },
+            {
+                name: 'Logout',
+                targetScreen: null
+            }
+        ]
+    }
+
+];
+
 
 const profileOptions = [
     {
@@ -21,7 +83,7 @@ const profileOptions = [
     },
     {
         name: 'Change Password',
-        value: 'dummypassword',
+        value: '********',
         targetScreen: null
     }
 ];
@@ -63,12 +125,8 @@ const extras = [
 const AccountScreen = () => {
     const { email } = useSelector(state => state.register.user);
     const dispatch = useDispatch();
+    const navigation = useNavigation();
 
-    const handleExtrasPress = (item) => {
-        if (item.name === 'Clear Search History') cache.clearCache()
-        if (item.name === 'Logout') handleAlert();
-        return;
-    };
 
     const handleAlert = () => {
         Alert.alert(
@@ -90,55 +148,72 @@ const AccountScreen = () => {
         )
     };
 
+    const handleProfileSettings = (setting) => {
+        if (setting.name === "Change Email") {
+            navigation.navigate(setting.targetScreen);
+        }
+
+        if (setting.name === "Change Password") {
+            navigation.navigate(setting.targetScreen);
+        }
+
+        if (setting.name === 'Clear Search History') cache.clearCache();
+
+        if (setting.name === 'Logout') handleAlert();
+
+    };
+
+    const mapNames = ['profileOptions', 'mediaControls', 'extras'];
+
+    const mapTransform = {
+        profileOptions: 'Profile Options',
+        mediaControls: 'Media Controls',
+        extras: 'Extras'
+    }
+
+    const renderAccountSetting = (setting, index) => (
+        <View key={mapNames[index]} style={{ marginBottom: 50 }}>
+            <Text style={{ color: 'silver', fontSize: 14, marginBottom: 10 }}>{mapTransform[mapNames[index]]}</Text>
+            {setting[mapNames[index]].map((item, index) => (
+                <View key={item.name}>
+                    <ListItem 
+                        title={item.name}
+                        towhere={item.targetScreen}
+                        onPress={() => handleProfileSettings(item)}
+                        value={item.name === 'Change Email' ? email : item.value}
+                    />
+                    <ListItemSeparator style={styles.separator} />
+                </View>
+            ))}
+        </View>
+    );
+
+    const renderHeader = () => (
+        <View style={styles.header}>
+            <Text style={styles.headerText}>Account Settings</Text>
+        </View>
+    );
+
+    const renderFooter = () => (
+        <View style={{ alignItems: 'center' }}>
+            <Text style={[styles.footerText, { color: '#523d57'}]}>Version 1.0.0</Text>
+            <Text style={styles.footerText}>RadonEntertainment</Text>
+            <Text style={styles.footerText}>Copyright</Text>
+        </View>
+    );
+
     return (
         <StatusBarComp style={styles.container}>
             <View style={styles.menu}>
-                <Text style={{ color: 'silver', fontSize: 14, marginBottom: 10 }}>PROFILE SETTINGS</Text>
                 <FlatList 
-                    data={profileOptions}
-                    keyExtractor={(profileOptions) => profileOptions.name}
-                    ItemSeparatorComponent={() => <ListItemSeparator style={styles.separator} />}
+                    data={accountSettings}
+                    keyExtractor={(accountSetting, index) => mapNames[index]}
+                    ListFooterComponent={renderFooter}
+                    ListHeaderComponent={renderHeader}
                     renderItem={({ item, index }) => (
-                        <ListItem 
-                            title={item.name}
-                            towhere={item.targetScreen}
-                            onPress={() => console.log('hi')}
-                            value={item.name === 'Change Email' ? email : item.value}
-                        />
-                    )}
-                />
-                <ListItemSeparator style={styles.separator} />
-            </View>
-            <View style={styles.menu}>
-                <Text style={{ color: 'silver', fontSize: 14, marginBottom: 10 }}>APP SETTINGS</Text>
-                <FlatList 
-                    data={accountNavigations}
-                    keyExtractor={(accountNavigations) => accountNavigations.name}
-                    ItemSeparatorComponent={() => <ListItemSeparator style={styles.separator} />}
-                    renderItem={({ item, index }) => (
-                        <ListItem 
-                            title={item.name}
-                            towhere={item.targetScreen}
-                            onPress={() => console.log('hi')}
-                            value={item.value}
-                        />
-                    )}
-                />
-                <ListItemSeparator style={styles.separator} />
-            </View>
-            <View style={styles.menu}>
-                <Text style={{ color: 'silver', fontSize: 14, marginBottom: 10 }}>EXTRAS</Text>
-                <FlatList 
-                    data={extras}
-                    keyExtractor={(extras) => extras.name}
-                    ItemSeparatorComponent={() => <ListItemSeparator style={styles.separator} />}
-                    renderItem={({ item, index }) => (
-                        <ListItem 
-                            title={item.name}
-                            towhere={item.targetScreen}
-                            onPress={() => handleExtrasPress(item)}
-                            value={item.value}
-                        />
+                        <View>
+                            {renderAccountSetting(item, index)}
+                        </View>
                     )}
                 />
             </View>
@@ -150,12 +225,27 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#0f010f',
-        paddingLeft: 25
+        paddingHorizontal: 15
+    },
+    header: {
+        borderStyle: "solid",
+        paddingBottom: 5,
+        paddingBottom: 10
+    },
+    headerText: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: '500',
+        textTransform: 'uppercase'
+    },
+    footerText: {
+        color: 'red',
+        fontWeight: 'bold',
+        fontSize: 14
     },
     menu: {
         marginBottom: 35
     },
-
     separator: {
         backgroundColor: 'silver',
         height: .5,
