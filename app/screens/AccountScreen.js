@@ -188,6 +188,12 @@ const AccountScreen = () => {
         </View>
     );
 
+    const renderHeader = () => (
+        <View style={styles.header}>
+            <Text style={styles.headerText}>Account Settings</Text>
+        </View>
+    );
+
     const renderFooter = () => (
         <View style={{ alignItems: 'center' }}>
             <Text style={[styles.footerText, { color: '#523d57'}]}>Version 1.0.0</Text>
@@ -202,12 +208,13 @@ const AccountScreen = () => {
                 <FlatList 
                     data={accountSettings}
                     keyExtractor={(accountSetting, index) => mapNames[index]}
+                    ListFooterComponent={renderFooter}
+                    ListHeaderComponent={renderHeader}
                     renderItem={({ item, index }) => (
                         <View>
                             {renderAccountSetting(item, index)}
                         </View>
                     )}
-                    ListFooterComponent={renderFooter}
                 />
             </View>
         </StatusBarComp>
@@ -218,7 +225,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#0f010f',
-        paddingLeft: 25
+        paddingHorizontal: 15
+    },
+    header: {
+        borderStyle: "solid",
+        paddingBottom: 5,
+        paddingBottom: 10
+    },
+    headerText: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: '500',
+        textTransform: 'uppercase'
     },
     footerText: {
         color: 'red',
