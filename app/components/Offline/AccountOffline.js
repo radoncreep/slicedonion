@@ -47,7 +47,7 @@ export const AccountOffline = () => {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.login} onPress={handleLoginPress} >
-                    <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold', textTransform: 'uppercase' }}>Login</Text>
+                   <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold', textTransform: 'uppercase' }}>Login</Text>
                 </TouchableOpacity>
 
                 <View style={styles.lastContent}> 
