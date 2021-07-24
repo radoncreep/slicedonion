@@ -13,7 +13,13 @@ export const CustomTextInput = ({ icon, ...otherProps }) => {
             />
             <TextInput 
                 placeholderTextColor="#523d57"
-                style={{ color: 'white', fontWeight: '500', fontSize: 14, textDecorationLine: "none" }}
+                style={{ 
+                    color: 'white', 
+                    fontWeight: '500', 
+                    fontSize: 16, 
+                    textDecorationLine: "none", 
+                    width: '90%',
+                }}
                 {...otherProps}
             />
         </View>
@@ -23,7 +29,9 @@ export const CustomTextInput = ({ icon, ...otherProps }) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        width: '100%'
+        height: 30,
+        width: '100%',
+        alignItems: 'center',
     },
     icon: {
         marginRight: 10,
