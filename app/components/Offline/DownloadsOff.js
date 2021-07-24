@@ -11,14 +11,9 @@ export default DownloadsOff = () => {
     const [ isVisible, setIsVisible ] = useState(false);
     const [ showSignUpModal, setShowSignUpModal ] = useState(false);
 
-    
-    const handleLoginPress = () => {
-        setIsVisible(true);
-    };
+    const handleLoginPress = () => setIsVisible(true);
 
-    const handleSignUpPress = () => {
-        setShowSignUpModal(true)
-    }
+    const handleSignUpPress = () => setShowSignUpModal(true);
 
     return (
         <>
