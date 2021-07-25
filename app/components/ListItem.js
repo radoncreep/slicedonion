@@ -27,10 +27,11 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 10,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   right: {
     flexDirection: 'row',
+    alignItems: 'center'
   },
   title: {
     fontSize: 16,
