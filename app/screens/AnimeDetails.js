@@ -43,7 +43,7 @@ const AnimeDetails = ({ navigation, route }) => {
                                 showsVerticalScrollIndicator={false}
                                 scrollEventThrottle={1}
                             >
-                                <Animated.View style={{ height: height - 180 }}>
+                                <Animated.View style={{ height: height - 100 }}>
                                     <GradientView>
                                         <View style={styles.bgContent}>
                                             <Text style={styles.bgTitle}>{info.title}</Text>
