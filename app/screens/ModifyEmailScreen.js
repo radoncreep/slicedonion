@@ -1,48 +1,77 @@
+import jwtDecode from 'jwt-decode';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
+import { useNavigation } from '@react-navigation/native';
 
+
+import getAuthApi from '../api/getAuthApi';
 import AppErrorMessage from '../components/form/AppErrorMessage';
 import { AppForm } from '../components/form/AppForm';
 import { CustomFormField } from '../components/form/CustomFormField';
 import { SubmitFormButton } from '../components/form/SubmitFormButton';
+import { registerUserAuth } from '../store/actions';
+import authStorage from '../utility/storage'
 
 const validationSchema = Yup.object().shape({
     newEmail: Yup.string().email().required().label("NewEmail"),
-    confirmEmail: Yup.string().email().required().label("ConfirmEmail"),
+    currentEmail: Yup.string().email().required().label("CurrentEmail"),
     currentPassword: Yup.string().min(4).required().label("CurrentPassword")
 });
 
 export const ModifyEmailScreen = () => {
+    const [ emailUpdateFailed, setEmailUpdateFailed ] = useState(false);
     const [ errorMsg, setErrorMsg ] = useState();
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
+
+    const handleSubmit = async (userData) => {
+        const { data, ok } = await getAuthApi.updateUserEmail(userData);
+        
+        if (!ok) {
+            setEmailUpdateFailed(true);
+            if (data.message) setErrorMsg(data.message);
+            return;
+        };
+
+        setEmailUpdateFailed(false);
+        await authStorage.removeToken()
+        const user = jwtDecode(data.token);
+        console.log('user ', user)
+        dispatch(registerUserAuth(user));
+        authStorage.storeToken(data.token);
+        navigation.goBack()
+        return;
+    };  
 
     return (
         <View style={styles.container}>
             <View style={styles.formContainer}>
-                {/* <View style={{ alignSelf: 'center' }}>
-                    <AppErrorMessage error={errorMsg} visible={loginFailed}/> 
-                </View> */}
+                <View style={{ alignSelf: 'center' }}>
+                    <AppErrorMessage error={errorMsg} visible={emailUpdateFailed}/> 
+                </View>
                 <AppForm
-                    initialValues={{ newEmail: '', condirmEmail: '', currentPassword: ''}}
+                    initialValues={{ newEmail: '', currentEmail: '', currentPassword: ''}}
                     validationSchema={validationSchema}
-                    onSubmit={() => console.log('value')}
+                    onSubmit={handleSubmit}
                 >
                     <CustomFormField 
                         autoCapitalize="none"
                         autoCorrect={false}
                         keyboardType="email-address"
-                        name="newEmail"
+                        name="currentEmail"
                         icon="mail"
-                        placeholder="Email"
+                        placeholder="Current Email"
                         textContentType="emailAddress"
                     />
                     <CustomFormField 
                         autoCapitalize="none"
                         autoCorrect={false}
                         keyboardType="email-address"
-                        name="confirmEmail"
+                        name="newEmail"
                         icon="mail"
-                        placeholder="Email"
+                        placeholder="New Email"
                         textContentType="emailAddress"
                     />
                     <CustomFormField 
