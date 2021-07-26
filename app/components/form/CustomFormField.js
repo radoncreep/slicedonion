@@ -4,7 +4,7 @@ import { StyleSheet, TextInput, View } from 'react-native';
 import { CustomTextInput } from './CustomTextInput';
 import AppErrorMessage from './AppErrorMessage';
 
-export const CustomFormField = ({  icon, name, style, ...otherProps }) => {
+export const CustomFormField = ({  icon, name, style,...otherProps }) => {
     const { setFieldTouched, setFieldValue, errors, touched, values} =  useFormikContext();
 
     return (
@@ -17,6 +17,7 @@ export const CustomFormField = ({  icon, name, style, ...otherProps }) => {
                     {...otherProps}
                     icon={icon}
                 />
+                
             </View>
             <AppErrorMessage error={errors[name]} visible={touched[name]}/>
         </>
@@ -32,6 +33,7 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingVertical: 10,
         alignItems: 'center',
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        flexDirection: 'row'
     },
 })
