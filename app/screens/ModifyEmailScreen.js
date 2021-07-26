@@ -36,12 +36,17 @@ export const ModifyEmailScreen = () => {
         };
 
         setEmailUpdateFailed(false);
+
         await authStorage.removeToken()
+        
         const user = jwtDecode(data.token);
-        console.log('user ', user)
+        
         dispatch(registerUserAuth(user));
+        
         authStorage.storeToken(data.token);
+        
         navigation.goBack()
+        
         return;
     };  
 

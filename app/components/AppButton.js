@@ -2,11 +2,12 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { colorPallete } from "../utils/colors";
 
-const AppButton = ({ title, onPress, color = "textPurple" }) => {
+const AppButton = ({ color = "textPurple", disabled=false, onPress, title }) => {
   return (
     <TouchableOpacity
-      style={[styles.button, { backgroundColor: colorPallete[color] }]}
+      style={[styles.button, { backgroundColor: disabled ? 'grey' : colorPallete[color] }]}
       onPress={onPress}
+      disabled={disabled}
     >
       <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
