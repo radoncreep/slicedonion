@@ -98,8 +98,8 @@ export const ModifyEmailScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#0f010f',
-        padding: 10
+        // backgroundColor: '#0f010f',
+        // padding: 10
     },
     formContainer: {
         marginTop: 25,

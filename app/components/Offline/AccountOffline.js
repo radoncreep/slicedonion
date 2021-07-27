@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
-import LottieView from 'lottie-react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { colorPallete } from '../../utils/colors';
 import { RegisterModal } from '../AuthModals/RegisterModal';
@@ -71,7 +70,6 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         flex: 1,
-        backgroundColor: colorPallete.smallBgPurple,
         justifyContent: 'center'
     },
     display: {
