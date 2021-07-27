@@ -13,8 +13,9 @@ const EpisodeCardHorizontal = ({ episodeNumber, episodeTitle, onPress, othername
                     <View style={{
                         flexDirection: 'column',
                         width: '80%',
-                        height: '50%',
                         justifyContent: 'space-around',
+                        backgroundColor: 'red'
+                        
                     }}>
                         <View style={styles.minicardTItle}>
                             <Text 
@@ -126,9 +127,6 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     minicardIconBtn: {
-        marginTop: 20,
-        alignSelf: 'flex-end',
-        marginRight: 10
     }
 })
 

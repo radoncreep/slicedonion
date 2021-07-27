@@ -171,7 +171,6 @@ const accountSettings = [
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#0f010f',
         paddingHorizontal: 15
     },
     header: {
