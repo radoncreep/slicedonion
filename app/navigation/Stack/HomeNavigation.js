@@ -13,7 +13,19 @@ const Stack = createStackNavigator();
 export const HomeNavigation = () => {
     
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            detachInactiveScreens={false}
+            detachInactiveScreens={false} 
+            screenOptions={{
+                // cardStyle: {
+                //     opacity: 1,
+                //     backgroundColor: '#000',
+                //     flex: 1,
+
+                // },
+                animationEnabled: false
+            }}
+        >
             <Stack.Screen
                 name="slicedonion" 
                 component={AppNavigator}
@@ -23,7 +35,7 @@ export const HomeNavigation = () => {
                     headerTitleStyle: { color: '#fff' },
                     headerRight: () => (
                         <AppSearchIcon />
-                    )
+                    ),
                 }} 
             />
             <Stack.Screen 
