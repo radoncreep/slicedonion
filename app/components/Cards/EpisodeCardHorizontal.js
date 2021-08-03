@@ -13,14 +13,12 @@ const EpisodeCardHorizontal = ({ episodeNumber, episodeTitle, onPress, othername
                     <View style={{
                         flexDirection: 'column',
                         width: '80%',
-                        justifyContent: 'space-around',
-                        backgroundColor: 'red'
-                        
+                        justifyContent: 'space-around',                        
                     }}>
                         <View style={styles.minicardTItle}>
                             <Text 
                                 numberOfLines={1} 
-                                style={{ color: '#fff', fontWeight: '500', fontSize: 13 }}
+                                style={{ color: '#fff', fontWeight: '500', fontSize: 13, textAlign: 'left' }}
                                 >
                                     {episodeTitle}
                             </Text>
@@ -47,13 +45,6 @@ const EpisodeCardHorizontal = ({ episodeNumber, episodeTitle, onPress, othername
                             </View>
                         </View>
                     </View>
-
-                    {/* button is going to be an icon */}
-                    <TouchableWithoutFeedback>
-                        <View style={styles.minicardIconBtn}>
-                            <MaterialCommunityIcons name="download-circle-outline" size={26} color="grey" />
-                        </View>
-                    </TouchableWithoutFeedback>
                 </View>
             </View>
         </TouchableHighlight>
@@ -98,8 +89,6 @@ const styles = StyleSheet.create({
         borderRadius: 40,
         color: '#fff',
         backgroundColor: '#7cc5fc',
-        paddingLeft: 10,
-        alignItems: 'center',
         marginTop: 5,
         fontSize: 11,
         fontWeight: '400',
@@ -125,8 +114,6 @@ const styles = StyleSheet.create({
         marginTop: 5,
         width: 50,
         marginLeft: 10
-    },
-    minicardIconBtn: {
     }
 })
 

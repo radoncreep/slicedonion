@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Text, FlatList, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,71 +9,108 @@ import { ListItem } from '../ListItem';
 import ListItemSeparator from '../ListItemSeparator';
 import StatusBarComp from '../StatusBarComp';
 import cache from '../../utility/cache';
+import { colorPallete } from '../../utils/colors';
 
-const accountSettings = [
-    {
-        profileOptions: [
-            {
-                name: 'Username',
-                value: 'radon',
-                targetScreen: null
-            },
-            {
-                name: 'Change Email',
-                value: 'radoncreep@mail.com',
-                targetScreen: 'Change Email'
-            },
-            {
-                name: 'Change Password',
-                value: '********',
-                targetScreen: 'Change Password'
-            }
-        ]
-    },
-    {
-        mediaControls: [
-            {
-                name: 'Stream Using Cellular data',
-                targetScreen: null
-            },
-            {
-                name: 'Parental Control',
-                targetScreen: null
-            },
-            {
-                name: 'Notifications',
-                targetScreen: 'NotificationScreen'
-            },
-            {
-                name: 'Report',
-                targetScreen: null
-            },
-        ]
-    },
-    {
-        extras: [
-            {
-                name: 'Clear Search History',
-                targetScreen: null
-            },
-            {
-                name: 'Suggestions',
-                targetScreen: null
-            },
-            {
-                name: 'Logout',
-                targetScreen: null
-            }
-        ]
-    }
 
-];
-
- export const AccountOnline = () => {
+export const AccountOnline = () => {
     const { email } = useSelector(state => state.register.user);
     const dispatch = useDispatch();
     const navigation = useNavigation();
-
+    
+    const [ cellularOn, setCellularOn ] = useState(false);
+    const [ parentalControl, setParentalControl ] = useState(false);
+    
+    const accountSettings = [
+        {
+            profileOptions: [
+                {
+                    name: 'Username',
+                    value: 'radon',
+                    targetScreen: null,
+                    icon: {
+                        name: 'chevron-right',
+                        color: 'grey',
+                        size: 24
+                    }
+                },
+                {
+                    name: 'Change Email',
+                    value: 'radoncreep@mail.com',
+                    targetScreen: 'Change Email',
+                    icon: {
+                        name: 'chevron-right',
+                        color: 'grey',
+                        size: 24
+                    }
+                },
+                {
+                    name: 'Change Password',
+                    value: '********',
+                    targetScreen: 'Change Password',
+                    icon: {
+                        name: 'chevron-right',
+                        color: 'grey',
+                        size: 24
+                    }
+                }
+            ]
+        },
+        {
+            mediaControls: [
+                {
+                    name: 'Stream Using Cellular Data',
+                    icon: {
+                        name: cellularOn ? 'toggle-on' : 'toggle-off',
+                        color: colorPallete.textPurple,
+                        size: 30,
+                    },
+                    targetScreen: null
+                },
+                {
+                    name: 'Parental Control',
+                    icon: {
+                        name: parentalControl ? 'toggle-on' : 'toggle-off',
+                        color: colorPallete.textPurple,
+                        size: 30,
+                    },
+                    targetScreen: null
+                },
+                {
+                    name: 'Notifications',
+                    icon: {
+                        name: 'chevron-right',
+                        color: 'grey',
+                        size: 24
+                    },
+                    targetScreen: 'NotificationScreen'
+                },
+                {
+                    name: 'Report',
+                    icon: null,
+                    targetScreen: null
+                },
+            ]
+        },
+        {
+            extras: [
+                {
+                    name: 'Clear Search History',
+                    icon: null,
+                    targetScreen: null
+                },
+                {
+                    name: 'Suggestions',
+                    icon: null,
+                    targetScreen: null
+                },
+                {
+                    name: 'Logout',
+                    icon: null,
+                    targetScreen: null
+                }
+            ]
+        }
+    ];
 
     const handleAlert = () => {
         Alert.alert(
@@ -95,6 +132,10 @@ const accountSettings = [
         )
     };
 
+    const handleStreamUsingCellular = () => setCellularOn((prevState) => !prevState);
+
+    const handleParentalControl = () => setParentalControl((prevState) => !prevState);
+
     const handleProfileSettings = (setting) => {
         if (setting.name === "Change Email") {
             navigation.navigate(setting.targetScreen);
@@ -107,6 +148,10 @@ const accountSettings = [
         if (setting.name === 'Clear Search History') cache.clearCache();
 
         if (setting.name === 'Logout') handleAlert();
+
+        if (setting.name === 'Stream Using Cellular Data') handleStreamUsingCellular();
+
+        if (setting.name === 'Parental Control') handleParentalControl();
 
     };
 
@@ -124,6 +169,7 @@ const accountSettings = [
             {setting[mapNames[index]].map((item, index) => (
                 <View key={item.name}>
                     <ListItem 
+                        icon={item.icon}
                         title={item.name}
                         towhere={item.targetScreen}
                         onPress={() => handleProfileSettings(item)}
