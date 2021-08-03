@@ -15,7 +15,7 @@ import authStorage from '../../utility/storage';
 
 
 const validationSchema = Yup.object().shape({
-    email: Yup.string().email().required().label("Email"),
+    email: Yup.string().trim().email().required().label("Email"),
     password: Yup.string().min(4).required().label("Password")
 });
 

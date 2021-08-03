@@ -8,6 +8,15 @@ the cleanup function executes but then the useEffect doesnt
 
 there are cases where the dependecies change and we need to cleanup prev state
 
+# STACK SCREEN FLICKERING ISSUE ON SWTICHING SCREENS FIX
+- <Stack.Navigator
+  screenOptions={({ navigation }) => {
+    return {
+      detachPreviousScreen: !navigation.isFocused(),
+    }
+  }}
+>
+
 
 
 # Hiding tab bar in specific screens
