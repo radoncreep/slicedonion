@@ -8,7 +8,10 @@ import {
     SET_AS_CURRENT_EPISODE,
     SET_AS_NEXT_EPISODE,
     SET_AS_PREVIOUS_EPISODE,
-    REMOVE_EPISODES
+    REMOVE_EPISODES,
+    PERSIST_APPUPDATE_NOTIF,
+    PERSIST_NEW_CONTENT_NOTIF,
+    PERSIST_NEW_FEATURE_NOTIF
 }
 from "./types";
 
@@ -79,5 +82,26 @@ export const setNextEpisode = (nextEpisodeData) => (
     {
         type: SET_AS_NEXT_EPISODE,
         payload: nextEpisodeData
+    }
+);
+
+export const persistAppUpdateNotificaton = (appUpdateValue) => (
+    {
+        type: PERSIST_APPUPDATE_NOTIF,
+        payload: appUpdateValue
+    }
+);
+
+export const persistNewContentNotificaton = (newContentValue) => (
+    {
+        type: PERSIST_NEW_CONTENT_NOTIF,
+        payload: newContentValue
+    }
+);
+
+export const persistNewFeatureNotificaton = (newContentValue) => (
+    {
+        type: PERSIST_NEW_FEATURE_NOTIF,
+        payload: newContentValue
     }
 );
