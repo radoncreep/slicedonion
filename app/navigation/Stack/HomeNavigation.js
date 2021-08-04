@@ -13,9 +13,7 @@ const Stack = createStackNavigator();
 
 export const HomeNavigation = () => {
     function getHeaderTitle(route) {
-        console.log('route name ', route.name)
         const routeName = getFocusedRouteNameFromRoute(route) ?? 'slicedonion';
-        console.log('routName ', routeName)
 
         switch(routeName) {
             case 'Library':
