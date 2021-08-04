@@ -82,7 +82,7 @@ export const AccountOnline = () => {
                         color: 'grey',
                         size: 24
                     },
-                    targetScreen: 'NotificationScreen'
+                    targetScreen: 'Notification'
                 },
                 {
                     name: 'Report',
@@ -138,20 +138,24 @@ export const AccountOnline = () => {
 
     const handleProfileSettings = (setting) => {
         if (setting.name === "Change Email") {
-            navigation.navigate(setting.targetScreen);
+            return navigation.navigate(setting.targetScreen);
         }
 
         if (setting.name === "Change Password") {
-            navigation.navigate(setting.targetScreen);
+            return navigation.navigate(setting.targetScreen);
         }
 
-        if (setting.name === 'Clear Search History') cache.clearCache();
+        if (setting.name === 'Clear Search History') return cache.clearCache();
 
-        if (setting.name === 'Logout') handleAlert();
+        if (setting.name === 'Logout') return handleAlert();
 
-        if (setting.name === 'Stream Using Cellular Data') handleStreamUsingCellular();
+        if (setting.name === 'Stream Using Cellular Data') return handleStreamUsingCellular();
 
-        if (setting.name === 'Parental Control') handleParentalControl();
+        if (setting.name === 'Parental Control') return handleParentalControl();
+
+        if (setting.name === 'Notifications') {
+            return navigation.navigate(setting.targetScreen)
+        }
 
     };
 
