@@ -5,7 +5,10 @@ import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export const ListItem = ({ icon, onPress, style, title, towhere, value }) => {
   const stream = 'Stream Using Cellular Data';
-  const parental = "Parental Control"
+  const parental = "Parental Control";
+  const appUpdate = 'App Updates';
+  const content = 'New Content';
+  const feature = 'New Features';
 
   const renderTogglerIcon = () => ( <FontAwesome name={icon.name} size={icon.size} color={icon.color} /> );
     
@@ -17,7 +20,8 @@ export const ListItem = ({ icon, onPress, style, title, towhere, value }) => {
             <View style={styles.right}>
               <Text style={{ color: '#fff', fontSize: 13 }}>{value}</Text>
 
-              { title === stream || title === parental ? 
+              { title === stream || title === parental || title === appUpdate || title === content
+                || title === feature ? 
                   renderTogglerIcon()
                   :
                 ( <MaterialCommunityIcons

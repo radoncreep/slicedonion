@@ -1,42 +1,54 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 import { AnimeDetails, PlayerScreen } from '../../screens';
 import AppNavigator from '../Tab/AppNavigator';
 import { AppSearchIcon } from '../../components/SearchComponent/AppSearchIcon';
 import { SearchScreen } from '../../screens/SearchScreen';
-import { ModifyEmailScreen } from '../../screens/ModifyEmailScreen';
-import { ModifyPaswwordScreen } from '../../screens/ModifyPasswordScreen';
+// import { ModifyEmailScreen } from '../../screens/ModifyEmailScreen';
+// import { ModifyPaswwordScreen } from '../../screens/ModifyPasswordScreen';
 
 const Stack = createStackNavigator();
 
 export const HomeNavigation = () => {
+    function getHeaderTitle(route) {
+        console.log('route name ', route.name)
+        const routeName = getFocusedRouteNameFromRoute(route) ?? 'slicedonion';
+        console.log('routName ', routeName)
+
+        switch(routeName) {
+            case 'Library':
+                return 'Your Library'
+            case 'Browse':
+                return 'Browse Anime Shows'
+            case 'Seasons':
+                return 'Seasons'
+            case 'Account':
+                return 'Settings'
+        }
+    }
     
     return (
         <Stack.Navigator
             detachInactiveScreens={false}
             detachInactiveScreens={false} 
             screenOptions={{
-                // cardStyle: {
-                //     opacity: 1,
-                //     backgroundColor: '#000',
-                //     flex: 1,
-
-                // },
                 animationEnabled: false
             }}
         >
             <Stack.Screen
                 name="slicedonion" 
                 component={AppNavigator}
-                options={{ 
-                    headerShown: true,
+                options={({ route }) => ({
+                    headerTitle: getHeaderTitle(route),
+                    headerShown: getHeaderTitle(route) === 'Settings'? false : true,
                     headerStyle: { backgroundColor: '#0f011f'}, 
                     headerTitleStyle: { color: '#fff' },
                     headerRight: () => (
                         <AppSearchIcon />
                     ),
-                }} 
+                })} 
             />
             <Stack.Screen 
                 name="Player"
@@ -62,7 +74,7 @@ export const HomeNavigation = () => {
                     headerShown: false
                 }}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
                 name="Change Email" 
                 component={ModifyEmailScreen}
                 options={{ 
@@ -97,7 +109,7 @@ export const HomeNavigation = () => {
                         fontWeight: '500',
                     }
                 }} 
-            />
+            /> */}
         </Stack.Navigator>
     )
 };
