@@ -15,7 +15,7 @@ import { registerUserAuth } from '../store/actions';
 
 
 const validationSchema = Yup.object().shape({
-    currentPassword: Yup.string().min(4).required().label("CurrentPassword"),
+    currentPassword: Yup.string().min(4).trim().required().label("CurrentPassword"),
     newPassword: Yup.string().min(4).required().label("NewPassword"),
     confirmPassword: Yup.string().oneOf([Yup.ref('newPassword'), null], 'Passwords must mastch').min(4).required().label("NewPassword")
 });

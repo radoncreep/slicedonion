@@ -3,15 +3,18 @@ import { View, StyleSheet, Button, Dimensions, TouchableHighlight, Text } from '
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
+import { useDeviceOrientation } from '@react-native-community/hooks'
 
 import { playlistApi } from '../api/getPlaylist';
 import ErrorMessage from './ErrorMessage';
 import ActivityIndicator from './ActivityIndicator';
 
 const VideoPlayer = ({ videodata }) => {
+    const { landscape } = useDeviceOrientation();
+
     const video = useRef(null);
     const [ status, setStatus ] = useState({});
-    const [ stream, setStream ] = useState('');
+    const [ stream, setStream ] = useState(null);
     const [ error, setError ] = useState('');
     const [ buffer, setBuffer ] = useState(false);
 
@@ -56,24 +59,28 @@ const VideoPlayer = ({ videodata }) => {
             { error ? <ErrorMessage message={error} /> : null }
             <Video 
                 ref={video}
-                style={styles.video}
+                style={[styles.video, { aspectRatio: landscape ? 9/4.2 : 16/9 }]}
                 posterSource={{
                     uri: thumbnail
                 }}
                 posterStyle={{
                     resizeMode: "cover"
                 }}
-                usePoster={true}
+                usePoster={stream ? false : true}
                 source={{
-                    uri: stream,
-                    overrideFileExtensionAndroid: "mu38"
+                    // uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+                    // uri: "http://streamani.net/streaming.php?id=MTY2MTQ4&title=Higurashi+no+Naku+Koro+ni+Sotsu+Episode+5",
+                    // uri: 'https://storage.googleapis.com/buoyant-set-320416/WJGRGS6AYSZX/22adesc22_1627501204.22.0_166616.mp4',
+                    uri: 'https://streamtape.com/e/zGJg22rMq1tXmm/night-head-2041-episode-31627497601.0.mp4'
+                    // uri: stream,
+                    // overrideFileExtensionAndroid: "mp4"
                 }}
                 useNativeControls
                 resizeMode="contain"
                 isLooping
                 onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             />
-            <View style={styles.buttons}>
+            {/* <View style={styles.buttons}>
                 <TouchableHighlight
                     onPress={() => status.isPlaying ? video.current.pauseAsync() : video.current.playAsync() }
                 >
@@ -85,10 +92,10 @@ const VideoPlayer = ({ videodata }) => {
                             backgroundColor: 'transparent'
                         }}
                     >
-                        {/* {status.isPlaying ? renderPauseIcon() :  renderPlayIcon()} */}
+                        {status.isPlaying ? renderPauseIcon() :  renderPlayIcon()}
                     </View>
                 </TouchableHighlight>
-            </View>
+            </View> */}
         </View>
     );
 };
@@ -115,7 +122,6 @@ const styles = StyleSheet.create({
     video: {
         width: '100%',
         aspectRatio: 16/9, 
-
     },
 })
 

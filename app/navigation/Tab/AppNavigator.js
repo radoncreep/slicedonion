@@ -3,9 +3,10 @@ import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 
-import { AccountScreen, HomeScreen } from '../../screens';
+import { HomeScreen } from '../../screens';
 import { BrowseTabNavigator, LibraryTabNavigator } from './TopTabNavigation';
 import { SeasonsNavigation } from '../Stack/SeasonsNavigation';
+import { AccountNavigation } from '../Stack/AccountNavigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -54,9 +55,9 @@ const AppNavigator = (props) => {
             />
             <Tab.Screen 
                 name="Account" 
-                component={AccountScreen} 
+                component={AccountNavigation} 
                 options={{
-                    tabBarIcon: ({ color }) => <MaterialIcons name="account-circle" size={22} color={color} />
+                    tabBarIcon: ({ color }) => <MaterialIcons name="account-circle" size={22} color={color} />,
                 }}
             />
         </Tab.Navigator>
