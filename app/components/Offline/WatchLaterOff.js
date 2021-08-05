@@ -21,8 +21,19 @@ export default WathcLaterOff = () => {
 
     return (
         <>
-            <LoginModal isVisible={isVisible} setIsVisible={setIsVisible}/>
-            <RegisterModal show={showSignUpModal} setModal={setShowSignUpModal} />
+            <LoginModal 
+                isVisible={isVisible} 
+                setIsVisible={setIsVisible}
+                showRegisterModal={showSignUpModal}
+                setShowRegisterModal={setShowSignUpModal}
+            />
+            <RegisterModal 
+                showRegisterModal={showSignUpModal} 
+                setShowRegisterModal={setShowSignUpModal} 
+                isVisible={isVisible} 
+                setIsVisible={setIsVisible}
+            />
+            
             <View style={styles.container}> 
                 <View style={styles.display}>
                     <LottieView 

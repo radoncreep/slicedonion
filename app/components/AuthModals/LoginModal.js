@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, Modal, Pressable, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import * as Yup from 'yup';
 import { EvilIcons } from '@expo/vector-icons';
@@ -21,21 +21,33 @@ const validationSchema = Yup.object().shape({
 
 const { width} = Dimensions.get("window");
 
-export const LoginModal = ({ isVisible, setIsVisible }) => {
+export const LoginModal = ({ isVisible, setIsVisible, showRegisterModal, setShowRegisterModal }) => {
     const [ loginFailed, setLoginFailed ] = useState(false);
     const [ errorMsg, setErrorMsg ] = useState();
     const dispatch = useDispatch();
 
+    let mounted = true;
+
+    useEffect(() => {
+        
+        return () => mounted = false;
+    })
+
+    const handleAuthNavigation = () => {
+        setIsVisible((prevState) => !prevState);
+        setShowRegisterModal((prevState) => !prevState);
+    }
+
     const handleSubmit = async (userData) => {
         const { data, ok } = await authApi.loginUser(userData);
         
-        if (!ok) {
+        if (!ok && mounted) {
             setLoginFailed(true);
             if (data.message) setErrorMsg(data.message);
             return;
         };
 
-        setLoginFailed(false);
+        if (mounted) setLoginFailed(false);
         const user = jwtDecode(data.token);
         dispatch(registerUserAuth(user));
         authStorage.storeToken(data.token);
@@ -43,75 +55,79 @@ export const LoginModal = ({ isVisible, setIsVisible }) => {
     };  
 
     return (
-        <Modal 
-            visible={isVisible}
-            animationType="slide"
-            onRequestClose={() => setIsVisible(false)}
-            presentationStyle="fullScreen"
-            >
-            <View 
-                style={styles.container}
-            >
-                <View style={styles.header}>
-                    <TouchableHighlight onPress={() => setIsVisible(false)}>
-                        <EvilIcons style={styles.close} name="close" size={26} color="white" />
-                    </TouchableHighlight>
-                    <Text style={{ color: '#fff', fontSize: 16, position: 'absolute', left: '40%' }}>Login</Text>
-                </View>
-                <View style={styles.formContainer}>
-                    <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>SLICEDONION</Text>
+        <View>
+            <Modal 
+                visible={isVisible}
+                animationType="slide"
+                onRequestClose={() => setIsVisible(false)}
+                presentationStyle="fullScreen"
+                >
+                <View 
+                    style={styles.container}
+                >
+                    <View style={styles.header}>
+                        <TouchableHighlight onPress={() => setIsVisible(false)}>
+                            <EvilIcons style={styles.close} name="close" size={26} color="white" />
+                        </TouchableHighlight>
+                        <Text style={{ color: '#fff', fontSize: 16, position: 'absolute', left: '40%' }}>Login</Text>
+                    </View>
+                    <View style={styles.formContainer}>
+                        <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>SLICEDONION</Text>
 
-                    <View style={styles.formInner}>
-                        <View style={{ alignSelf: 'center' }}>
-                            <AppErrorMessage error={errorMsg} visible={loginFailed}/> 
+                        <View style={styles.formInner}>
+                            <View style={{ alignSelf: 'center' }}>
+                                <AppErrorMessage error={errorMsg} visible={loginFailed}/> 
+                            </View>
+                            <AppForm
+                                initialValues={{ email: '', password: ''}}
+                                validationSchema={validationSchema}
+                                onSubmit={handleSubmit}
+                            >
+                                <CustomFormField 
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    keyboardType="email-address"
+                                    name="email"
+                                    icon="mail"
+                                    placeholder="Email"
+                                    textContentType="emailAddress"
+                                />
+                                <CustomFormField 
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    icon="lock"
+                                    name="password"
+                                    placeholder="Password"
+                                    secureTextEntry
+                                    textContentType="password"
+                                />
+                                <SubmitFormButton title="Login to Onion Account"/>
+                            </AppForm>
                         </View>
-                        <AppForm
-                            initialValues={{ email: '', password: ''}}
-                            validationSchema={validationSchema}
-                            onSubmit={handleSubmit}
-                        >
-                            <CustomFormField 
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                keyboardType="email-address"
-                                name="email"
-                                icon="mail"
-                                placeholder="Email"
-                                textContentType="emailAddress"
-                            />
-                            <CustomFormField 
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                icon="lock"
-                                name="password"
-                                placeholder="Password"
-                                secureTextEntry
-                                textContentType="password"
-                            />
-                            <SubmitFormButton title="Login to Onion Account"/>
-                        </AppForm>
+                    </View>
+                    <View style={styles.footer}>
+                        <Text style={{ fontSize: 13, fontWeight: '500', color: '#fff', marginBottom: 50, textAlign: 'center' }}>
+                            Your Information is guarranteed protected and will not be shared to any third-party for use.
+                        </Text>
+                        <View style={styles.footerInner}>
+                            <Pressable>
+                                <Text style={{ color: 'white', fontWeight: '500', fontSize: 14 }}>
+                                    Forgot Password
+                                </Text>
+                            </Pressable>
+                            <Text style={{ color: 'white', fontSize: 14, marginHorizontal: 5 }}> | </Text>
+                            <Pressable
+                                onPress={handleAuthNavigation}
+                            >
+                                <Text style={{ color: '#c24bde', fontWeight: '500', fontSize: 14 }}>
+                                    Create an Onion Account
+                                </Text>
+                            </Pressable>
+                        </View>
                     </View>
                 </View>
-                <View style={styles.footer}>
-                    <Text style={{ fontSize: 13, fontWeight: '500', color: '#fff', marginBottom: 50, textAlign: 'center' }}>
-                        Your Information is guarranteed protected and will not be given to any third-party for use.
-                    </Text>
-                    <View style={styles.footerInner}>
-                        <Pressable>
-                            <Text style={{ color: 'white', fontWeight: '500', fontSize: 14 }}>
-                                Forgot Paasword
-                            </Text>
-                        </Pressable>
-                        <Text style={{ color: 'white', fontSize: 14, marginHorizontal: 5 }}> | </Text>
-                        <Pressable>
-                            <Text style={{ color: '#c24bde', fontWeight: '500', fontSize: 14 }}>
-                                Create an Onion Account
-                            </Text>
-                        </Pressable>
-                    </View>
-                </View>
-            </View>
-        </Modal>
+            </Modal>
+        </View>
     )
 }
 
