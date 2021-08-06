@@ -27,7 +27,8 @@ export default WatchLaterOn = () => {
             renderItem={({ item, index })   => 
                 (
                     <View>
-                        <SmallCard 
+                        <SmallCard
+                            currentanime={item}
                             style={{ width: width / 3.5 }}
                             key={index} 
                             title={item.title} 

@@ -19,7 +19,6 @@ const PlayerScreen = () => {
     const { episodes } = useSelector(state => state.playlist);
     const { currentEpisode, nextEpisode } = episodes;
 
-
     const handlePlayerEpisodePress = (nextEpisode) => {
         handleEpisodeFunctionality(nextEpisode);
         navigation.replace('Player');
@@ -36,7 +35,7 @@ const PlayerScreen = () => {
                 title={currentEpisode.title}
                 version={currentEpisode.version}
             >
-                <View>
+                { nextEpisode &&
                     <EpisodeCardHorizontal 
                         episodeNumber={nextEpisode.episodeNumber} 
                         thumbnail={nextEpisode.thumbnail}
@@ -44,7 +43,7 @@ const PlayerScreen = () => {
                         version={nextEpisode.version}
                         onPress={() => handlePlayerEpisodePress(nextEpisode)}
                     />
-                </View>
+                }
             </CurrentPlayer>
         </View>
     );
