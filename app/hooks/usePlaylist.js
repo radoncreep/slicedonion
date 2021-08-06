@@ -32,20 +32,16 @@ export const usePlaylist = ( anime ) => {
         let current = data[index];
         dispatch(setCurrentEpisode(current));
         
-        let episodesLen = data.length;
-        if (index !== episodesLen - 1) {
+        let episodesLen = data.length -1;
+
+        if (index !== episodesLen) {
             let next = index + 1;
             let nextEpisode = data[next];
-
             dispatch(setNextEpisode(nextEpisode));
+
+        } else if (index === episodesLen) {
+            dispatch(setNextEpisode(null))
         }
-
-        // if (index !== 0)  {
-        //     let previous = index - 1;
-        //     let previousEpisode = anime[previous];
-
-        //     dispatch(setPreviousEpisode(previousEpisode));
-        // }
     };
 
     return {
