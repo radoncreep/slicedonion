@@ -19,14 +19,13 @@ const EpisodesTrayVertical = ({ towhere }) => {
 
     const navigation = useNavigation();
 
+    const handleEpisodeAddHistory = (anime) =>  dispatch(addToHistory(anime));   
+
     const handleEpisodePress = (anime) => {
         handleEpisodeFunctionality(anime);
         handleEpisodeAddHistory(anime);
         navigation.navigate(towhere);
     };
-
-    const handleEpisodeAddHistory = (anime) =>  dispatch(addToHistory(anime));   
-
     
     return (
         <View style={styles.container}>
