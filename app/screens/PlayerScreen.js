@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -10,6 +10,7 @@ import CurrentPlayer from '../components/CurrentPlayer';
 import VideoPlayer from '../components/VideoPlayer';
 import { usePlaylist } from '../hooks/usePlaylist';
 import { colorPallete } from '../utils/colors';
+import { addToHistory } from '../store/actions';
 
 
 const PlayerScreen = () => {
@@ -19,8 +20,13 @@ const PlayerScreen = () => {
     const { episodes } = useSelector(state => state.playlist);
     const { currentEpisode, nextEpisode } = episodes;
 
+    const dispatch = useDispatch();
+
+    const handleEpisodeAddHistory = (nextEpisode) =>  dispatch(addToHistory(nextEpisode));   
+
     const handlePlayerEpisodePress = (nextEpisode) => {
         handleEpisodeFunctionality(nextEpisode);
+        handleEpisodeAddHistory(nextEpisode);
         navigation.replace('Player');
     };
 
