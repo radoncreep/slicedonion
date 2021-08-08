@@ -11,5 +11,5 @@ export default combineReducers({
     watchLater: watchLaterReducer,
     register: authReducer,
     playlist: episodesReducer,
-    notifs: notificationReducer
+    notificationsState: notificationReducer
 });
