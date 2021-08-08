@@ -21,8 +21,6 @@ const VideoPlayer = ({ videodata }) => {
    
     const { getCurrentEpisodeUrl } = playlistApi();
     const { episodeUrl, thumbnail } = videodata;
-
-    console.log(thumbnail)
     
     useEffect(() => {
         let mounted = true;

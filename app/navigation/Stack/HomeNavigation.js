@@ -13,9 +13,7 @@ const Stack = createStackNavigator();
 
 export const HomeNavigation = () => {
     function getHeaderTitle(route) {
-        console.log('route name ', route.name)
         const routeName = getFocusedRouteNameFromRoute(route) ?? 'slicedonion';
-        console.log('routName ', routeName)
 
         switch(routeName) {
             case 'Library':
@@ -74,42 +72,6 @@ export const HomeNavigation = () => {
                     headerShown: false
                 }}
             />
-            {/* <Stack.Screen
-                name="Change Email" 
-                component={ModifyEmailScreen}
-                options={{ 
-                    headerShown: true,
-                    headerTintColor: '#fff',
-                    headerStyle: { 
-                        backgroundColor: '#0f010f',
-                        borderBottomWidth: .5,
-                        borderBottomColor: '#523d57'
-                    }, 
-                    headerTitleStyle: { 
-                        color: '#fff',
-                        fontSize: 16,
-                        fontWeight: '500',
-                    }
-                }} 
-            />
-            <Stack.Screen
-                name="Change Password" 
-                component={ModifyPaswwordScreen}
-                options={{ 
-                    headerShown: true,
-                    headerTintColor: '#fff',
-                    headerStyle: { 
-                        backgroundColor: '#0f010f',
-                        borderBottomWidth: .7,
-                        borderBottomColor: '#523d57'
-                    }, 
-                    headerTitleStyle: { 
-                        color: '#fff',
-                        fontSize: 16,
-                        fontWeight: '500',
-                    }
-                }} 
-            /> */}
         </Stack.Navigator>
     )
 };

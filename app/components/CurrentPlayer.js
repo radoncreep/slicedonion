@@ -49,12 +49,13 @@ export default CurrentPlayer = ({ children, description, episodeNumber, seasonNu
                 <Text 
                     style={{ 
                         textTransform: 'uppercase', 
-                        color: 'white',
+                        color: children === null ? 'red' : 'white',
                         fontSize: 14,
                         fontWeight: 'bold',
-                        marginBottom: 15
+                        marginBottom: 15,
+                        alignSelf: children === null ? 'center' : 'flex-start'
                     }}
-                >Next Episode</Text>
+                >{children === null ? 'No more episode' : 'Next Episode'}</Text>
                 {children}
             </View>
             <View style={styles.backBtnView}>

@@ -16,8 +16,18 @@ export const AccountOffline = () => {
 
     return (
         <>
-            <LoginModal isVisible={isVisible} setIsVisible={setIsVisible}/>
-            <RegisterModal show={showSignUpModal} setModal={setShowSignUpModal} />
+            <LoginModal 
+                isVisible={isVisible} 
+                setIsVisible={setIsVisible}
+                showRegisterModal={showSignUpModal}
+                setShowRegisterModal={setShowSignUpModal}
+            />
+            <RegisterModal 
+                showRegisterModal={showSignUpModal} 
+                setShowRegisterModal={setShowSignUpModal} 
+                isVisible={isVisible} 
+                setIsVisible={setIsVisible}
+            />
             <View style={styles.container}> 
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20}}>
                     <Text style={{ 
