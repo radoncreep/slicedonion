@@ -3,14 +3,21 @@ import cache from '../utility/cache';
 export const persistSettingsControls = () => {
     
     const persistAllNotifications = async (label, notificationsObj) => {
-        const prefix = label;
+        const { addToCache, getFromCache, mergeToCache, clearCache } = cache;
         const notificationSettings = {
             values: {
                 ...notificationsObj
             }
         };
 
-        cache.addToCache(prefix, notificationSettings);
+        let settings = getFromCache(label);
+        if (!settings) {
+            console.log('add')
+            addToCache(label, notificationSettings);
+        } else {
+            console.log('merge')
+            mergeToCache(label, notificationSettings);
+        }
     }
 
     return {
