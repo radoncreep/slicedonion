@@ -27,17 +27,26 @@ export const Notification = () => {
         {
             const getNotificationStateFromCache = async (key) => {
                 let { getFromCache } = cache;
-                let { 
-                    values: { 
-                        appUpdates, 
-                        newContent, 
-                        newFeature 
-                    }
-                } = await getFromCache(key);
-    
-                dispatch(persistAppUpdateNotificaton(appUpdates));
-                dispatch(persistNewContentNotificaton(newContent));
-                dispatch(persistNewFeatureNotificaton(newFeature));
+                let cacheNotifSettings = await getFromCache(key);
+                console.log('noti cache effec ', cacheNotifSettings)
+
+                if (cacheNotifSettings) {
+                    let { 
+                        values: { 
+                            appUpdates, 
+                            newContent, 
+                            newFeature 
+                        }
+                    } = cacheNotifSettings;
+        
+                    dispatch(persistAppUpdateNotificaton(appUpdates));
+                    dispatch(persistNewContentNotificaton(newContent));
+                    dispatch(persistNewFeatureNotificaton(newFeature));
+                } else {
+                    dispatch(persistAppUpdateNotificaton(false));
+                    dispatch(persistNewContentNotificaton(false));
+                    dispatch(persistNewFeatureNotificaton(false));
+                }
                 return;
             }
     

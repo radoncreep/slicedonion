@@ -31,10 +31,17 @@ export const AccountOnline = () => {
         if (current.streamUsingCellular === null || current.parentalControl === null) {
 
             const handleAppControls = async (key) => {
-                let { parentalControl, streamUsingCellular } = await getMediaOptions(key);
-
-                dispatch(persistStreamingOpt(streamUsingCellular));
-                dispatch(persistParentalControl(parentalControl));
+                let controls = await getMediaOptions(key);
+                console.log('ctrl', controls)
+                if (controls) {
+                    let { parentalControl, streamUsingCellular } = controls;
+    
+                    dispatch(persistStreamingOpt(streamUsingCellular));
+                    dispatch(persistParentalControl(parentalControl));
+                } else {
+                    dispatch(persistStreamingOpt(false));
+                    dispatch(persistParentalControl(false));
+                }
                 return;
             }
 
