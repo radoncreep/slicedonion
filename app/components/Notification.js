@@ -28,7 +28,6 @@ export const Notification = () => {
             const getNotificationStateFromCache = async (key) => {
                 let { getFromCache } = cache;
                 let cacheNotifSettings = await getFromCache(key);
-                console.log('noti cache effec ', cacheNotifSettings)
 
                 if (cacheNotifSettings) {
                     let { 
