@@ -6,11 +6,18 @@ const prefix = 'cache';
 const addToCache = async (key, value) => {
     try {
         await AsyncStorage.setItem(key, JSON.stringify(value));
-        console.log('stored', value)
     } catch (error) {
         console.log(error);
     };
 };
+
+const mergeToCache = async (key, value) => {
+    try {
+        await AsyncStorage.mergeItem(key, JSON.stringify(value));
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 const isExpired = (value) => {
     // item exist but expired
@@ -33,8 +40,6 @@ const getFromCache = async(key) => {
             return null;
         };
 
-        console.log('value from cache ', key, value)
-
         return value;
     } catch (error) {
         console.log(error);
@@ -48,11 +53,12 @@ const clearCache = async () => {
         // clear error
       }
     
-    console.log('Done.')
+    console.log('Cache cleard.')
 };
 
 export default {
     addToCache,
     getFromCache,
-    clearCache
+    clearCache,
+    mergeToCache
 };

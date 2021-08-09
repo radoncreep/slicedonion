@@ -4,7 +4,7 @@ import { View, StyleSheet, Text, TouchableHighlight } from 'react-native'
 const GenreCard = ({ genreName, onPress }) => {
     
     return (
-        <TouchableHighlight style={styles.container} onPress={onPress}>
+        <TouchableHighlight onPress={onPress}>
             <View style={styles.bgimg}>
                 <Text style={styles.genretitle}>{genreName}</Text>
             </View>

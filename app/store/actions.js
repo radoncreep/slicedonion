@@ -11,7 +11,9 @@ import {
     REMOVE_EPISODES,
     PERSIST_APPUPDATE_NOTIF,
     PERSIST_NEW_CONTENT_NOTIF,
-    PERSIST_NEW_FEATURE_NOTIF
+    PERSIST_NEW_FEATURE_NOTIF,
+    STREAMING_OPT,
+    PARENTAL_CONTROL_OPT
 }
 from "./types";
 
@@ -105,3 +107,17 @@ export const persistNewFeatureNotificaton = (newContentValue) => (
         payload: newContentValue
     }
 );
+
+export const persistStreamingOpt = (optionValue) => (
+    {
+        type: STREAMING_OPT,
+        payload: optionValue
+    }
+);
+
+export const persistParentalControl = (optValue) => (
+    {
+        type: PARENTAL_CONTROL_OPT,
+        payload: optValue
+    }
+) 
