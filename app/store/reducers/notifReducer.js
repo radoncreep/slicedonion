@@ -2,15 +2,16 @@ import { PERSIST_APPUPDATE_NOTIF, PERSIST_NEW_CONTENT_NOTIF, PERSIST_NEW_FEATURE
 
 const INITIAL_STATE = {
     notifications: {
-        appUpdates: false,
-        newContent: false,
-        newFeature: false
+        appUpdates: null,
+        newContent: null,
+        newFeature: null
     }
 };
 
 export const notificationReducer = (state=INITIAL_STATE, action) => {
     switch(action.type) {
         case PERSIST_APPUPDATE_NOTIF:
+        
             return {
                 notifications: {
                     ...state.notifications,

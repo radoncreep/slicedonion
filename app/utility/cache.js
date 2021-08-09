@@ -11,6 +11,14 @@ const addToCache = async (key, value) => {
     };
 };
 
+const mergeToCache = async (key, value) => {
+    try {
+        await AsyncStorage.mergeItem(key, JSON.stringify(value));
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const isExpired = (value) => {
     // item exist but expired
     const now = moment(Date.now());
@@ -19,6 +27,7 @@ const isExpired = (value) => {
 };
 
 const getFromCache = async(key) => {
+    if (!key) return;
     try {
         const item = await AsyncStorage.getItem(key);
         const value = JSON.parse(item);
@@ -44,11 +53,12 @@ const clearCache = async () => {
         // clear error
       }
     
-    console.log('Done.')
+    console.log('Cache cleard.')
 };
 
 export default {
     addToCache,
     getFromCache,
-    clearCache
+    clearCache,
+    mergeToCache
 };

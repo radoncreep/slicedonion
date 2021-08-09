@@ -1,24 +1,55 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, Text, FlatList, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { logoutUser } from '../../store/actions';
+import { logoutUser, persistParentalControl, persistStreamingOpt } from '../../store/actions';
 import authStorage from '../../utility/storage';
 import { ListItem } from '../ListItem';
 import ListItemSeparator from '../ListItemSeparator';
 import StatusBarComp from '../StatusBarComp';
 import cache from '../../utility/cache';
 import { colorPallete } from '../../utils/colors';
+import { useAppControls } from '../../hooks/useAppControls';
 
 
 export const AccountOnline = () => {
-    const { email } = useSelector(state => state.register.user);
+    const { 
+        register: { user: { email} },
+        mediaControlsState: { current } 
+    } = useSelector(state => state);
+
     const dispatch = useDispatch();
+
     const navigation = useNavigation();
+
+    const { cacheMediaOptions, getMediaOptions} = useAppControls();
+
+    const key = `@${email}_app_controls`;
+
+    useEffect(() => {
+        if (current.streamUsingCellular === null || current.parentalControl === null) {
+
+            const handleAppControls = async (key) => {
+                
+                let controls = await getMediaOptions(key);
+
+                if (controls) {
+                    let { parentalControl, streamUsingCellular } = controls;
     
-    const [ cellularOn, setCellularOn ] = useState(false);
-    const [ parentalControl, setParentalControl ] = useState(false);
+                    dispatch(persistStreamingOpt(streamUsingCellular));
+                    dispatch(persistParentalControl(parentalControl));
+                } else {
+                    dispatch(persistStreamingOpt(false));
+                    dispatch(persistParentalControl(false));
+                }
+                return;
+            }
+
+            handleAppControls(key);
+
+        }
+    }, []);
     
     const accountSettings = [
         {
@@ -60,7 +91,7 @@ export const AccountOnline = () => {
                 {
                     name: 'Stream Using Cellular Data',
                     icon: {
-                        name: cellularOn ? 'toggle-on' : 'toggle-off',
+                        name: current.streamUsingCellular ? 'toggle-on' : 'toggle-off',
                         color: colorPallete.textPurple,
                         size: 30,
                     },
@@ -69,7 +100,7 @@ export const AccountOnline = () => {
                 {
                     name: 'Parental Control',
                     icon: {
-                        name: parentalControl ? 'toggle-on' : 'toggle-off',
+                        name: current.parentalControl ? 'toggle-on' : 'toggle-off',
                         color: colorPallete.textPurple,
                         size: 30,
                     },
@@ -112,6 +143,8 @@ export const AccountOnline = () => {
         }
     ];
 
+    
+
     const handleAlert = () => {
         Alert.alert(
             "Logout",
@@ -132,9 +165,31 @@ export const AccountOnline = () => {
         )
     };
 
-    const handleStreamUsingCellular = () => setCellularOn((prevState) => !prevState);
+    const handleStreamUsingCellular = () => {
+        // use netINfo to control Stream global state
+        // persist state in cache
+        const value = !current.streamUsingCellular;
+        const cacheObjValue = {
+            ...current,
+            streamUsingCellular: value
+        }
+    
+        dispatch(persistStreamingOpt(value))
+        cacheMediaOptions(key, cacheObjValue);
+        return;
+    };
 
-    const handleParentalControl = () => setParentalControl((prevState) => !prevState);
+    const handleParentalControl = () => {
+        const value = !current.parentalControl;
+        const cacheObjValue = {
+            ...current,
+            parentalControl: value
+        }
+    
+        dispatch(persistParentalControl(value))
+        cacheMediaOptions(key, cacheObjValue);
+        return;
+    }
 
     const handleProfileSettings = (setting) => {
         if (setting.name === "Change Email") {
