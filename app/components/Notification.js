@@ -20,14 +20,11 @@ export const Notification = () => {
 
     const { persistAllNotifications } = persistSettingsControls();
 
-
-    
     useEffect(() => {
-        console.log('from reducer ', notifsStateFromReducer.appUpdates)
         if (notifsStateFromReducer.appUpdates === null || 
             notifsStateFromReducer.newContent === null || 
-            notifsStateFromReducer.newFeature === null ) {
-            console.log('hiya')
+            notifsStateFromReducer.newFeature === null ) 
+        {
             const getNotificationStateFromCache = async (key) => {
                 let { getFromCache } = cache;
                 let { 
@@ -37,7 +34,6 @@ export const Notification = () => {
                         newFeature 
                     }
                 } = await getFromCache(key);
-                console.log('get cache obj values in useEffect  ', appUpdates, newContent, newFeature)
     
                 dispatch(persistAppUpdateNotificaton(appUpdates));
                 dispatch(persistNewContentNotificaton(newContent));

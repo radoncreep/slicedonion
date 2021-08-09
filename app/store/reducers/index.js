@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { authReducer } from './authReducer';
+import { controlsReducer } from './controlsReducer';
 import { episodesReducer } from './episodesReducer';
 import { historyReducer } from './historyReducer';
 import { notificationReducer } from './notifReducer';
@@ -11,5 +12,6 @@ export default combineReducers({
     watchLater: watchLaterReducer,
     register: authReducer,
     playlist: episodesReducer,
-    notificationsState: notificationReducer
+    notificationsState: notificationReducer,
+    mediaControlsState: controlsReducer
 });
