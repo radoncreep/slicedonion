@@ -31,8 +31,9 @@ export const AccountOnline = () => {
         if (current.streamUsingCellular === null || current.parentalControl === null) {
 
             const handleAppControls = async (key) => {
+                
                 let controls = await getMediaOptions(key);
-                console.log('ctrl', controls)
+
                 if (controls) {
                     let { parentalControl, streamUsingCellular } = controls;
     
