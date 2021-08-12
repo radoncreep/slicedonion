@@ -12,11 +12,9 @@ export const addSearchToHistory = async (prefix, searchedShow) => {
         let searchResults = await getFromCache(prefix);
                 
         if (!searchResults) {
-            console.log('add')
             searchData.allSearch.push(searchedShow)
             addToCache(prefix, searchData);
         } else {
-            console.log('merge')
             let mergeSearch = {
                 ...searchResults,
                 allSearch: [
