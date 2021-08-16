@@ -1,57 +1,92 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 
-import SmallCard from '../Cards/SmallCard';
+import ActivityIndicator from '../ActivityIndicator';
 import ListItemSeparator from '../ListItemSeparator';
+import SmallCard from '../Cards/SmallCard';
+import { useWatchListStore } from '../../hooks/useWatchListCache';
+import { addToWatchLater } from '../../store/actions';
 
 const screenWidth = Dimensions.get("screen").width;
 
 export default WatchLaterOn = () => {
     const state = useSelector(state => state.watchLater.list);
+    const [ loading, setLoading ] = useState(true);
+
+    const { email } = useSelector((state) => state.register.user);
+
     const { width } = Dimensions.get("window");
     const navigation = useNavigation();
+    const { getWatchListFromCache } = useWatchListStore(email);
+
+    const dispatch = useDispatch();
 
     const handleCardPress = (anime) => {
         navigation.navigate('Details', anime);
     };
+
+    useEffect(() => {
+        if (state.length === 0) {
+            (async () => {
+                let cacheData = await getWatchListFromCache();
+                if (cacheData) {
+                    setLoading(true);
+                    let { watchList } = cacheData;
+                    
+                    for (let data = 0; data < watchList.length; data++) {
+                        dispatch(addToWatchLater(watchList[data]));
+                    };
+                }
+                setLoading(false);
+            })()    
+        }
+    }, [ ]);
   
 
     const WatchLaterList = () => (
-        <FlatList
-            data={state}
-            keyExtractor={(item, index) => item.id.toString()}
-            ItemSeparatorComponent={ListItemSeparator}
-            renderItem={({ item, index })   => 
-                (
-                    <View>
-                        <SmallCard
-                            currentanime={item}
-                            style={{ width: width / 3.5 }}
-                            key={index} 
-                            title={item.title} 
-                            subtitle={item.released}
-                            imageUrl={item.thumbnail}
-                            onPress={() => handleCardPress(item)}
-                        />
-                        <ListItemSeparator />
-                    </View>
-                )
+        <View>
+            { state.length > 0 && 
+                <FlatList
+                    data={state}
+                    keyExtractor={(item, index) => item.id}
+                    ItemSeparatorComponent={ListItemSeparator}
+                    renderItem={({ item, index })   => 
+                        (
+                            <View>
+                                <SmallCard
+                                    currentanime={item}
+                                    style={{ width: width / 3.5 }}
+                                    key={index} 
+                                    title={item.title} 
+                                    subtitle={item.released}
+                                    imageUrl={item.thumbnail}
+                                    onPress={() => handleCardPress(item)}
+                                />
+                                <ListItemSeparator />
+                            </View>
+                        )
+                    }
+                    numColumns={3}
+                    contentContainerStyle={styles.containerStyle}
+                />
             }
-            numColumns={3}
-            contentContainerStyle={styles.containerStyle}
-        />
+        </View>
     );
 
     const emptyWatchLaterText = () => (
-        <Text style={styles.empty}>You haven't added any show to WatchLater.</Text>
+        <View>
+            { loading ? (<ActivityIndicator style={{ alignSelf: 'center' }} visible={loading} />) :
+                <Text style={styles.empty}>You haven't added any show to WatchLater.</Text>
+            }
+        </View>
     );
 
     return (
         <View style={styles.watchlater}>
-            { state && state.length ? WatchLaterList() : emptyWatchLaterText() }
+            { state && state.length > 0 ? WatchLaterList() : emptyWatchLaterText() }
         </View>
     );
 };
