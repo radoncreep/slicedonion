@@ -11,18 +11,29 @@ import VideoPlayer from '../components/VideoPlayer';
 import { usePlaylist } from '../hooks/usePlaylist';
 import { colorPallete } from '../utils/colors';
 import { addToHistory } from '../store/actions';
+import { useHistoryCache } from '../hooks/useHistoryCache';
 
 
 const PlayerScreen = () => {
     const navigation = useNavigation();
     const { handleEpisodeFunctionality } = usePlaylist();
 
-    const { episodes } = useSelector(state => state.playlist);
+    const { 
+        playlist: { episodes },
+        register: { user: { email  }}
+    } = useSelector(state => state);
+
     const { currentEpisode, nextEpisode } = episodes;
 
     const dispatch = useDispatch();
 
-    const handleEpisodeAddHistory = (nextEpisode) =>  dispatch(addToHistory(nextEpisode));   
+    const handleEpisodeAddHistory = (nextEpisode) => {
+        const { addShowToCache } = useHistoryCache(email);
+        dispatch(addToHistory(nextEpisode));
+        addShowToCache(nextEpisode);
+
+        return;
+    }   
 
     const handlePlayerEpisodePress = (nextEpisode) => {
         handleEpisodeFunctionality(nextEpisode);

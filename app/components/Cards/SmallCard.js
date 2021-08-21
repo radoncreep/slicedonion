@@ -6,15 +6,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import ListItemSeparator from '../ListItemSeparator';
 import { ListItem } from '../ListItem';
 import { addToWatchLater, removeFromWatchLater } from '../../store/actions';
+import { useWatchListStore } from '../../hooks/useWatchListCache';
 
 
 const SmallCard = ({ currentanime, episodeNumber, isFromHome, navigation, style, title, released, imageUrl, onPress }) => {
-    const { watchLater, register } = useSelector(state => state);
-
+    const { 
+        watchLater, 
+        register: { user: { email, isAuth}} 
+    } = useSelector(state => state);
+    
+    
     const dispatch = useDispatch();
 
-    const [ showPopover, setShowPopover ] = useState(false);
 
+    const [ showPopover, setShowPopover ] = useState(false);
+    
     const checkValue = () => {
         return watchLater.list.includes(currentanime);
     }
@@ -29,11 +35,29 @@ const SmallCard = ({ currentanime, episodeNumber, isFromHome, navigation, style,
         setShowPopover(() => !showPopover);
     };
 
+    const addAnimeCardToWatchLater = () => {
+        // add or merge to cache in here
+        const { addShowToCache } = useWatchListStore(email);
+
+        dispatch(addToWatchLater(currentanime));
+        addShowToCache(currentanime);
+        return;
+    } 
+
+    const removeAnimeCardFromWatchLater = () => {
+        // add or merge to cache in here
+        const { removeShowFromCache } = useWatchListStore(email);
+
+        dispatch(removeFromWatchLater(currentanime));
+        removeShowFromCache(currentanime);
+        return;
+    }
+
     const handleMenu = (item) => {
         setShowPopover(() => !showPopover)
         if (item.name === 'Remove From WatchList') return removeAnimeCardFromWatchLater();
         if (item.name === 'Add To WatchLater') {
-            if (!register.user.isAuth) {
+            if (!isAuth) {
                 navigation.navigate("Library");
                 return;
             }
@@ -41,10 +65,6 @@ const SmallCard = ({ currentanime, episodeNumber, isFromHome, navigation, style,
         } 
         if (item.name === 'Play Now') return onPress();
     };
-
-    const addAnimeCardToWatchLater = () => dispatch(addToWatchLater(currentanime));
-
-    const removeAnimeCardFromWatchLater = () => dispatch(removeFromWatchLater(currentanime));
 
 
     return (

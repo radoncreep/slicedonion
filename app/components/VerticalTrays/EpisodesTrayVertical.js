@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,11 +7,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import EpisodeCardHorizontal from '../Cards/EpisodeCardHorizontal';
 import { usePlaylist } from '../../hooks/usePlaylist';
 import { addToHistory } from '../../store/actions';
+import { useHistoryCache } from '../../hooks/useHistoryCache';
 
 const EpisodesTrayVertical = ({ towhere }) => {
     const { handleEpisodeFunctionality } = usePlaylist();
 
-    const playlist = useSelector(state => state.playlist);
+    const { 
+        playlist, 
+        register: { user: { email }} 
+    } = useSelector(state => state);
+
     const { episodes } = playlist;
     const { data } = episodes;
 
@@ -19,7 +24,12 @@ const EpisodesTrayVertical = ({ towhere }) => {
 
     const navigation = useNavigation();
 
-    const handleEpisodeAddHistory = (anime) =>  dispatch(addToHistory(anime));   
+
+    const handleEpisodeAddHistory = (anime) =>  { 
+        const { addShowToCache } = useHistoryCache(email);
+        addShowToCache(anime);
+        dispatch(addToHistory(anime));   
+    }
 
     const handleEpisodePress = (anime) => {
         handleEpisodeFunctionality(anime);

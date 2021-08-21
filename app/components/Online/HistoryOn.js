@@ -1,23 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {  FlatList, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ActivityIndicator from '../ActivityIndicator';
-import ListItemSeparator from '../ListItemSeparator';
-
 import EpisodeCardHorizontal from '../Cards/EpisodeCardHorizontal';
+import { addToHistory } from '../../store/actions';
+import { useHistoryCache } from '../../hooks/useHistoryCache';
 
 export default HistoryOn = ({ loader }) => {
-    const state = useSelector(state => state.history.current);
+    const { 
+        history: { current },
+        register: { user: { email }}
+    } = useSelector(state => state);
+
+    const { getHistoryFromCache } = useHistoryCache(email);
+    const [ loading, setLoading ] = useState(true);
+
+    const dispatch = useDispatch();
 
     const navigation = useNavigation();
 
+    useEffect(() => {
+        if (current.length === 0) {
+            (async () => {
+                let cacheData = await getHistoryFromCache();
+                if (cacheData) {
+                    setLoading(true);
+                    let { history } = cacheData;
+                    
+                    for (let data = 0; data < history.length; data++) {
+                        dispatch(addToHistory(history[data]));
+                    };
+                }
+                setLoading(false);
+            })()    
+        }
+    }, [])
+
     const historyList = () => (
         <FlatList 
-            data={state}
+            data={current}
             keyExtractor={(item) => item.id}
-            // ItemSeparatorComponent={() => <ListItemSeperator />}
             renderItem={({ item } , index) => (
                 <EpisodeCardHorizontal
                     key={item.id + '' + index}
@@ -29,17 +53,22 @@ export default HistoryOn = ({ loader }) => {
                 />
             )}
         />
-    );
+    )
 
-    const emptyHistoryText = () => <Text style={styles.empty}>You haven't viewed any show yet.</Text>
+    const emptyHistoryText = () => (
+        <View>
+            <ActivityIndicator style={{ alignSelf: 'center' }} visible={loading} />
+            { !loading && <Text style={styles.empty}>You haven't viewed any show yet.</Text> }
+        </View>
+    )
 
     return (
         <View style={styles.history}>
-            <ActivityIndicator visible={loader} />
-            { state && state.length ? historyList() : emptyHistoryText() }
+            {/* <ActivityIndicator visible={loader} /> */}
+            { current && current.length ? historyList() : emptyHistoryText() }
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     empty: {

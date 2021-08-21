@@ -5,11 +5,13 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
 import ActivityIndicator from '../ActivityIndicator';
-import { addSearchToHistory, getSearchHistory } from '../../hooks/useHistoryStore';
+import { addSearchToHistory, getSearchHistory } from '../../hooks/useSearchStore';
+import { useSelector } from 'react-redux';
 
 
 
 export const AppSearch = ({  customStyle }) => {
+    const { email } = useSelector(state => state.register.user)
     const [ searchText, setSearchText ] = useState(null);
     const [ searchResult, setSearchResult ] = useState();
     const [ errorMessage, setError ] = useState(null);
@@ -19,6 +21,7 @@ export const AppSearch = ({  customStyle }) => {
     const navigation = useNavigation();
 
     let resultHolder = [], mounted = true;
+    const prefix = `@${email}search_history`;
 
     useEffect(() => {
         const source = axios.CancelToken.source();
@@ -33,7 +36,14 @@ export const AppSearch = ({  customStyle }) => {
                 setSearchResult();
             }
 
-            ( async() => setPreviousSearch( await getSearchHistory() ))();
+            ( async() => {
+                let res = await getSearchHistory(prefix);
+                console.log(res)
+                if (res) {
+                    setPreviousSearch([...res.allSearch]);
+                }
+                return;
+            })();
         }
    
         (async () => { 
@@ -71,7 +81,7 @@ export const AppSearch = ({  customStyle }) => {
     const renderSearchText = (item) => {
 
         const handleSearchTextPress = () => {
-            addSearchToHistory(item);
+            addSearchToHistory(prefix, item);
             navigation.navigate('Details', item);
         };
 
@@ -151,7 +161,11 @@ export const AppSearch = ({  customStyle }) => {
                                 fontWeight: '500', 
                                 fontSize: 18 }}
                                 >
-                                    {`could not find "${searchText}"`}
+                                    {console.log(searchText)}
+                                    {
+                                    searchText ? `could not find ${searchText}`:
+                                        "search for anime shows"
+                                    }
                             </Text>
                         </View>
                     )
@@ -236,6 +250,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 10,
         fontSize: 16,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        borderWidth: 0
     }
 })
