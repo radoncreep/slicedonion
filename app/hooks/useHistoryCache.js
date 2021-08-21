@@ -1,28 +1,29 @@
 import cache from '../utility/cache';
 
-export const useWatchListStore = (email) => {
+export const useHistoryCache = (email) => {
 
-    const prefix = `@${email}_watchlist`;
+    const prefix = `@${email}_history`;
 
     const { addToCache, getFromCache, mergeToCache, clearCache } = cache;
 
     const addShowToCache = async (show) => {
+        // clearCache()
         const initialValue = {
-            watchList: []
+            history: []
         }
 
         try {
             let res = await getFromCache(prefix);
     
             if (!res) {
-                initialValue.watchList.push(show);
+                initialValue.history.push(show);
                 addToCache(prefix, initialValue);
             } else {
                 let mergeShowList = {
                     ...res,
-                    watchList: [
+                    history: [
                         show,
-                        ...res.watchList
+                        ...res.history
                     ]
                 }
     
@@ -33,19 +34,19 @@ export const useWatchListStore = (email) => {
         }
     }
 
-    const getWatchListFromCache = async() => await getFromCache(prefix); 
+    const getHistoryFromCache = async() => await getFromCache(prefix); 
 
     const removeShowFromCache = async (show) => {
         try {
             let showsHolder = await getFromCache(prefix);
 
             if (showsHolder) {
-                let { watchList } = showsHolder;
-                let list = [...watchList];
+                let { history } = showsHolder;
+                let list = [...history];
                 let filterShowFromList = list.filter((item) => item.title !== show.title );
                 let mergeResult = {
                     ...showsHolder,
-                    watchList: [
+                    history: [
                         ...filterShowFromList
                     ]
                 }
@@ -58,7 +59,7 @@ export const useWatchListStore = (email) => {
 
     return {
         addShowToCache,
-        getWatchListFromCache,
+        getHistoryFromCache,
         removeShowFromCache
     }
 }
