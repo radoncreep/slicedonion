@@ -1,9 +1,14 @@
 import React from 'react';
-import { View, StyleSheet, ImageBackground, Text, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { 
+    View, 
+    StyleSheet, 
+    ImageBackground, 
+    Text, 
+    TouchableHighlight 
+} from 'react-native';
 
 
-const EpisodeCardHorizontal = ({ episodeNumber, episodeTitle, onPress, othername, releaseed, streamUrl, thumbnail, version, status }) => {
+const EpisodeCardHorizontal = ({ episodeNumber, episodeTitle, onPress, thumbnail, version }) => {
     return (
         <TouchableHighlight onPress={onPress}>
             <View style={styles.container}>
