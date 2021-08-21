@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, TouchableHighlight, Text } from "react-native";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+// import {} from 'utility/'
 
 
 export const ListItem = ({ icon, onPress, style, title, towhere, value }) => {
