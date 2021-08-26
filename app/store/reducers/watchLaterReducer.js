@@ -1,4 +1,4 @@
-import { ADD_TO_WATCHLATER, REMOVE_FROM_WATCHLATER } from '../types';
+import { ADD_TO_WATCHLATER, ADD_TO_WATCHLATER_FROM_CACHE, REMOVE_FROM_WATCHLATER } from '../types';
 
 const INITIAL_STATE = {
     list: []
@@ -7,7 +7,6 @@ const INITIAL_STATE = {
 export const watchLaterReducer = (state=INITIAL_STATE, { type, payload }) => {
     switch(type) {
         case ADD_TO_WATCHLATER:
-            if (typeof payload === "object") {
                 
                 let clone = [...state.list];
                 let filterClone = clone.filter(anime => {
@@ -20,17 +19,19 @@ export const watchLaterReducer = (state=INITIAL_STATE, { type, payload }) => {
                 return {
                     list: [ payload, ...filterClone ]
                 };
-            }
-
-            return {
-                list: payload
-            }
+            
         case REMOVE_FROM_WATCHLATER:
             let rmClone = [...state.list];
             let rmfilterClone = rmClone.filter(anime => anime.title !== payload.title);
             return {
                 list: [ ...rmfilterClone ]
             };
+
+        case ADD_TO_WATCHLATER_FROM_CACHE:
+            // console.log('cache red ', payload)
+            return {
+                list: [...payload]
+            }
         default: 
             return state;
     };
