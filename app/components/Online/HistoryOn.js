@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useCallback, useEffect, useState } from 'react';
 import {  FlatList, StyleSheet, Text, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import ActivityIndicator from '../ActivityIndicator';
 import EpisodeCardHorizontal from '../Cards/EpisodeCardHorizontal';
-import { addToHistory } from '../../store/actions';
+import { addToHistory, addToHistoryFromCache } from '../../store/actions';
 import { useHistoryCache } from '../../hooks/useHistoryCache';
 
 export default HistoryOn = ({ loader }) => {
@@ -21,22 +21,25 @@ export default HistoryOn = ({ loader }) => {
 
     const navigation = useNavigation();
 
-    useEffect(() => {
-        if (current.length === 0) {
+    useFocusEffect(
+        useCallback(() => {
             (async () => {
                 let cacheData = await getHistoryFromCache();
+
                 if (cacheData) {
                     setLoading(true);
                     let { history } = cacheData;
-                    
-                    for (let data = 0; data < history.length; data++) {
-                        dispatch(addToHistory(history[data]));
-                    };
+
+                    dispatch(addToHistoryFromCache(history))
+
+                } else {
+                    dispatch(addToHistoryFromCache([]));
                 }
                 setLoading(false);
-            })()    
-        }
-    }, [])
+
+            })();    
+        }, [ email ])
+    )
 
     const historyList = () => (
         <FlatList 
@@ -56,16 +59,15 @@ export default HistoryOn = ({ loader }) => {
     )
 
     const emptyHistoryText = () => (
-        <View>
-            <ActivityIndicator style={{ alignSelf: 'center' }} visible={loading} />
+        <>
             { !loading && <Text style={styles.empty}>You haven't viewed any show yet.</Text> }
-        </View>
+        </>
     )
 
     return (
         <View style={styles.history}>
-            {/* <ActivityIndicator visible={loader} /> */}
-            { current && current.length ? historyList() : emptyHistoryText() }
+            <ActivityIndicator style={{ alignSelf: 'center' }} visible={loading} />
+            { current && current.length && !loading ? historyList() : emptyHistoryText() }
         </View>
     )
 }

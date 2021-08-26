@@ -1,4 +1,4 @@
-import { ADD_TO_HISTORY } from "../types";
+import { ADD_TO_HISTORY, ADD_TO_HISTORY_FROM_CACHE, ADD_TO_WATCHLATER_FROM_CACHE } from "../types";
 
 const INITIAL_STATE = {
     current: []
@@ -18,6 +18,10 @@ export const historyReducer = (state=INITIAL_STATE, action) => {
             return {
                 current: [ action.payload, ...filterClone]
             };
+        case ADD_TO_HISTORY_FROM_CACHE:
+            return {
+                current: [ ...action.payload ]
+            }
         default: 
             return state;
     };

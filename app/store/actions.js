@@ -13,7 +13,9 @@ import {
     PERSIST_NEW_CONTENT_NOTIF,
     PERSIST_NEW_FEATURE_NOTIF,
     STREAMING_OPT,
-    PARENTAL_CONTROL_OPT
+    PARENTAL_CONTROL_OPT,
+    ADD_TO_WATCHLATER_FROM_CACHE,
+    ADD_TO_HISTORY_FROM_CACHE
 }
 from "./types";
 
@@ -29,12 +31,19 @@ export const logoutUser = () => (
         type: LOGOUT,
         payload: null
     }
-)
+);
 
 export const addToHistory = (animedata) => (
     {
         type: ADD_TO_HISTORY,
         payload: animedata
+    }
+);
+
+export const addToHistoryFromCache = (animeListFromCache) => (
+    {
+        type: ADD_TO_HISTORY_FROM_CACHE,
+        payload: animeListFromCache
     }
 );
 
@@ -44,6 +53,13 @@ export const addToWatchLater = (animedata) => (
         payload: animedata
     }
 );
+
+export const addToWatchLaterFromCache = (animeListFromCache) => (
+    {
+        type: ADD_TO_WATCHLATER_FROM_CACHE,
+        payload: animeListFromCache
+    }
+)
 
 export const removeFromWatchLater = (animedata) => (
     {
