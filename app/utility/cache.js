@@ -46,6 +46,16 @@ const getFromCache = async(key) => {
     }
 };
 
+const removeFromCache = async(key) => {
+    if (!key) return;
+    try {
+        await AsyncStorage.removeItem(key);
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
 const clearCache = async () => {
     try {
         await AsyncStorage.clear()
@@ -60,5 +70,6 @@ export default {
     addToCache,
     getFromCache,
     clearCache,
-    mergeToCache
+    mergeToCache,
+    removeFromCache
 };

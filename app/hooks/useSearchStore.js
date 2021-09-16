@@ -1,28 +1,31 @@
 import cache from '../utility/cache';
 
+const { addToCache, getFromCache, mergeToCache, clearCache, removeFromCache } = cache;
 
 export const addSearchToHistory = async (prefix, searchedShow) => {
-    const { addToCache, getFromCache, mergeToCache, clearCache } = cache;
-    
-    let searchData = {
-        allSearch: []
-    };
 
     try {
         let searchResults = await getFromCache(prefix);
+        console.log('search results', searchResults);
                 
         if (!searchResults) {
-            searchData.allSearch.push(searchedShow)
-            addToCache(prefix, searchData);
+            let searchResults = {
+                allSearch: []
+            };
+            console.log('NO SEARCH RESULT');
+            searchResults.allSearch.push(searchedShow)
+            addToCache(prefix, searchResults);
         } else {
+            console.log('SEARCH RESULTs FOUND', searchResults);
+            const filterResult = searchResults.allSearch.filter((res) => res.title !== searchedShow.title);
+            console.log('filteredResult ', filterResult);
             let mergeSearch = {
                 ...searchResults,
                 allSearch: [
                     searchedShow,
-                    ...searchResults.allSearch
+                    ...filterResult
                 ]
             }
-
             mergeToCache(prefix, mergeSearch);
         }        
     } catch (error) {
@@ -37,4 +40,9 @@ export const getSearchHistory = async (prefix) => {
     } catch (error) {
         console.log(error)
     }
+}
+
+export const clearSearchCache = async (prefix) => {
+    console.log(prefix)
+    await removeFromCache(prefix);
 }

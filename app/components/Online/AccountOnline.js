@@ -8,9 +8,9 @@ import authStorage from '../../utility/storage';
 import { ListItem } from '../ListItem';
 import ListItemSeparator from '../ListItemSeparator';
 import StatusBarComp from '../StatusBarComp';
-import cache from '../../utility/cache';
 import { colorPallete } from '../../utils/colors';
 import { useAppControls } from '../../hooks/useAppControls';
+import { clearSearchCache } from '../../hooks/useSearchStore';
 
 
 export const AccountOnline = () => {
@@ -26,6 +26,7 @@ export const AccountOnline = () => {
     const { cacheMediaOptions, getMediaOptions} = useAppControls();
 
     const key = `@${email}_app_controls`;
+    const searchPrefix = `@${email}search_history`;
 
     useEffect(() => {
         if (current.streamUsingCellular === null || current.parentalControl === null) {
@@ -200,7 +201,9 @@ export const AccountOnline = () => {
             return navigation.navigate(setting.targetScreen);
         }
 
-        if (setting.name === 'Clear Search History') return cache.clearCache();
+        if (setting.name === 'Clear Search History') {
+            return clearSearchCache(searchPrefix)
+        }
 
         if (setting.name === 'Logout') return handleAlert();
 

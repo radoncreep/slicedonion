@@ -16,7 +16,7 @@ export const AppSearch = ({  customStyle }) => {
     const [ searchResult, setSearchResult ] = useState();
     const [ errorMessage, setError ] = useState(null);
     const [ loading, setLoading ] = useState(false); 
-    const [ previousSearch, setPreviousSearch ] = useState();
+    const [ previousSearch, setPreviousSearch ] = useState(null);
 
     const navigation = useNavigation();
 
@@ -37,10 +37,13 @@ export const AppSearch = ({  customStyle }) => {
             }
 
             ( async() => {
-                let res = await getSearchHistory(prefix);
-                console.log(res)
-                if (res) {
-                    setPreviousSearch([...res.allSearch]);
+                if (!previousSearch) {
+                    console.log('in here ', previousSearch)
+                    let res = await getSearchHistory(prefix);
+                    console.log(res)
+                    if (res) {
+                        setPreviousSearch([...res.allSearch]);
+                    }
                 }
                 return;
             })();
@@ -81,6 +84,7 @@ export const AppSearch = ({  customStyle }) => {
     const renderSearchText = (item) => {
 
         const handleSearchTextPress = () => {
+            console.log('adding item ', prefix, item);
             addSearchToHistory(prefix, item);
             navigation.navigate('Details', item);
         };
@@ -89,7 +93,7 @@ export const AppSearch = ({  customStyle }) => {
             <Pressable 
                 key={item.id} 
                 style={{ display: 'flex', flexDirection: 'row', marginVertical: 10, width: '100%', alignItems: 'center' }}
-                onPress={() => handleSearchTextPress()}    
+                onPress={handleSearchTextPress}    
             >
                 {previousSearch && !searchResult ? 
                     (<MaterialIcons style={{  paddingHorizontal: 5, marginRight: 22 }} name="history" size={24} color="grey" />) :
@@ -141,7 +145,7 @@ export const AppSearch = ({  customStyle }) => {
     const renderFetchedData = () => {
         return (
             <>
-                {  (searchResult && searchResult.length !== 0) ?
+                {  (searchResult && searchResult.length > 0) ?
                     ( <FlatList
                             contentContainerStyle={{ paddingBottom: 60 }}
                             data={searchResult}
@@ -151,23 +155,27 @@ export const AppSearch = ({  customStyle }) => {
                             )}
                         />
                     ) : (
-                        <View style={{ backgroundColor: 'red' }}>
-                            <Text style={{ 
-                                position: 'absolute', 
-                                top: Dimensions.get("screen").height / 3, 
-                                textAlign: 'center',
-                                alignSelf: 'center',
-                                color: '#fff', 
-                                fontWeight: '500', 
-                                fontSize: 18 }}
-                                >
-                                    {console.log(searchText)}
-                                    {
-                                    searchText ? `could not find ${searchText}`:
-                                        "search for anime shows"
-                                    }
-                            </Text>
-                        </View>
+                        <>
+                            { !loading && 
+                                <View style={{ backgroundColor: 'red' }}>
+                                    <Text style={{ 
+                                        position: 'absolute', 
+                                        top: Dimensions.get("screen").height / 3, 
+                                        textAlign: 'center',
+                                        alignSelf: 'center',
+                                        color: '#fff', 
+                                        fontWeight: '500', 
+                                        fontSize: 18 }}
+                                        >
+                                            {console.log(searchText)}
+                                            {
+                                            searchText ? `could not find ${searchText}`:
+                                                "search for anime shows"
+                                            }
+                                    </Text>
+                                </View>
+                            }
+                        </>
                     )
                 }
             </>
@@ -198,7 +206,7 @@ export const AppSearch = ({  customStyle }) => {
                     {  previousSearch && !searchResult ? (
                         <FlatList
                             contentContainerStyle={{ paddingBottom: 40 }}
-                            data={!previousSearch ? renderDummyData : previousSearch}
+                            data={previousSearch }
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({ item }, index ) => (
                                 renderSearchText(item)
