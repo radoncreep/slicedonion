@@ -1,10 +1,12 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated from 'react-native-reanimated';
+import { Feather } from '@expo/vector-icons';
+
 import { MAX_HEADER_HEIGHT } from './Model';
 import ListComponent from './ListComponent'
-import ListandDetails from './ListandDetails';
+
 
 const { interpolate, Extrapolate } = Animated;
 
@@ -42,13 +44,17 @@ const Content = ({ description, imagebgUrl, navigation, title, yval }) => {
                             end={[0, 1]}
                             colors={["transparent", "rgba(0, 0, 0, 0.5)", "black"]}
                         >
-                            <View style={[styles.intro, { position: 'absolute', top: 300 }]}>
+                            <View style={[styles.intro, { position: 'absolute', top: 200, left: 10 }]}>
                                 <Animated.Text style={[styles.introHeading, { opacity }]}>
                                     {title}
                                 </Animated.Text>
-                                <Text numberOfLines={4} style={styles.introText}>
+                                <Text numberOfLines={2} style={styles.introText}>
                                     {description}
                                 </Text>
+                                <Pressable underlayColor="gray" style={styles.playview} onPress={() => console.log('re')} >
+                                    <Feather name="play" size={24} color="#bd44c9" />
+                                    <Text style={{ color: '#bd44c9', fontSize: 14, fontWeight: 'bold' }}>Play Now</Text>
+                                </Pressable >
                             </View>
                         </LinearGradient>
                     </Animated.View>
@@ -89,7 +95,18 @@ const styles = StyleSheet.create({
     },
     list: {
         paddingHorizontal: 8.5
-    }
+    },
+    playview: {
+        flexDirection: 'row',
+        backgroundColor: '#0f011f',
+        justifyContent: 'space-around',
+        width: 135,
+        borderRadius: 40,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        marginTop: 20,
+        alignSelf: 'center'
+    },
 });
 
 export default Content;

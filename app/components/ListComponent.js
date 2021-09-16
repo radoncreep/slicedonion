@@ -7,7 +7,6 @@ import Recents from './Categories/Recents';
 
 
 const ListComponent = ({ navigation }) => {
-    // console.log('list component ', navigation)
     return (
         <View style={styles.container} >
             <Recents navigation={navigation} towhere="Player"/>

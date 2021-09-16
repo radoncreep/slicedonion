@@ -28,28 +28,27 @@ export const BrowseTabNavigator = () => {
 };
 
 export const LibraryTabNavigator = () => {
+    
     return (
-        <StatusBarComp>
-            <Tab.Navigator 
-                initialRouteName="History"
-                tabBarOptions={{
-                    activeTintColor: '#bd44c9',
-                    inactiveTintColor: 'gray',
-                    tabStyle: {
-                        backgroundColor: '#000',
-                        marginBottom: 1
-                    },
-                    indicatorStyle: {
-                        backgroundColor: '#bd44c9',
-                    }
-                }}
-                style={styles.container}
-            >
-                <Tab.Screen name="History" component={HistoryScreen} />
-                <Tab.Screen name="WatchList" component={WatchLaterScreen}  />
-                <Tab.Screen name="Downloads" component={DownloadsScreen} />
-            </Tab.Navigator>
-        </StatusBarComp>
+        <Tab.Navigator 
+            initialRouteName="WatchList"
+            tabBarOptions={{
+                activeTintColor: '#bd44c9',
+                inactiveTintColor: 'gray',
+                tabStyle: {
+                    backgroundColor: '#000',
+                    marginBottom: 1
+                },
+                indicatorStyle: {
+                    backgroundColor: '#bd44c9',
+                }
+            }}
+            style={styles.container}
+        >
+            <Tab.Screen name="History" component={HistoryScreen} />
+            <Tab.Screen name="WatchList" component={WatchLaterScreen}  />
+            <Tab.Screen name="Downloads" component={DownloadsScreen} />
+        </Tab.Navigator>
     )
 };
 

@@ -1,33 +1,37 @@
-import { ADD_TO_WATCHLATER, REMOVE_FROM_WATCHLATER } from '../types';
+import { ADD_TO_WATCHLATER, ADD_TO_WATCHLATER_FROM_CACHE, REMOVE_FROM_WATCHLATER } from '../types';
 
 const INITIAL_STATE = {
     list: []
 };
 
-export const watchLaterReducer = (state=INITIAL_STATE, action) => {
-    switch(action.type) {
+export const watchLaterReducer = (state=INITIAL_STATE, { type, payload }) => {
+    switch(type) {
         case ADD_TO_WATCHLATER:
-            // console.log('payload', action.payload);
-            let clone = [...state.list];
-            let filterClone = clone.filter(anime => {
-                if (anime.title === action.payload.title)
-                    return anime.episodeNumber !== action.payload.episodeNumber;
-                else
-                    return anime;
-            });
-
-            return {
-                list: [ action.payload, ...filterClone]
-            };
+                
+                let clone = [...state.list];
+                let filterClone = clone.filter(anime => {
+                    if (anime.title === payload.title)
+                        return anime.episodeNumber !== payload.episodeNumber;
+                    else
+                        return anime;
+                });
+    
+                return {
+                    list: [ payload, ...filterClone ]
+                };
+            
         case REMOVE_FROM_WATCHLATER:
-            console.log('ehy')
             let rmClone = [...state.list];
-            let rmfilterClone = rmClone.filter(anime => anime.title !== action.payload.title);
-            console.log('filter ', rmfilterClone)
-
+            let rmfilterClone = rmClone.filter(anime => anime.title !== payload.title);
             return {
                 list: [ ...rmfilterClone ]
             };
+
+        case ADD_TO_WATCHLATER_FROM_CACHE:
+            // console.log('cache red ', payload)
+            return {
+                list: [...payload]
+            }
         default: 
             return state;
     };

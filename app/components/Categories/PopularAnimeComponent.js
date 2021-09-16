@@ -3,7 +3,6 @@ import { ActivityIndicator, StyleSheet } from 'react-native';
 import { getAllPopularPage } from '../../api/getPopular';
 
 import { SmallCardTray } from '../HorizontalTrays';
-import Spinner from '../Spinner';
 
 
 const PopularAnimeComponent = ({ navigation, param, towhere }) => {
@@ -14,14 +13,13 @@ const PopularAnimeComponent = ({ navigation, param, towhere }) => {
         let mounted = true;
 
         try {
-            const response = await getAllPopularPage(param);
+            const { data, ok } = await getAllPopularPage(param);
             
-            if (mounted) {
+            if (mounted && ok) {
                 console.log('popular loaded');
                 setFetched(true)
-                setPopularShows(response.data.list);
+                setPopularShows(data.list);
             };
-            return response;
         } catch (error) {
             console.log(error);
         };
@@ -41,8 +39,9 @@ const PopularAnimeComponent = ({ navigation, param, towhere }) => {
                     data={popularShows} 
                     navigation={navigation}
                     towhere={towhere}
-                    heading="MOST POPULAR SERIES"
+                    heading="Popular Series"
                     fetched={fetched}
+                    isFromHome={true}
                 />  
             )}
         </>

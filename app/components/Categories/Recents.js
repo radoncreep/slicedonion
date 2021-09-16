@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { getRecents } from '../../api/getRecentRelease';
 import { SmallCardTray } from '../HorizontalTrays';
 
@@ -10,7 +10,7 @@ const Recents = ({ navigation, towhere }) => {
         try {
             const response = await getRecents();
 
-            setRecents(response.data.list);
+            if (response.data && response.ok) setRecents(response.data.list);
         } catch (error) {
             console.log(error);
         }
@@ -20,7 +20,13 @@ const Recents = ({ navigation, towhere }) => {
         getRecentAnimeShows();
     }, [])
 
-    return <SmallCardTray data={recents} heading="RECENTS" towhere={towhere} navigation={navigation}/>
+    return <SmallCardTray 
+                data={recents} 
+                heading="Recents" 
+                towhere={towhere} 
+                navigation={navigation}
+                isFromHome={true}
+            />
 };
 
 const styles = StyleSheet.create({

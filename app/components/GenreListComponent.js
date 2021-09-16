@@ -5,7 +5,6 @@ import ActivityIndicator from './ActivityIndicator';
 import SmallCardTray from './HorizontalTrays/SmallCardTray';
 
 export const GenreListComponent = ({ genrename, navigation, param }) => {
-    console.log('hiiiii')
     const [ currentGenres, setCurrentGenres ] = useState();
     const [ visible, setVisible ] = useState(true);
 

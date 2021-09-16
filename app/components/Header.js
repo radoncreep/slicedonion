@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 import { HEADER_DELTA, MIN_HEADER_HEIGHT } from './Model';
 import Animated, { Extrapolate, interpolate } from 'react-native-reanimated';
@@ -16,7 +16,6 @@ const Header = ({ title, yval }) => {
         outputRange: [0, 1],
         extrapolate: Extrapolate.CLAMP
     });
-
 
     return (
         <Animated.View style={[styles.container, { opacity }]}>

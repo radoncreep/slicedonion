@@ -1,47 +1,56 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { addToHistory } from '../../store/actions';
-
-import { useVideoContext } from '../../hooks/useVideoContext';
 
 import EpisodeCardHorizontal from '../Cards/EpisodeCardHorizontal';
+import { usePlaylist } from '../../hooks/usePlaylist';
+import { addToHistory } from '../../store/actions';
+import { useHistoryCache } from '../../hooks/useHistoryCache';
 
-const EpisodesTrayVertical = ({ episodes, navigation, subimage, title, towhere }) => {
+const EpisodesTrayVertical = ({ towhere }) => {
+    const { handleEpisodeFunctionality } = usePlaylist();
+
+    const { 
+        playlist, 
+        register: { user: { email }} 
+    } = useSelector(state => state);
+
+    const { episodes } = playlist;
+    const { data } = episodes;
+
     const dispatch = useDispatch();
 
-    // let videoObj = { subimage, title };
-    // let { updateNextVideo } = useVideoContext(episodes);
+    const navigation = useNavigation();
 
-    const handleEpisodeFunctionality = (elems, index) => {
-        handleEpisodeAddHistory(elems, index);
 
-        // this goes to video player
-        if (towhere === 'Details') {
-            navigation.navigate(towhere, elems);
-        };
-        return;
+    const handleEpisodeAddHistory = (anime) =>  { 
+        const { addShowToCache } = useHistoryCache(email);
+        addShowToCache(anime);
+        dispatch(addToHistory(anime));   
+    }
+
+    const handleEpisodePress = (anime) => {
+        handleEpisodeFunctionality(anime);
+        handleEpisodeAddHistory(anime);
+        navigation.navigate(towhere);
     };
     
-    const handleEpisodeAddHistory = (elems, index) => {
-        // add to history context array
-        let newInsertion = elems[index];
-        newInsertion['title'] = title;
-        newInsertion['imageurl'] = subimage;
-
-        dispatch(addToHistory(newInsertion));
-    };   
-
     return (
-        <View style={{ paddingHorizontal: 10 }}>
-            {episodes.map((anime, index, elems) => (
+        <View style={styles.container}>
+            {data && data.map((anime, index, elems) => (
                 <EpisodeCardHorizontal 
                     key={anime.id + '' + index}
                     episodeNumber={anime.episodeNumber}
-                    episodeTitle={title}
-                    imageurl={subimage}
-                    onPress={() => handleEpisodeFunctionality(elems, index)}
+                    episodeTitle={anime.title}
+                    othername={anime.othername}
+                    releaseed={anime.releaseed}
+                    status={anime.status}
+                    streamUrl={anime.epiosdeUrl}
+                    thumbnail={anime.thumbnail}
+                    version={anime.version}
+                    onPress={() => handleEpisodePress(anime)}
                 />
             ))}
         </View>
@@ -49,7 +58,9 @@ const EpisodesTrayVertical = ({ episodes, navigation, subimage, title, towhere }
 };
 
 const styles = StyleSheet.create({
-   
+   container: {
+       paddingHorizontal: 10
+   }
 });
 
 export default EpisodesTrayVertical;

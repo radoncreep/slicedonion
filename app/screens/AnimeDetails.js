@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, ImageBackground, Text, Button, Modal, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { View, StyleSheet, ImageBackground, Text, Button, Modal, ScrollView, TouchableOpacity, Dimensions, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated from 'react-native-reanimated';
+import { EvilIcons } from '@expo/vector-icons';
 
 import EpisodesTrayVertical from '../components/VerticalTrays/EpisodesTrayVertical';
 import StatusBarComp from '../components/StatusBarComp';
@@ -10,41 +11,40 @@ import { getDetailApi } from '../api/getDetailApi';
 import { useDetail } from '../hooks/useDetailApi';
 import { usePagination } from '../hooks/usePagination';
 import ActivityIndicator from '../components/ActivityIndicator';
+import GradientView from '../components/GradientView';
+import { useDispatch } from 'react-redux';
+import { removeEpisodesFromShow } from '../store/actions';
+
 
 const { height } = Dimensions.get("window");
+
 let statusColor = {
     ongoing: '#7CFC00',
     completed: 'red' ,
     upcoming: 'yellow',
-}
+};
 
 const AnimeDetails = ({ navigation, route }) => {
     const [ showModal, setShowModal ] = useState(false);
 
     const detail = route.params;
-    console.log('route ', detail)
 
     const { info, showLoader } = useDetail(detail, getDetailApi);
 
-    const { episodes, showSpinner } = usePagination(detail, getEpisodesApi);
-
+    const { showSpinner } = usePagination(detail, getEpisodesApi);
+    
     return (
         <>
             <ActivityIndicator visible={showLoader} style={styles.loader}/>
-            {info ? (
+            {info && (
                 <StatusBarComp style={{ paddingTop: 0 }}>
                     <ImageBackground style={styles.bg} source={{ uri: info.thumbnail }}>
                             <Animated.ScrollView
                                 showsVerticalScrollIndicator={false}
                                 scrollEventThrottle={1}
                             >
-                                <Animated.View style={{ height: height - 180 }}>
-                                    <LinearGradient
-                                        style={StyleSheet.absoluteFill}
-                                        start={[0, 0.3]}
-                                        end={[0, 1]}
-                                        colors={["transparent", "rgba(0, 0, 0, 0.5)", "black"]}
-                                    >
+                                <Animated.View style={{ height: height - 100 }}>
+                                    <GradientView>
                                         <View style={styles.bgContent}>
                                             <Text style={styles.bgTitle}>{info.title}</Text>
                                             <View style={styles.status}>
@@ -60,16 +60,28 @@ const AnimeDetails = ({ navigation, route }) => {
                                                 </View>
                                             </View>
                                             <Text numberOfLines={2} style={styles.bgDesc}>{info.summary}</Text>
-                                            <Button onPress={() => setShowModal(true)} style={styles.btnLink} title="DETAILS" />
+                                            
+                                            <Pressable onPress={() => setShowModal(true)} style={styles.detailsBtn}>
+                                                <Text style={{ color: '#fff', fontSize: 14, fontWeight: 'bold' }}>
+                                                    DETAILS
+                                                </Text>
+                                            </Pressable>
                                         </View>
-                                    </LinearGradient>
+                                    </GradientView>
                                 </Animated.View>
 
                                 <View style={{ backgroundColor: 'black', paddingTop: 7 }}>
-                                    <ActivityIndicator visible={showSpinner} style={styles.loadEpisode}/>
-                                    <Modal style={styles.modal} visible={showModal} animationType="slide">
+                                    {/* <ActivityIndicator visible={showSpinner} style={styles.loadEpisode}/> */}
+                                    <Modal 
+                                        animationType="slide"
+                                        onRequestClose={() => setShowModal(false)}
+                                        style={styles.modal} 
+                                        visible={showModal} 
+                                        >
                                         <StatusBarComp>
-                                            <Button style={styles.modalBtn} onPress={() => setShowModal(false)} title="Close" />
+                                            <Pressable style={styles.modalBtn} onPress={() => setShowModal(false)} title="Close">
+                                                <EvilIcons style={styles.close} name="close" size={26} color="white" />
+                                            </Pressable>
                                             <Text style={styles.genre} >Genres: {info.genre.join(", ").toString()}</Text>
                                             <ScrollView style={styles.modalTextContainer}>
                                                 <Text style={styles.modalText}>{info.summary}</Text>
@@ -77,30 +89,14 @@ const AnimeDetails = ({ navigation, route }) => {
                                         </StatusBarComp>
                                     </Modal>
 
-                                    {episodes ? (
-                                        <>
-                                            <EpisodesTrayVertical 
-                                                episodes={episodes}
-                                                subimage={detail.thumbnail}
-                                                title={detail.category || detail.title}
-                                                navigation={navigation}
-                                                towhere="Player"
-                                            />
-                                        </>
-                                    ) : null
-                                    }
-                                    {/* <TouchableOpacity disabled={true}>
-                                        <View style={[styles.nextBtn, { backgroundColor: 'grey' }]}>
-                                            <Text style={styles.nextBtnText}>Next</Text>
-                                        </View>
-                                    </TouchableOpacity> */}
+                                    <EpisodesTrayVertical towhere="Player"/>
+
                                 </View>
                             </Animated.ScrollView>
                     </ImageBackground>
                 </StatusBarComp>
 
-            ) : null
-            }
+            )}
         </>
     );
 };
@@ -123,27 +119,37 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         marginVertical: 20
     },
+    close: {
+        // backgroundColor: 'red',
+        padding: 10,
+        marginLeft: 10,
+        marginTop: 5
+    },
     bgTitle: {
         color: '#fff',
         fontSize: 26,
         fontWeight: 'bold'
     },
-    btnLink: { 
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: 'orange',
-        backgroundColor: 'transparent'
+    detailsBtn: { 
+        backgroundColor: 'red',
+        width: '80%',
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 5
     },
     container: {
         zIndex: 1
     },
     genre: {
-        marginVertical: 20,
+        // backgroundColor: 'green',
+        marginTop: 50,
+        marginBottom: 20,
         textAlign:'center',
         fontSize: 14, 
         fontWeight: '500', 
         color: '#fff',
-        paddingHorizontal: 30
+        paddingHorizontal: 20
     },
     listContainer: {
     },
@@ -160,20 +166,20 @@ const styles = StyleSheet.create({
     modal: { 
         justifyContent: 'center', 
         alignItems: 'center',
-        paddingHorizontal: 20
+        paddingHorizontal: 30
     },
     modalBtn: { 
         position: 'absolute', 
         top: 10,
     },
     modalText: { 
-        fontSize: 16, 
+        fontSize: 14, 
         fontWeight: 'bold', 
         color: '#fff'
     },
     modalTextContainer: {
         width: '100%',
-        padding: 20,
+        padding: 30,
     },
     nextBtn: {
         width: 100,

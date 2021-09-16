@@ -1,52 +1,108 @@
-import React from 'react';
-import { Dimensions, FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
-import SmallCard from '../Cards/SmallCard';
+
+import ActivityIndicator from '../ActivityIndicator';
 import ListItemSeparator from '../ListItemSeparator';
+import SmallCard from '../Cards/SmallCard';
+import { useWatchListStore } from '../../hooks/useWatchListCache';
+import { addToWatchLater, addToWatchLaterFromCache } from '../../store/actions';
+
+const screenWidth = Dimensions.get("screen").width;
 
 export default WatchLaterOn = () => {
-    const state = useSelector(state => state.watchLater.list);
     const { width } = Dimensions.get("window");
-    // console.log('state', state);
+    
+    const navigation = useNavigation();
+    
+    
+    const { 
+        register: { user: { email }},
+        watchLater: { list }
+    } = useSelector((state) => state);
+    
+    
+    const { getWatchListFromCache } = useWatchListStore(email);
+    const [ loading, setLoading ] = useState(true);
+
+    const dispatch = useDispatch();
+
+    const handleCardPress = (anime) => {
+        navigation.navigate('Details', anime);
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            (async () => {
+                
+                let cacheData = await getWatchListFromCache();
+                
+                if (cacheData) {
+                    setLoading(true);
+                    let { watchList } = cacheData;
+
+                    dispatch(addToWatchLaterFromCache(watchList));         
+                } else {
+                    dispatch(addToWatchLaterFromCache([]));
+                }
+                setLoading(false);
+            })()    
+        }, [ email ])
+    )
+  
 
     const WatchLaterList = () => (
-        <FlatList 
-            data={state}
-            keyExtractor={(item, index) => item.id.toString()}
-            ItemSeparatorComponent={ListItemSeparator}
-            renderItem={({ item, index })   => {
-                console.log('item', item);
-
-                return (
-                    <View>
-                        <SmallCard 
-                            style={{ width: width / 2.5 }}
-                            key={index} 
-                            title={item.title} 
-                            subtitle={item.released}
-                            imageUrl={item.thumbnail}
-                        />
-                        <ListItemSeparator />
-                    </View>
-                )
-            }}
-            numColumns={2}
-        />
+        <View>
+            { list.length > 0 && 
+                <FlatList
+                    data={list}
+                    keyExtractor={(item, index) => item.id}
+                    ItemSeparatorComponent={ListItemSeparator}
+                    renderItem={({ item, index })   => 
+                        (
+                            <View>
+                                <SmallCard
+                                    currentanime={item}
+                                    style={{ width: width / 3.5 }}
+                                    key={index} 
+                                    title={item.title} 
+                                    subtitle={item.released}
+                                    imageUrl={item.thumbnail}
+                                    onPress={() => handleCardPress(item)}
+                                />
+                                <ListItemSeparator />
+                            </View>
+                        )
+                    }
+                    numColumns={3}
+                    contentContainerStyle={styles.containerStyle}
+                />
+            }
+        </View>
     );
 
     const emptyWatchLaterText = () => (
-        <Text style={styles.empty}>You haven't added any show to WatchLater.</Text>
+        <>
+            { !loading &&
+                <Text style={styles.empty}>You haven't added any show to WatchLater.</Text>
+            }
+        </>
     );
 
     return (
         <View style={styles.watchlater}>
-            { state && state.length ? WatchLaterList() : emptyWatchLaterText() }
+            <ActivityIndicator style={{ alignSelf: 'center' }} visible={loading} />
+            { list && list.length && !loading ? WatchLaterList() : emptyWatchLaterText() }
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    containerStyle: {
+        width: screenWidth - 43,
+    },
     empty: {
         color: '#fff',
         fontSize: 16,
@@ -55,9 +111,9 @@ const styles = StyleSheet.create({
     watchlater: {
         flex: 1,
         backgroundColor: '#000',
-        paddingHorizontal: 7,
-        paddingVertical: 5,
-        justifyContent: 'center',
-        alignItems: 'center'
+        paddingVertical: 10,
+        alignItems: 'center',
+        width: screenWidth,
+        justifyContent:  'center'
     },
 });
