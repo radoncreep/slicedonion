@@ -31,7 +31,8 @@ const AnimeDetails = ({ navigation, route }) => {
     
     return (
         <View>
-            <ActivityIndicator visible={!info} style={styles.loader}/>        
+
+            <ActivityIndicator visible={showLoader} style={{ justifyContent: 'center', alignContent: 'center' }}/>        
             {info && (
                 <View>
                     <ImageBackground 
@@ -78,7 +79,7 @@ const AnimeDetails = ({ navigation, route }) => {
                                 </View>
 
                                 <View style={{ backgroundColor: 'black', paddingTop: 7 }}>
-                                    <ActivityIndicator visible={showSpinner} style={styles.loader}/>
+                                    {/* <ActivityIndicator visible={showSpinner} style={styles.loader}/> */}
                                     <Modal 
                                         animationType="slide"
                                         onRequestClose={() => setShowModal(false)}

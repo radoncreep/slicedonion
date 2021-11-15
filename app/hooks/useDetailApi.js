@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export const useDetail = (detail, apiFunc) => {
-    const [ info, setInfo ] = useState();
+    const [ info, setInfo ] = useState(null);
     const [ showLoader, setShowLoader ] = useState(false);
     const { category, url } = detail;
 
@@ -14,7 +14,6 @@ export const useDetail = (detail, apiFunc) => {
             try {
                 const { data } = await apiFunc(name);
     
-                console.log(mounted);
                 if (mounted) {
                     setShowLoader(false);
                     setInfo(data.animeDetail);
@@ -28,10 +27,7 @@ export const useDetail = (detail, apiFunc) => {
 
         request();
 
-        return () => {
-            console.log('cleanup')
-            return mounted = false;
-        }
+    return () => mounted = false;
     }, [ ]);
 
     return { info, showLoader };

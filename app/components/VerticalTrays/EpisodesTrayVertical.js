@@ -1,5 +1,13 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView, Touchable, TouchableHighlight } from 'react-native';
+import { 
+    FlatList,
+    StyleSheet, 
+    View, 
+    Text, 
+    ScrollView, 
+    Touchable, 
+    TouchableHighlight 
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -18,8 +26,7 @@ const EpisodesTrayVertical = ({ towhere }) => {
         register: { user: { email }} 
     } = useSelector(state => state);
 
-    const { episodes } = playlist;
-    const { data } = episodes;
+    const { episodes: { data } } = playlist;
 
     const dispatch = useDispatch();
 
@@ -40,20 +47,21 @@ const EpisodesTrayVertical = ({ towhere }) => {
     const renderEpisode = () => {
         return (
             <>
-                { data && data.map((anime, index, elems) => (
-                    <TouchableHighlight
-                        key={anime.id + index + anime.episodeNumber}
-                        onPress={() => handleEpisodePress(anime)}
-                    >
-                        <View 
-                            style={{ width: '100%', paddingVertical: 5 }}
+                { data && data.map((anime, index) => {
+                    return (
+                        <TouchableHighlight
+                            onPress={() => handleEpisodePress(anime)}
+                            key={index}
                         >
-                            <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white'}}>Episode {anime.episodeNumber}</Text>
-                            <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'red'}}>{anime.version}</Text>
-                            <ListItemSeparator style={{ height: 0.5, backgroundColor: 'grey', marginTop: 5 }} />
-                        </View>
-                    </TouchableHighlight>
-                ))}
+                            <View 
+                                style={{ width: '100%', paddingVertical: 5 }}
+                            >
+                                <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white'}}>Episode {anime.episodeNumber}</Text>
+                                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'red'}}>{anime.version}</Text>
+                                <ListItemSeparator style={{ height: 0.5, backgroundColor: 'grey', marginTop: 5 }} />
+                            </View>
+                        </TouchableHighlight>
+                )})}
             </>
         )
     }
@@ -62,7 +70,7 @@ const EpisodesTrayVertical = ({ towhere }) => {
         return (
             <View  style={styles.container}>
                 <View style={{ marginBottom: 20 }}>
-                    {/* <Text 
+                    <Text 
                         style={{
                             fontWeight: 'bold',
                             fontSize: 20,
@@ -70,9 +78,11 @@ const EpisodesTrayVertical = ({ towhere }) => {
                         }}
                     >
                         Episodes
-                    </Text> */}
+                    </Text>
                 </View>
-                {renderEpisode()}
+                <View>
+                    {renderEpisode()}
+                </View>
             </View>
         )
     }
