@@ -131,6 +131,11 @@ export const AccountOnline = () => {
                     targetScreen: null
                 },
                 {
+                    name: 'Clear Watch History',
+                    icon: null,
+                    targetScreen: null
+                },
+                {
                     name: 'Suggestions',
                     icon: null,
                     targetScreen: null
@@ -204,6 +209,10 @@ export const AccountOnline = () => {
         if (setting.name === 'Clear Search History') {
             return clearSearchCache(searchPrefix)
         }
+
+        // if (setting.name === 'Clear Search History') {
+        //     return clearSearchCache(searchPrefix)
+        // }
 
         if (setting.name === 'Logout') return handleAlert();
 

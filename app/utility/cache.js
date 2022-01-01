@@ -59,9 +59,9 @@ const removeFromCache = async(key) => {
 const clearCache = async () => {
     try {
         await AsyncStorage.clear()
-      } catch(e) {
-        // clear error
-      }
+    } catch(e) {
+        console.log(e)
+    }
     
     console.log('Cache cleard.')
 };

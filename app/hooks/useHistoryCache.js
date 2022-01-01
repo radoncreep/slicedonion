@@ -4,16 +4,23 @@ export const useHistoryCache = (email) => {
 
     const prefix = `@${email}_history`;
 
-    const { addToCache, getFromCache, mergeToCache, clearCache } = cache;
+    const { 
+        addToCache, 
+        getFromCache, 
+        mergeToCache, 
+        clearCache 
+    } = cache;
 
     const addShowToCache = async (show) => {
-        // clearCache()
+        // clearCache();
         const initialValue = {
             history: []
         }
 
         try {
             let res = await getFromCache(prefix);
+
+            console.log('res ', res);
     
             if (!res) {
                 initialValue.history.push(show);
