@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { getGenreApi } from '../api/getGenre';
 import ActivityIndicator from './ActivityIndicator';
 import SmallCardTray from './HorizontalTrays/SmallCardTray';
+import HorizontalTraySkeleton from './HorizontalTraySkeleton.js';
 
 export const GenreListComponent = ({ genrename, navigation, param }) => {
     const [ currentGenres, setCurrentGenres ] = useState();
@@ -28,7 +29,7 @@ export const GenreListComponent = ({ genrename, navigation, param }) => {
 
     return (
         <View>
-            <ActivityIndicator visible={visible} style={styles.indicator}/>
+            <HorizontalTraySkeleton />
             <SmallCardTray 
                 data={currentGenres} 
                 navigation={navigation}
