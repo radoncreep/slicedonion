@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
 
 
 import EpisodeCardHorizontal from '../Cards/EpisodeCardHorizontal';
@@ -26,11 +27,13 @@ const EpisodesTrayVertical = ({ towhere }) => {
         register: { user: { email }} 
     } = useSelector(state => state);
 
-    const { episodes: { data } } = playlist;
-
     const dispatch = useDispatch();
 
     const navigation = useNavigation();
+
+    const { episodes: { data } } = playlist;
+
+    const mapping = new Array(3).fill(0);
 
     const handleEpisodeAddHistory = (anime) =>  { 
         const { addShowToCache } = useHistoryCache(email);
@@ -43,6 +46,32 @@ const EpisodesTrayVertical = ({ towhere }) => {
         handleEpisodeAddHistory(anime);
         navigation.navigate(towhere);
     };
+
+    function renderListSkeleton() {
+        return (
+            <View>
+                {mapping.map((item, index) => (
+                    <View
+                        key={`MAPPING-${index}`}
+                        style={{
+                            marginTop: index > 0 ? 10 : 0,
+                            marginBottom: index === mapping.length - 1 ? 20 : 0
+                        }}
+                    >
+                        <ContentLoader 
+                            speed={1}
+                            width="100%"
+                            height={70}
+                            backgroundColor="#0f011f"
+                            foregroundColor="#330a21"
+                        >
+                            <Rect x="0" y="0" rx="4" ry="4" width="98%" height="70" />
+                        </ContentLoader>
+                    </View>
+                ))}
+            </View>
+        )
+    }
 
     const renderEpisode = () => {
         return (
@@ -81,6 +110,7 @@ const EpisodesTrayVertical = ({ towhere }) => {
                     </Text>
                 </View>
                 <View>
+                    {data.length === 0 && renderListSkeleton()}
                     {renderEpisode()}
                 </View>
             </View>
@@ -95,9 +125,9 @@ const EpisodesTrayVertical = ({ towhere }) => {
 };
 
 const styles = StyleSheet.create({
-   container: {
+    container: {
        paddingHorizontal: 10
-   }
+    }
 });
 
 export default EpisodesTrayVertical;

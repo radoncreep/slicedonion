@@ -5,6 +5,7 @@ import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
 
 import { getAllPopularPage } from '../../api/getPopular';
 import { SmallCardTray } from '../HorizontalTrays';
+import HorizontalTraySkeleton from '../HorizontalTraySkeleton.js';
 
 const PopularAnimeComponent = ({ navigation, param, towhere }) => {
     const [ popularShows, setPopularShows ] = useState([]);
@@ -36,47 +37,12 @@ const PopularAnimeComponent = ({ navigation, param, towhere }) => {
         getPopularAnime();
     }, []);
 
-    function renderTraySkeleton() {
-        // remove heading prop
-        return (
-            <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{
-                    paddingHorizontal: 0,
-                    flexDirection:  'row',
-                    marginTop: 10
-                }}
-            >
-                {mapping.map((item, index) => (
-                    <View
-                        key={`MAPPING-${index}`}
-                        style={{
-                            marginLeft: index > 0 ? 10 : 0,
-                        }}
-                    >
-                        <ContentLoader 
-                            speed={2}
-                            width={150}
-                            height={300}
-                            backgroundColor="#0f011f"
-                            foregroundColor="#330a21"
-                        >
-                            <Rect x="0" y="0" rx="4" ry="4" width="150" height="270" />
-                        </ContentLoader>
-                    </View>
-                ))}
-            </ScrollView>
-        )
-    }
-
     function renderCardTray() {
         return (
             <SmallCardTray 
                 data={popularShows} 
                 navigation={navigation}
                 towhere={towhere}
-                heading="Popular Series"
                 fetching={fetching}
                 isFromHome={true}
             />
@@ -89,7 +55,7 @@ const PopularAnimeComponent = ({ navigation, param, towhere }) => {
                 <Text style={styles.heading}>Popular Series</Text>
                 <MaterialIcons style={{ marginTop: 3 }} name="chevron-right" size={26} color="white" />
             </View>
-           {fetching ? renderTraySkeleton() : renderCardTray()}
+           {fetching ? <HorizontalTraySkeleton /> : renderCardTray()}
        </View>
     );
 };

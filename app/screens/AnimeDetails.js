@@ -3,6 +3,7 @@ import { View, StyleSheet, ImageBackground, Text, Modal, ScrollView, Dimensions,
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated from 'react-native-reanimated';
 import { EvilIcons } from '@expo/vector-icons';
+import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
 
 import EpisodesTrayVertical from '../components/VerticalTrays/EpisodesTrayVertical';
 import StatusBarComp from '../components/StatusBarComp';
@@ -28,11 +29,29 @@ const AnimeDetails = ({ navigation, route }) => {
     const { info, showLoader } = useDetail(detail, getDetailApi);
 
     const { showSpinner } = usePagination(detail, getEpisodesApi);
+
+    function renderHeaderSkeleton() {
+        return (
+            <View style={{ flex: 1, paddingHorizontal: 5 }}>
+                <ContentLoader 
+                    speed={1}
+                    width="100%"
+                    height="700px"
+                    backgroundColor="#0f011f"
+                    foregroundColor="#330a21"
+                >
+                    <Rect x="0" y="0" rx="4" ry="4" width="100%" height="400" />
+                    <Rect x="10" y="410" rx="3" ry="3" width="50%" height="30" /> 
+                    <Rect x="10" y="450" rx="3" ry="3" width="50%" height="20" /> 
+                    <Rect x="10" y="480" rx="3" ry="3" width="80%" height="100" /> 
+                </ContentLoader>
+            </View>
+        )
+    }
     
     return (
         <View>
-
-            <ActivityIndicator visible={showLoader} style={{ justifyContent: 'center', alignContent: 'center' }}/>        
+            {renderHeaderSkeleton()}   
             {info && (
                 <View>
                     <ImageBackground 
@@ -79,7 +98,6 @@ const AnimeDetails = ({ navigation, route }) => {
                                 </View>
 
                                 <View style={{ backgroundColor: 'black', paddingTop: 7 }}>
-                                    {/* <ActivityIndicator visible={showSpinner} style={styles.loader}/> */}
                                     <Modal 
                                         animationType="slide"
                                         onRequestClose={() => setShowModal(false)}
