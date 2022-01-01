@@ -20,13 +20,15 @@ const Recents = ({ navigation, towhere }) => {
         getRecentAnimeShows();
     }, [])
 
-    return <SmallCardTray 
-                data={recents} 
-                heading="Recents" 
-                towhere={towhere} 
-                navigation={navigation}
-                isFromHome={true}
-            />
+    return (
+        <SmallCardTray 
+            data={recents} 
+            heading="Recents" 
+            towhere={towhere} 
+            navigation={navigation}
+            isFromHome={true}
+        />
+    ) 
 };
 
 const styles = StyleSheet.create({

@@ -3,6 +3,8 @@ import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import SmallCard from '../Cards/SmallCard';
+// import Skeleton from '../Skeleton';
+import SmallCardSkeleton from '../Skeletons/SmallCardSkeleton';
 
 const SmallCardTray = ({ data, navigation, towhere, heading, isFromHome }) => {
 
@@ -20,18 +22,19 @@ const SmallCardTray = ({ data, navigation, towhere, heading, isFromHome }) => {
                     horizontal
                 >   
                     {data && data.map((anime, index) => (
-                        <SmallCard 
-                            key={anime.id || index} 
-                            title={anime.title} 
-                            subtitle={anime.released}
-                            episodeNumber={anime.episode}
-                            imageUrl={anime.thumbnail}
-                            released={anime.released}
-                            currentanime={anime}
-                            onPress={() => handleCardPress(anime)}
-                            navigation={navigation}
-                            isFromHome={isFromHome}
-                        />
+                        // <SmallCard 
+                        //     key={anime.id || index} 
+                        //     title={anime.title} 
+                        //     subtitle={anime.released}
+                        //     episodeNumber={anime.episode}
+                        //     imageUrl={anime.thumbnail}
+                        //     released={anime.released}
+                        //     currentanime={anime}
+                        //     onPress={() => handleCardPress(anime)}
+                        //     navigation={navigation}
+                        //     isFromHome={isFromHome}
+                        // />
+                        <SmallCardSkeleton key={anime.id || index} />
                     ))}
                 </ScrollView>
         </View>

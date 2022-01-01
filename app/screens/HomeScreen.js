@@ -22,7 +22,7 @@ const HomeScreen = ({ navigation }) => {
     }
   
     useEffect(() => {
-      retrieveToken();
+        retrieveToken();
     }, []);
 
 
