@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
 
 import { getAllPopularPage } from '../../api/getPopular';
 import { SmallCardTray } from '../HorizontalTrays';
-import HorizontalTraySkeleton from '../HorizontalTraySkeleton.js';
+import TraySkeleton from '../TraySkeleton.js';
 
 const PopularAnimeComponent = ({ navigation, param, towhere }) => {
     const [ popularShows, setPopularShows ] = useState([]);
     const [ fetching, setFetching ] = useState(false);
-
-    const mapping = new Array(5).fill(0);
 
     const getPopularAnime = async () => {
         let mounted = true;
@@ -55,7 +52,28 @@ const PopularAnimeComponent = ({ navigation, param, towhere }) => {
                 <Text style={styles.heading}>Popular Series</Text>
                 <MaterialIcons style={{ marginTop: 3 }} name="chevron-right" size={26} color="white" />
             </View>
-           {fetching ? <HorizontalTraySkeleton /> : renderCardTray()}
+           {fetching ? (
+            <TraySkeleton 
+                containerStyle={{
+                    marginHorizontal: 0,
+                    height: 330,
+                    paddingLeft: 5
+                }}
+                scrollViewStyle={{
+                    paddingHorizontal: 0,
+                    flexDirection: 'row',
+                    marginTop: 10
+                }}
+                contentWidth={150}
+                contentHeight={300}
+                isHorizontal={true}
+                rectWidth={150}
+                rectHeight={270}
+                leftMargin={true}
+                topMargin={false}
+            />
+            ) : renderCardTray()
+            }
        </View>
     );
 };

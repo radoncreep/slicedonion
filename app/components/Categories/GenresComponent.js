@@ -2,16 +2,14 @@ import { Animated } from 'expo';
 import React, { useState, useEffect} from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
-import { getGenres } from '../../api/getGenres';
-import ActivityIndicator from '../ActivityIndicator';
 
+import { getGenres } from '../../api/getGenres';
 import GenreCard from '../Cards/GenreCard';
 import StatusBarComp from '../StatusBarComp';
 
 const GenresComponent = ({ navigation }) => {
     const { current: { parentalControl } } = useSelector((state) => state.mediaControlsState);
     const [ genres, setGenres ] = useState([]);
-    const [ visible, setVisible ] = useState(true);
 
     const getGenresApi = async () => {
         let arr = [];
@@ -39,10 +37,8 @@ const GenresComponent = ({ navigation }) => {
                     return anime;
                 }
             });
-            setVisible(false);
             return setGenres([...filterAnime]);
         } else {
-            setVisible(false);
             return setGenres([...arr]);
         }
      
@@ -85,7 +81,6 @@ const GenresComponent = ({ navigation }) => {
 
     return (
         <StatusBarComp>
-            <ActivityIndicator visible={visible} style={{ justifyContent: 'center' }}/>
             <View style={styles.genreScroll}>
                 <FlatList
                     onRefresh={getGenresApi}

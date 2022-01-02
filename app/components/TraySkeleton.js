@@ -5,41 +5,49 @@ import {
 } from 'react-native';
 import ContentLoader, { Rect } from 'react-content-loader/native';
 
-const HorizontalTraySkeleton = () => {
-    const mapping = new Array(5).fill(0);
+const TraySkeleton = ({ 
+    containerStyle, 
+    isHorizontal, 
+    scrollViewStyle, 
+    contentWidth, 
+    contentHeight,
+    rectWidth,
+    rectHeight,
+    numberOfBones = 5 ,
+    leftMargin,
+    topMargin
+}) => {
+    const mapping = new Array(numberOfBones).fill(0);
 
     return (
         <View 
             style={{
-                marginHorizontal: 0,
-                height: 330,
-                paddingLeft: 5
+                ...containerStyle
             }}
         >
             <ScrollView
-                horizontal
+                horizontal={isHorizontal}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{
-                    paddingHorizontal: 0,
-                    flexDirection:  'row',
-                    marginTop: 10
+                    ...scrollViewStyle
                 }}
             >
                 {mapping.map((item, index) => (
                     <View
                         key={`MAPPING-${index}`}
                         style={{
-                            marginLeft: index > 0 ? 10 : 0,
+                            marginLeft: index > 0 && leftMargin ? 10 : 0,
+                            marginTop: topMargin ? 10 : 0
                         }}
                     >
                         <ContentLoader 
                             speed={1}
-                            width={150}
-                            height={300}
+                            width={contentWidth}
+                            height={contentHeight}
                             backgroundColor="#0f011f"
                             foregroundColor="#330a21"
                         >
-                            <Rect x="0" y="0" rx="4" ry="4" width="150" height="270" />
+                            <Rect x="0" y="0" rx="4" ry="4" width={rectWidth} height={rectHeight} />
                         </ContentLoader>
                     </View>
                 ))}
@@ -48,4 +56,4 @@ const HorizontalTraySkeleton = () => {
     )
 }
 
-export default HorizontalTraySkeleton;
+export default TraySkeleton;

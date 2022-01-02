@@ -1,21 +1,23 @@
 import React, {  useCallback, useEffect, useState } from 'react';
-import {  FlatList, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import ActivityIndicator from '../ActivityIndicator';
 import EpisodeCardHorizontal from '../Cards/EpisodeCardHorizontal';
 import { addToHistory, addToHistoryFromCache } from '../../store/actions';
 import { useHistoryCache } from '../../hooks/useHistoryCache';
+import TraySkeleton from '../TraySkeleton';
 
-export default HistoryOn = ({ loader }) => {
+export default HistoryOn = () => {
+    const { width } = Dimensions.get("window");
+
     const { 
         history: { current },
         register: { user: { email }}
     } = useSelector(state => state);
 
     const { getHistoryFromCache } = useHistoryCache(email);
-    const [ loading, setLoading ] = useState(false);
+    const [ loading, setLoading ] = useState(true);
 
     const dispatch = useDispatch();
 
@@ -24,17 +26,15 @@ export default HistoryOn = ({ loader }) => {
     useFocusEffect(
         useCallback(() => {
             (async () => {
+                setLoading(true);
                 let cacheData = await getHistoryFromCache();
 
                 if (cacheData && current.length === 0) {
-                    console.log('IN THE IF');
-                    setLoading(true);
                     let { history } = cacheData;
 
                     dispatch(addToHistoryFromCache(history))
 
                 } else {
-                    console.log('IN THE ELSE')
                     dispatch(addToHistoryFromCache([]));
                 }
                 setLoading(false);
@@ -75,17 +75,36 @@ export default HistoryOn = ({ loader }) => {
         />
     )
 
-    console.log('current ', current)
-
     const emptyHistoryText = () => (
         <>
             <Text style={styles.empty}>You haven't viewed any show yet.</Text>
         </>
     )
 
+    const renderSkeleton = () => (
+        <TraySkeleton
+            containerStyle={{ flex: 1, paddingHorizontal: 10 }}
+            scrollViewStyle={{
+                paddingHorizontal: 0,
+                flexDirection: 'column',
+                height: '100%'
+            }}
+            contentWidth={width}
+            contentHeight={100}
+            isHorizontal={false}
+            numberOfBones={5}
+            rectWidth={width}
+            rectHeight={100}
+            leftMargin={false}
+            topMargin={true}
+        />
+    )
+
     return (
         <View style={styles.history}>
-            { current && current.length && !loading ? historyList() : emptyHistoryText() }
+            {loading && renderSkeleton()}
+            {/* { current && current.length && !loading ? historyList() : emptyHistoryText() } */}
+            { current && current.length === 0 && !loading ? emptyHistoryText() : historyList() }
         </View>
     )
 }

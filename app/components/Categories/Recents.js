@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import { getRecents } from '../../api/getRecentRelease';
 import { SmallCardTray } from '../HorizontalTrays';
-import HorizontalTraySkeleton from '../HorizontalTraySkeleton.js';
+import TraySkeleton from '../TraySkeleton.js';
 
 const Recents = ({ navigation, towhere }) => {
     const [ recents, setRecents ] = useState([]);
@@ -63,7 +63,25 @@ const Recents = ({ navigation, towhere }) => {
                 <MaterialIcons style={{ marginTop: 3 }} name="chevron-right" size={26} color="white" />
             </View>
            {fetching ? (
-               <HorizontalTraySkeleton /> 
+               <TraySkeleton 
+                    containerStyle={{
+                        marginHorizontal: 0,
+                        height: 330,
+                        paddingLeft: 5
+                    }}
+                    scrollViewStyle={{
+                        paddingHorizontal: 0,
+                        flexDirection: 'row',
+                        marginTop: 10
+                    }}
+                    contentWidth={150}
+                    contentHeight={300}
+                    isHorizontal={true}
+                    rectWidth={150}
+                    rectHeight={270}
+                    leftMargin={true}
+                    topMargin={false}
+                /> 
             ) : renderCardTray()
            }
        </View>
