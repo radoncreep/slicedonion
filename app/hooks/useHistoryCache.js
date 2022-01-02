@@ -25,7 +25,11 @@ export const useHistoryCache = (email) => {
                 addToCache(prefix, initialValue);
             } else {
                 const filteredHistory = res?.history.filter((item, index) => {
-                    return item?.episodeNumber !== show?.episodeNumber
+                    if (item?.title === show?.title) {
+                        return item?.episodeNumber !== show?.episodeNumber
+                    } else {
+                        return item;
+                    }
                 })
 
                 let mergeShowList = {

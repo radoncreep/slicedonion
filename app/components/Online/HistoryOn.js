@@ -27,12 +27,14 @@ export default HistoryOn = ({ loader }) => {
                 let cacheData = await getHistoryFromCache();
 
                 if (cacheData && current.length === 0) {
+                    console.log('IN THE IF');
                     setLoading(true);
                     let { history } = cacheData;
 
                     dispatch(addToHistoryFromCache(history))
 
                 } else {
+                    console.log('IN THE ELSE')
                     dispatch(addToHistoryFromCache([]));
                 }
                 setLoading(false);
@@ -72,6 +74,8 @@ export default HistoryOn = ({ loader }) => {
             )}
         />
     )
+
+    console.log('current ', current)
 
     const emptyHistoryText = () => (
         <>
