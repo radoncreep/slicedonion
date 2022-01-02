@@ -15,7 +15,7 @@ export default HistoryOn = ({ loader }) => {
     } = useSelector(state => state);
 
     const { getHistoryFromCache } = useHistoryCache(email);
-    const [ loading, setLoading ] = useState(true);
+    const [ loading, setLoading ] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -26,7 +26,7 @@ export default HistoryOn = ({ loader }) => {
             (async () => {
                 let cacheData = await getHistoryFromCache();
 
-                if (cacheData) {
+                if (cacheData && current.length === 0) {
                     setLoading(true);
                     let { history } = cacheData;
 
@@ -41,6 +41,21 @@ export default HistoryOn = ({ loader }) => {
         }, [ email ])
     )
 
+    const handleGetDetails = (item) => {
+        let title = item?.category;
+        let episodeNumber = title.split("-").pop();
+
+        if (!episodeNumber) {
+            episodeNumber = item?.episodeNumber.toString();
+        }
+        title = title.replace(`-episode-${episodeNumber}`, "");
+
+        let payload = {...item};
+        payload.category = title;
+
+        navigation.navigate('Details', payload);
+    }
+
     const historyList = () => (
         <FlatList 
             data={current}
@@ -52,7 +67,7 @@ export default HistoryOn = ({ loader }) => {
                     episodeTitle={item.title}
                     thumbnail={item.thumbnail}
                     version={item.version}
-                    onPress={() => navigation.navigate('Details', item)}
+                    onPress={() => handleGetDetails(item)}
                 />
             )}
         />
@@ -60,13 +75,12 @@ export default HistoryOn = ({ loader }) => {
 
     const emptyHistoryText = () => (
         <>
-            { !loading && <Text style={styles.empty}>You haven't viewed any show yet.</Text> }
+            <Text style={styles.empty}>You haven't viewed any show yet.</Text>
         </>
     )
 
     return (
         <View style={styles.history}>
-            <ActivityIndicator style={{ alignSelf: 'center' }} visible={loading} />
             { current && current.length && !loading ? historyList() : emptyHistoryText() }
         </View>
     )

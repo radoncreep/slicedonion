@@ -19,18 +19,20 @@ export const useHistoryCache = (email) => {
 
         try {
             let res = await getFromCache(prefix);
-
-            console.log('res ', res);
     
             if (!res) {
                 initialValue.history.push(show);
                 addToCache(prefix, initialValue);
             } else {
+                const filteredHistory = res?.history.filter((item, index) => {
+                    return item?.episodeNumber !== show?.episodeNumber
+                })
+
                 let mergeShowList = {
-                    ...res,
+                    // ...res,
                     history: [
                         show,
-                        ...res.history
+                        ...filteredHistory
                     ]
                 }
     

@@ -11,6 +11,7 @@ export const useDetail = (detail, apiFunc) => {
         const request = async () => {
             if (mounted) setShowLoader(true)
             let name = category || url;
+            
             try {
                 const { data } = await apiFunc(name);
     
