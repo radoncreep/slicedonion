@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { HEADER_DELTA, MAX_HEADER_HEIGHT } from './Model';
 

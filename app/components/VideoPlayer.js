@@ -1,13 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, Button, Dimensions, TouchableHighlight, Text } from 'react-native';
-import { Video, AVPlaybackStatus } from 'expo-av';
-import { AntDesign } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
+import { View, StyleSheet } from 'react-native';
+import { Video } from 'expo-av';
 import { useDeviceOrientation } from '@react-native-community/hooks'
 
 import { playlistApi } from '../api/getPlaylist';
 import ErrorMessage from './ErrorMessage';
-import ActivityIndicator from './ActivityIndicator';
 
 const VideoPlayer = ({ videodata }) => {
     const { landscape } = useDeviceOrientation();
@@ -52,7 +49,6 @@ const VideoPlayer = ({ videodata }) => {
 
     return (
         <View style={styles.container}>
-            <ActivityIndicator visible={buffer} style={styles.buffer}/>
             { error ? <ErrorMessage message={error} /> : null }
             <Video 
                 ref={video}

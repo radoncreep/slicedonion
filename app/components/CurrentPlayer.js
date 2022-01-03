@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 import ListItemSeparator from '../components/ListItemSeparator';
-import { colorPallete } from '../utils/colors';
 
 export default CurrentPlayer = ({ children, description, episodeNumber, seasonNumber, title, version }) => {
     const navigation = useNavigation();

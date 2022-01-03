@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { getGenreApi } from '../api/getGenre';
-import ActivityIndicator from './ActivityIndicator';
 import SmallCardTray from './HorizontalTrays/SmallCardTray';
 import TraySkeleton from './TraySkeleton.js';
 
@@ -23,7 +22,6 @@ export const GenreListComponent = ({ genrename, navigation, param }) => {
         };
 
         handleGenreApiCall(genrename, param);
-        console.log('genre data ', currentGenres)
 
         return () => mounted = false;
     }, []);

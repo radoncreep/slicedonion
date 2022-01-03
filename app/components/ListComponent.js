@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, ImageBackground } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import { LargeCardTray } from './HorizontalTrays/index';
 import { PopularAnimeComponent } from './Categories';
