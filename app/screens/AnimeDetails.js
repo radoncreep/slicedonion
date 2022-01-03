@@ -64,7 +64,7 @@ const AnimeDetails = ({ navigation, route }) => {
                                 scrollEventThrottle={1}
                             >
                                 <View>
-                                    <Animated.View style={{ height: 600, marginBottom: 0} }>
+                                    <Animated.View style={{ height: 500 }}>
                                         <LinearGradient
                                             style={StyleSheet.absoluteFill}
                                             start={[0, 0.3]}
@@ -88,8 +88,8 @@ const AnimeDetails = ({ navigation, route }) => {
                                                 <Text numberOfLines={2} style={styles.bgDesc}>{info.summary}</Text>
                                                 
                                                 <Pressable onPress={() => setShowModal(true)} style={styles.detailsBtn}>
-                                                    <Text style={{ color: '#fff', fontSize: 14, fontWeight: 'bold' }}>
-                                                        MORE DETAILS
+                                                    <Text style={{ color: 'red', fontSize: 16, fontWeight: 'bold' }}>
+                                                        Read More
                                                     </Text>
                                                 </Pressable>
                                             </View>
@@ -152,12 +152,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     detailsBtn: { 
-        backgroundColor: 'red',
-        width: '80%',
+        backgroundColor: '#0f011f',
+        width: '100%',
         alignSelf: 'center',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 5
+        paddingVertical: 7
     },
     genre: {
         marginTop: 50,
