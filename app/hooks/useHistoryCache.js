@@ -4,10 +4,15 @@ export const useHistoryCache = (email) => {
 
     const prefix = `@${email}_history`;
 
-    const { addToCache, getFromCache, mergeToCache, clearCache } = cache;
+    const { 
+        addToCache, 
+        getFromCache, 
+        mergeToCache, 
+        clearCache 
+    } = cache;
 
     const addShowToCache = async (show) => {
-        // clearCache()
+        // clearCache();
         const initialValue = {
             history: []
         }
@@ -19,11 +24,19 @@ export const useHistoryCache = (email) => {
                 initialValue.history.push(show);
                 addToCache(prefix, initialValue);
             } else {
+                const filteredHistory = res?.history.filter((item, index) => {
+                    if (item?.title === show?.title) {
+                        return item?.episodeNumber !== show?.episodeNumber
+                    } else {
+                        return item;
+                    }
+                })
+
                 let mergeShowList = {
-                    ...res,
+                    // ...res,
                     history: [
                         show,
-                        ...res.history
+                        ...filteredHistory
                     ]
                 }
     

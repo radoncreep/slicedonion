@@ -3,12 +3,11 @@ import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
-
-import ActivityIndicator from '../ActivityIndicator';
 import ListItemSeparator from '../ListItemSeparator';
 import SmallCard from '../Cards/SmallCard';
 import { useWatchListStore } from '../../hooks/useWatchListCache';
 import { addToWatchLater, addToWatchLaterFromCache } from '../../store/actions';
+import TraySkeleton from '../TraySkeleton.js';
 
 const screenWidth = Dimensions.get("screen").width;
 
@@ -16,7 +15,6 @@ export default WatchLaterOn = () => {
     const { width } = Dimensions.get("window");
     
     const navigation = useNavigation();
-    
     
     const { 
         register: { user: { email }},
@@ -36,11 +34,11 @@ export default WatchLaterOn = () => {
     useFocusEffect(
         useCallback(() => {
             (async () => {
+                setLoading(true);
                 
                 let cacheData = await getWatchListFromCache();
                 
                 if (cacheData) {
-                    setLoading(true);
                     let { watchList } = cacheData;
 
                     dispatch(addToWatchLaterFromCache(watchList));         
@@ -90,10 +88,34 @@ export default WatchLaterOn = () => {
             }
         </>
     );
+    
+    const renderSkeleton = () => {
+        return (
+            <TraySkeleton 
+                containerStyle={{ flex: 1 }}
+                scrollViewStyle={{
+                    paddingHorizontal: 0,
+                    marginTop: 10,
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center'
+                }}
+                contentWidth={width / 3.5}
+                contentHeight={300}
+                isHorizontal={false}
+                leftMargin={true}
+                topMargin={false}
+                numberOfBones={9}
+                rectWidth={width / 3.5}
+                rectHeight={270}
+            />
+        )
+    }
 
     return (
         <View style={styles.watchlater}>
-            <ActivityIndicator style={{ alignSelf: 'center' }} visible={loading} />
+            {loading && renderSkeleton()}
+
             { list && list.length && !loading ? WatchLaterList() : emptyWatchLaterText() }
         </View>
     );

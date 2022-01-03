@@ -1,13 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, Button, Dimensions, TouchableHighlight, Text } from 'react-native';
-import { Video, AVPlaybackStatus } from 'expo-av';
-import { AntDesign } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
+import { View, StyleSheet } from 'react-native';
+import { Video } from 'expo-av';
 import { useDeviceOrientation } from '@react-native-community/hooks'
 
 import { playlistApi } from '../api/getPlaylist';
 import ErrorMessage from './ErrorMessage';
-import ActivityIndicator from './ActivityIndicator';
 
 const VideoPlayer = ({ videodata }) => {
     const { landscape } = useDeviceOrientation();
@@ -31,13 +28,16 @@ const VideoPlayer = ({ videodata }) => {
                 setError(null);
             };
             
-            const { data, ok } = await getCurrentEpisodeUrl(url);
+            const { 
+                data: { message, streamLink },
+                ok 
+            } = await getCurrentEpisodeUrl(url);
     
-            if (!ok && mounted) return setError(data.message);
-            console.log('stream link ', data.remote);
+            if (!ok && mounted) return setError(message);
+            console.log('server link ', streamLink);
     
             if (mounted) {
-                setStream(data.remote);
+                setStream(streamLink);
                 setBuffer(false);
             };
         };
@@ -47,13 +47,8 @@ const VideoPlayer = ({ videodata }) => {
         return () => mounted= false;
     }, []);
 
-    // const renderPlayIcon = () => <AntDesign style={{ borderRadius: 0, backgroundColor: 'transparent', borderColor: 'transparent' }} name="caretright" size={60} color="red" />;
-
-    // const renderPauseIcon = () => <Feather style={{ borderRadius: 0, backgroundColor: 'transparent', borderColor: 'transparent' }} name="pause" size={60} color="red" />
-
     return (
         <View style={styles.container}>
-            <ActivityIndicator visible={buffer} style={styles.buffer}/>
             { error ? <ErrorMessage message={error} /> : null }
             <Video 
                 ref={video}
@@ -66,16 +61,13 @@ const VideoPlayer = ({ videodata }) => {
                 }}
                 usePoster={stream ? false : true}
                 source={{
-                    // uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-                    // uri: "http://streamani.net/streaming.php?id=MTY2MTQ4&title=Higurashi+no+Naku+Koro+ni+Sotsu+Episode+5",
-                    // uri: 'https://storage.googleapis.com/buoyant-set-320416/WJGRGS6AYSZX/22adesc22_1627501204.22.0_166616.mp4',
-                    uri: 'https://streamtape.com/e/zGJg22rMq1tXmm/night-head-2041-episode-31627497601.0.mp4'
-                    // uri: stream,
-                    // overrideFileExtensionAndroid: "mp4"
+                    uri: stream
+                    // uri: 'https://pr30.sbcdnvideo.com/tysxfmmge666j6cdabnrltk2fijvbundfxl3quo4bjrrdwmoif4mwt5jw6ja/kimetsu-no-yaiba-yuukaku-hen-episode-11638721562.0.mp4'
                 }}
                 useNativeControls
                 resizeMode="contain"
                 isLooping
+                shouldPlay={true}
                 onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             />
             {/* <View style={styles.buttons}>

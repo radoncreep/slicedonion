@@ -3,7 +3,13 @@ import NetInfo from '@react-native-community/netinfo';
 import cache from '../utility/cache';
 
 export const useAppControls = () => {
-    const { addToCache, getFromCache, mergeToCache, clearCache } = cache; 
+    const { 
+        addToCache, 
+        getFromCache, 
+        mergeToCache,
+        removeFromCache, 
+        clearCache 
+    } = cache; 
 
     // persist data
     const cacheMediaOptions = async (key, value) => {
@@ -20,6 +26,9 @@ export const useAppControls = () => {
         return getFromCache(key);
     }
 
+    const clearWatchHistory = async (prefix) => {
+        // const
+    }
 
 
     return {

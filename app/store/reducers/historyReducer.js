@@ -19,8 +19,16 @@ export const historyReducer = (state=INITIAL_STATE, action) => {
                 current: [ action.payload, ...filterClone]
             };
         case ADD_TO_HISTORY_FROM_CACHE:
-            return {
-                current: [ ...action.payload ]
+            if (state.current.length) {
+                // LEFT HERE FOR THE PURPOSE OF ADDRESSING CACHE AND REDUX PERSISTENCE
+                // ISSUE
+                return {
+                    current: [...action.payload]
+                }
+            } else {
+                return {
+                    current: [ ...action.payload ]
+                }
             }
         default: 
             return state;

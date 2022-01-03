@@ -1,14 +1,16 @@
 import React, {  useCallback, useEffect, useState } from 'react';
-import {  FlatList, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import ActivityIndicator from '../ActivityIndicator';
 import EpisodeCardHorizontal from '../Cards/EpisodeCardHorizontal';
 import { addToHistory, addToHistoryFromCache } from '../../store/actions';
 import { useHistoryCache } from '../../hooks/useHistoryCache';
+import TraySkeleton from '../TraySkeleton';
 
-export default HistoryOn = ({ loader }) => {
+export default HistoryOn = () => {
+    const { width } = Dimensions.get("window");
+
     const { 
         history: { current },
         register: { user: { email }}
@@ -24,10 +26,10 @@ export default HistoryOn = ({ loader }) => {
     useFocusEffect(
         useCallback(() => {
             (async () => {
+                setLoading(true);
                 let cacheData = await getHistoryFromCache();
 
-                if (cacheData) {
-                    setLoading(true);
+                if (cacheData && current.length === 0) {
                     let { history } = cacheData;
 
                     dispatch(addToHistoryFromCache(history))
@@ -41,6 +43,21 @@ export default HistoryOn = ({ loader }) => {
         }, [ email ])
     )
 
+    const handleGetDetails = (item) => {
+        let title = item?.category;
+        let episodeNumber = title.split("-").pop();
+
+        if (!episodeNumber) {
+            episodeNumber = item?.episodeNumber.toString();
+        }
+        title = title.replace(`-episode-${episodeNumber}`, "");
+
+        let payload = {...item};
+        payload.category = title;
+
+        navigation.navigate('Details', payload);
+    }
+
     const historyList = () => (
         <FlatList 
             data={current}
@@ -52,7 +69,7 @@ export default HistoryOn = ({ loader }) => {
                     episodeTitle={item.title}
                     thumbnail={item.thumbnail}
                     version={item.version}
-                    onPress={() => navigation.navigate('Details', item)}
+                    onPress={() => handleGetDetails(item)}
                 />
             )}
         />
@@ -60,14 +77,34 @@ export default HistoryOn = ({ loader }) => {
 
     const emptyHistoryText = () => (
         <>
-            { !loading && <Text style={styles.empty}>You haven't viewed any show yet.</Text> }
+            <Text style={styles.empty}>You haven't viewed any show yet.</Text>
         </>
+    )
+
+    const renderSkeleton = () => (
+        <TraySkeleton
+            containerStyle={{ flex: 1, paddingHorizontal: 10 }}
+            scrollViewStyle={{
+                paddingHorizontal: 0,
+                flexDirection: 'column',
+                height: '100%'
+            }}
+            contentWidth={width}
+            contentHeight={100}
+            isHorizontal={false}
+            numberOfBones={5}
+            rectWidth={width}
+            rectHeight={100}
+            leftMargin={false}
+            topMargin={true}
+        />
     )
 
     return (
         <View style={styles.history}>
-            <ActivityIndicator style={{ alignSelf: 'center' }} visible={loading} />
-            { current && current.length && !loading ? historyList() : emptyHistoryText() }
+            {loading && renderSkeleton()}
+            {/* { current && current.length && !loading ? historyList() : emptyHistoryText() } */}
+            { current && current.length === 0 && !loading ? emptyHistoryText() : historyList() }
         </View>
     )
 }

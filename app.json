@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "slicedonion",
-    "slug": "slicedonionexp",
+    "slug": "slicedonion-app",
+    "description": "Stream your favourite anime shows and movies with Slicedonion.",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",

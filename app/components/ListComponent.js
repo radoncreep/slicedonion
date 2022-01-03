@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, ImageBackground } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import { LargeCardTray } from './HorizontalTrays/index';
 import { PopularAnimeComponent } from './Categories';
@@ -11,7 +11,7 @@ const ListComponent = ({ navigation }) => {
         <View style={styles.container} >
             <Recents navigation={navigation} towhere="Player"/>
             <PopularAnimeComponent navigation={navigation} param={1} towhere="Details"/>
-            <LargeCardTray navigation={navigation}/>
+            {/* <LargeCardTray navigation={navigation}/> */}
             <PopularAnimeComponent navigation={navigation} param={2} towhere="Details"/>
             <PopularAnimeComponent navigation={navigation} param={3} towhere="Details"/>
             <PopularAnimeComponent navigation={navigation} param={4} towhere="Details"/>

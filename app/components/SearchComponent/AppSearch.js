@@ -4,7 +4,6 @@ import { AntDesign, EvilIcons, Ionicons, MaterialIcons } from '@expo/vector-icon
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
-import ActivityIndicator from '../ActivityIndicator';
 import { addSearchToHistory, getSearchHistory } from '../../hooks/useSearchStore';
 import { useSelector } from 'react-redux';
 
@@ -201,7 +200,7 @@ export const AppSearch = ({  customStyle }) => {
                 </View>
 
                 <View style={{ paddingHorizontal: 10 }}>
-                    <ActivityIndicator visible={loading}/>
+                    // USE SKELETON LOADER
 
                     {  previousSearch && !searchResult ? (
                         <FlatList

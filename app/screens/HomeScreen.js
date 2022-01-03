@@ -7,7 +7,6 @@ import AppLoading from 'expo-app-loading';
 import Content from '../components/Content';
 import authStorage from '../utility/storage';
 import { registerUserAuth } from '../store/actions';
-import { ContentPlaceholder } from '../components/ContentPlaceholder';
 
 const HomeScreen = ({ navigation }) => {
     const [ hasLoaded, setHasLoaded ] = useState(false);
@@ -22,7 +21,7 @@ const HomeScreen = ({ navigation }) => {
     }
   
     useEffect(() => {
-      retrieveToken();
+        retrieveToken();
     }, []);
 
 
