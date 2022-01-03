@@ -11,7 +11,6 @@ import { getEpisodesApi } from '../api/getEpisodes';
 import { getDetailApi } from '../api/getDetailApi';
 import { useDetail } from '../hooks/useDetailApi';
 import { usePagination } from '../hooks/usePagination';
-import ActivityIndicator from '../components/ActivityIndicator';
 
 const { height } = Dimensions.get("window");
 
